@@ -36,11 +36,23 @@ public class User {
     //头像路径
     private String imageUrl;
 
+    //用户的唯一标识
+    private String openId;
+
+
     //用户状态 0 代表正常 1 代表失效
     private Integer state;
 
     public Integer getId() {
         return id;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public void setId(Integer id) {
