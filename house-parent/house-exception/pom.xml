@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>house-parent</artifactId>
+        <groupId>cn.bdqn</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>house-exception</artifactId>
+
+
+    <dependencies>
+        <!--springMVC的jar包-->
+        <!--包含web应用开发时，用到spring框架时所需的核心类、文件上传以及工具类等-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.2.1.RELEASE</version>
+        </dependency>
+
+        <!--与SpringMVC框架相关的jar包-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.2.1.RELEASE</version>
+        </dependency>
+    </dependencies>
+</project>
