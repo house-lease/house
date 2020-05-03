@@ -39,7 +39,18 @@ public class HouseController {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return houses;
+    }
+
+    @RequestMapping("/queryByHouseId")
+    @ResponseBody
+    public House queryByHouseId(Integer houseId){
+        try{
+            //根据id查询房屋详细信息
+            return houseService.selectByPrimaryKey(houseId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

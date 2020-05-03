@@ -1,6 +1,7 @@
 package cn.bdqn.mapper;
 
 import cn.bdqn.domain.HouseImage;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +16,14 @@ public interface HouseImageMapper {
      * @param houseId
      */
     public List<HouseImage> selectByHouseId(Integer houseId);
+
+    /**
+     * 根据房屋id和图片位置id查询图片
+     * @param houseId
+     * @param imagePlaceId
+     * @return
+     */
+    public List<HouseImage> selectByHouseIdAndImagePlaceId(@Param("houseId") Integer houseId,@Param("imagePlaceId") Integer imagePlaceId);
 
     int deleteByPrimaryKey(Integer id);
 

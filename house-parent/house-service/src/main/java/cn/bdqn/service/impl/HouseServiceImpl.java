@@ -1,7 +1,9 @@
 package cn.bdqn.service.impl;
 
 import cn.bdqn.domain.House;
+import cn.bdqn.domain.HouseCareful;
 import cn.bdqn.domain.HouseImage;
+import cn.bdqn.mapper.HouseCarefulMapper;
 import cn.bdqn.mapper.HouseImageMapper;
 import cn.bdqn.mapper.HouseMapper;
 import cn.bdqn.service.HouseService;
@@ -22,12 +24,15 @@ public class HouseServiceImpl implements HouseService {
     @Autowired
     private HouseImageMapper houseImageMapper;
 
+    //房屋详细信息接口
+    @Autowired
+    private HouseCarefulMapper houseCarefulMapper;
+
     /**
      * 查询房屋信息
      */
     @Override
     public List<House> queryByAddressORLeaseTypeORPriceORStartValue(String address,String houseLeaseName,BigDecimal price,Integer startValue) {
-
         //查询房屋信息列表
         List<House> houses = houseMapper.selectByAddressORLeaseTypeORPriceORStartValue(address,houseLeaseName,price,startValue);
         //根据房屋id循环查找房屋图片
@@ -38,5 +43,24 @@ public class HouseServiceImpl implements HouseService {
             house.setHouseImages(images);
         }
         return houses;
+    }
+    /**
+     * 根据房屋id查询
+     * @param id
+     * @return
+     */
+    @Override
+    public House selectByPrimaryKey(Integer id) {
+        //根据id查询房屋信息
+        House house = houseMapper.selectByPrimaryKey(id);
+        //根据房屋id查询房屋图片信息
+        List<HouseImage> houseImages = houseImageMapper.selectByHouseId(id);
+        //根据房屋id查询房屋详细信息
+        List<HouseCareful> houseCarefulList = houseCarefulMapper.selectByHouseId(id);
+        //封装到房屋信息中
+        house.setHouseCareful(houseCarefulList);
+        house.setHouseImages(houseImages);
+        //返回对象
+        return house;
     }
 }

@@ -29,6 +29,7 @@
     delete from t_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="cn.bdqn.domain.Record" >
     insert into t_record (id, record, payer_id, 
       payer_name, payee_id, payee_name, 
@@ -41,6 +42,7 @@
       #{dealMoney,jdbcType=DECIMAL}, #{dealState,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
       )
   </insert>
+
   <insert id="insertSelective" parameterType="cn.bdqn.domain.Record" >
     insert into t_record
     <trim prefix="(" suffix=")" suffixOverrides="," >

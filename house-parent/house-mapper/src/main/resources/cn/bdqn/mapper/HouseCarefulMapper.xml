@@ -10,6 +10,16 @@
   <sql id="Base_Column_List" >
     id, house_id, furniture, state
   </sql>
+
+<!--  根据房屋id查询详细信息-->
+  <select id="selectByHouseId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_house_careful
+    where house_id = #{houseId}
+  </select>
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

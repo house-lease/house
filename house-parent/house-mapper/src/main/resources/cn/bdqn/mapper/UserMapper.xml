@@ -11,7 +11,7 @@
     <result column="landlord" property="landlord" jdbcType="INTEGER" />
     <result column="register_time" property="registerTime" jdbcType="DATE" />
     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
-    <result column="open_id" property="openId" javaType="VARCHAR"/>
+    <result column="open_id" property="openId"/>
     <result column="state" property="state" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -36,7 +36,7 @@
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{userName,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{landlord,jdbcType=INTEGER}, #{registerTime,jdbcType=DATE}, #{imageUrl,jdbcType=VARCHAR},
-      #{open_id,jdbcType=VARCHAR}
+      #{open_id}
       #{state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.bdqn.domain.User" >
@@ -105,7 +105,7 @@
         #{imageUrl,jdbcType=VARCHAR},
       </if>
       <if test="openId != null">
-        #{openId,jdbcType=VARCHAR},,
+        #{openId},,
       </if>
       <if test="state != null" >
         #{state,jdbcType=INTEGER},
@@ -142,7 +142,7 @@
         image_url = #{imageUrl,jdbcType=VARCHAR},
       </if>
       <if test="openId != null" >
-        open_id = #{openId,jdbcType=VARCHAR},
+        open_id = #{openId},
       </if>
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
@@ -160,7 +160,7 @@
       landlord = #{landlord,jdbcType=INTEGER},
       register_time = #{registerTime,jdbcType=DATE},
       image_url = #{imageUrl,jdbcType=VARCHAR},
-      open_id = #{openId,jdbcType=VARCHAR}}
+      open_id = #{openId}
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

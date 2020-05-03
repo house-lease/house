@@ -6,9 +6,8 @@
     <result column="house_id" property="houseId" jdbcType="INTEGER" />
     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
-    <association property="imagePlace" javaType="cn.bdqn.domain.ImagePlace">
-      <id property="id" column="image_place_id"></id>
-    </association>
+<!--    连接房屋位置表-->
+    <association property="imagePlace" select="cn.bdqn.mapper.ImagePlaceMapper.selectByPrimaryKey" column="image_place_id"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, image_place_id, house_id, image_url, state
@@ -20,6 +19,14 @@
     <include refid="Base_Column_List"/>
     from t_house_image
     where house_id=#{houseId} and state = 0
+  </select>
+
+<!--  根据房屋id和图片位置id查询图片-->
+  <select id="selectByHouseIdAndImagePlaceId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_house_image
+    where house_id=#{houseId} and image_place_id =#{imagePlaceId} and state = 0
   </select>
 
 

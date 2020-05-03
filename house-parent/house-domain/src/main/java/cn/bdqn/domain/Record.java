@@ -63,8 +63,6 @@ public class Record {
         this.record = record == null ? null : record.trim();
     }
 
-
-
     public String getPayerName() {
         return payerName;
     }
