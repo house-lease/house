@@ -6,7 +6,7 @@ import cn.bdqn.service.ParticularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("particularService")
+@Service()
 public class ParticularServiceImpl implements ParticularService {
     @Autowired
     private ParticularMapper particularMapper;
