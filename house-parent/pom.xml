@@ -15,7 +15,7 @@
         <module>house-interceptor</module>
         <module>house-exception</module>
         <module>house-utils</module>
-        <module>house-controller</module>
+        <module>house-web</module>
     </modules>
 
 
@@ -166,6 +166,11 @@
                 <version>1.2.62</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.3.5</version>
+            </dependency>
             <!--mybatis-spring整合框架-->
             <dependency>
                 <groupId>org.mybatis</groupId>

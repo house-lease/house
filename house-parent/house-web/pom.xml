@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>house-controller</artifactId>
+    <artifactId>house-web</artifactId>
     <packaging>war</packaging>
 
-    <name>house-controller Maven Webapp</name>
+    <name>house-web Maven Webapp</name>
 
 
     <dependencies>
@@ -84,11 +84,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.5</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.62</version>
-        </dependency>
+
 
     </dependencies>
 

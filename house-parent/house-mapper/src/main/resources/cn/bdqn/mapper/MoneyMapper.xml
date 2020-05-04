@@ -79,14 +79,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-<<<<<<< HEAD
 
-
-=======
-  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Money" >
-    update t_money
-    set money = #{money,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
->>>>>>> e88f37b685e6f18182ce2a445061bda8d1b1517a
 </mapper>
