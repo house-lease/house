@@ -1,5 +1,8 @@
 package cn.bdqn.service;
 
+/**
+ * 收藏业务层
+ */
 public interface CollectService {
 
     /**
