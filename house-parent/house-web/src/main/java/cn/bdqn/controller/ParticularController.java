@@ -22,6 +22,8 @@ public class ParticularController {
     @Autowired
     private ParticularService particularService;
     //添加充值记录
+
+    @RequestMapping("/chongZhi")
     public Result  save(Particular record) throws MyException {
         Result<Map<String, Object>> results = new Result<>();
         Map<String, Object> result = new HashMap<>();
@@ -37,19 +39,5 @@ public class ParticularController {
         return results;
     }
 
-    //删除充值记录
-    public Result  delete(Integer id) throws MyException {
-        Result<Map<String, Object>> results = new Result<>();
-        Map<String, Object> result = new HashMap<>();
-        try {
-            particularService.deleteById(id);
-            result.put("success", "删除成功");
-        } catch (Exception e) {
-            results.setMessage("删除失败去请稍后再试");
-            e.printStackTrace();
-            throw new MyException("删除失败");
-        }
-        results.setData(result);
-        return results;
-    }
+
 }

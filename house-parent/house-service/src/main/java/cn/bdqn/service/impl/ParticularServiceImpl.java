@@ -15,9 +15,5 @@ public class ParticularServiceImpl implements ParticularService {
     public void save(Particular record) {
      particularMapper.insert(record);
     }
-   //删除充值记录
-    @Override
-    public int deleteById(Integer id) {
-        return particularMapper.deleteByPrimaryKey(id);
-    }
+
 }
