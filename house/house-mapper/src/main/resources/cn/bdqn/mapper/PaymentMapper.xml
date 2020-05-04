@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bdqn.mapper.PaymentMapper" >
+  <resultMap id="BaseResultMap" type="cn.bdqn.domain.Payment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="payer_id" property="payerUser.id" jdbcType="INTEGER" />
+    <result column="payer_name" property="payerName" jdbcType="VARCHAR" />
+    <result column="payee_id" property="payeeUser.id" jdbcType="INTEGER" />
+    <result column="payee_name" property="payeeName" jdbcType="VARCHAR" />
+    <result column="house_id" property="house.id" jdbcType="INTEGER" />
+    <result column="house_name" property="houseName" jdbcType="VARCHAR" />
+    <result column="cash_state" property="cashState" jdbcType="INTEGER" />
+    <result column="sum_money" property="sumMoney" jdbcType="DECIMAL" />
+    <result column="residue_money" property="residueMoney" jdbcType="DECIMAL" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="delivery_number" property="deliveryNumber" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="next_time" property="nextTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="PaymentResultMap" type="cn.bdqn.domain.Payment" extends="BaseResultMap">
+      <association property="payerUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payer_id"/>
+      <association property="payeeUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payee_id"/>
+      <association property="house" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey" column="house_id"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, payer_id, payer_name, payee_id, payee_name, house_id, house_name, cash_state, 
+    sum_money, residue_money, number, delivery_number, start_time, next_time, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_payment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_payment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.bdqn.domain.Payment" >
+    insert into t_payment (id, payer_id, payer_name, 
+      payee_id, payee_name, house_id, 
+      house_name, cash_state, sum_money, 
+      residue_money, number, delivery_number, 
+      start_time, next_time, state
+      )
+    values (#{id,jdbcType=INTEGER}, #{payerId,jdbcType=INTEGER}, #{payerName,jdbcType=VARCHAR}, 
+      #{payeeId,jdbcType=INTEGER}, #{payeeName,jdbcType=VARCHAR}, #{houseId,jdbcType=INTEGER}, 
+      #{houseName,jdbcType=VARCHAR}, #{cashState,jdbcType=INTEGER}, #{sumMoney,jdbcType=DECIMAL}, 
+      #{residueMoney,jdbcType=DECIMAL}, #{number,jdbcType=INTEGER}, #{deliveryNumber,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{nextTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.bdqn.domain.Payment" >
+    insert into t_payment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="payerId != null" >
+        payer_id,
+      </if>
+      <if test="payerName != null" >
+        payer_name,
+      </if>
+      <if test="payeeId != null" >
+        payee_id,
+      </if>
+      <if test="payeeName != null" >
+        payee_name,
+      </if>
+      <if test="houseId != null" >
+        house_id,
+      </if>
+      <if test="houseName != null" >
+        house_name,
+      </if>
+      <if test="cashState != null" >
+        cash_state,
+      </if>
+      <if test="sumMoney != null" >
+        sum_money,
+      </if>
+      <if test="residueMoney != null" >
+        residue_money,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="deliveryNumber != null" >
+        delivery_number,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="nextTime != null" >
+        next_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payerId != null" >
+        #{payerId,jdbcType=INTEGER},
+      </if>
+      <if test="payerName != null" >
+        #{payerName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeId != null" >
+        #{payeeId,jdbcType=INTEGER},
+      </if>
+      <if test="payeeName != null" >
+        #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseId != null" >
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="houseName != null" >
+        #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="cashState != null" >
+        #{cashState,jdbcType=INTEGER},
+      </if>
+      <if test="sumMoney != null" >
+        #{sumMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="residueMoney != null" >
+        #{residueMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNumber != null" >
+        #{deliveryNumber,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextTime != null" >
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Payment" >
+    update t_payment
+    <set >
+      <if test="payerUser.id != null" >
+        payer_id = #{payerUser.id,jdbcType=INTEGER},
+      </if>
+      <if test="payerName != null" >
+        payer_name = #{payerName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeUser.id != null" >
+        payee_id = #{payeeUser.id,jdbcType=INTEGER},
+      </if>
+      <if test="payeeName != null" >
+        payee_name = #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="house.id != null" >
+        house_id = #{house.id,jdbcType=INTEGER},
+      </if>
+      <if test="houseName != null" >
+        house_name = #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="cashState != null" >
+        cash_state = #{cashState,jdbcType=INTEGER},
+      </if>
+      <if test="sumMoney != null" >
+        sum_money = #{sumMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="residueMoney != null" >
+        residue_money = #{residueMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNumber != null" >
+        delivery_number = #{deliveryNumber,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextTime != null" >
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Payment" >
+    update t_payment
+    set payer_id = #{payerId,jdbcType=INTEGER},
+      payer_name = #{payerName,jdbcType=VARCHAR},
+      payee_id = #{payeeId,jdbcType=INTEGER},
+      payee_name = #{payeeName,jdbcType=VARCHAR},
+      house_id = #{houseId,jdbcType=INTEGER},
+      house_name = #{houseName,jdbcType=VARCHAR},
+      cash_state = #{cashState,jdbcType=INTEGER},
+      sum_money = #{sumMoney,jdbcType=DECIMAL},
+      residue_money = #{residueMoney,jdbcType=DECIMAL},
+      number = #{number,jdbcType=INTEGER},
+      delivery_number = #{deliveryNumber,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByState" resultMap="PaymentResultMap">
+    select  <include refid="Base_Column_List" />
+    from  t_payment
+    where state = 1 and now() <![CDATA[ > ]]> next_time;
+  </select>
+</mapper>

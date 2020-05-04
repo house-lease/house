@@ -33,11 +33,14 @@
     select 
     <include refid="Base_Column_List" />
     from t_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and state = 0
   </select>
 
 <!--  添加用户-->
   <insert id="insert" parameterType="cn.bdqn.domain.User" >
+    <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="java.lang.Integer">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into t_user (id, nickname, sex,
       user_name, idcard, phone,
       landlord, register_time, image_url, open_id,
@@ -45,7 +48,7 @@
     values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
       #{userName,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{landlord,jdbcType=INTEGER}, #{registerTime,jdbcType=DATE}, #{imageUrl,jdbcType=VARCHAR},
-      #{open_id}
+      #{openId},
       #{state,jdbcType=INTEGER})
   </insert>
 
@@ -121,7 +124,7 @@
         #{imageUrl,jdbcType=VARCHAR},
       </if>
       <if test="openId != null">
-        #{openId},,
+        #{openId},
       </if>
       <if test="state != null" >
         #{state,jdbcType=INTEGER},

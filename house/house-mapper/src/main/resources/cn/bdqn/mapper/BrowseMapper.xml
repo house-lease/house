@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bdqn.mapper.BrowseMapper" >
+  <resultMap id="BaseResultMap" type="cn.bdqn.domain.Browse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="browse_time" property="browseTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <!--    用户表关系映射-->
+    <association property="user" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="user_id"/>
+    <!--    房屋表关系映射-->
+    <association property="house" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey" column="house_id"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, house_id, browse_time, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_browse
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_browse
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.bdqn.domain.Browse" >
+    insert into t_browse (id, user_id, house_id, 
+      browse_time, state)
+    values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{house.id,jdbcType=INTEGER},
+      #{browseTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.bdqn.domain.Browse" >
+    insert into t_browse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="houseId != null" >
+        house_id,
+      </if>
+      <if test="browseTime != null" >
+        browse_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null" >
+        #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="browseTime != null" >
+        #{browseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Browse" >
+    update t_browse
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="houseId != null" >
+        house_id = #{houseId,jdbcType=INTEGER},
+      </if>
+      <if test="browseTime != null" >
+        browse_time = #{browseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Browse" >
+    update t_browse
+    set user_id = #{userId,jdbcType=INTEGER},
+      house_id = #{houseId,jdbcType=INTEGER},
+      browse_time = #{browseTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--根据收藏id删除收藏信息-->
+  <update id="deleteInfoById" parameterType="java.lang.Integer">
+    update t_browse
+    set state = 1
+    where id = #{id}
+  </update>
+
+  <!--根据用户id查询全部信息-->
+  <select id="selectAllInfoByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    t_browse
+    WHERE
+    user_id = #{userId} AND state = 0
+  </select>
+</mapper>

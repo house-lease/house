@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bdqn.mapper.HouseMapper" >
+  <resultMap id="BaseResultMap" type="cn.bdqn.domain.House" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="start_name" property="startName" jdbcType="VARCHAR" />
+    <result column="start_value" property="startValue" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="narrate" property="narrate" jdbcType="VARCHAR" />
+    <result column="house_name" property="houseName" jdbcType="VARCHAR" />
+    <result column="uptown" property="uptown" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="house_type_name" property="houseTypeName" jdbcType="VARCHAR" />
+    <result column="house_lease_name" property="houseLeaseName" jdbcType="VARCHAR" />
+    <result column="residue_room" property="residueRoom" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id,  user_name, latitude, longitude,  start_name, start_value, price, 
+    narrate, house_name, uptown, address , house_type_name,
+    house_lease_name, residue_room, state
+  </sql>
+
+<!--表连接查询-->
+  <resultMap id="BaseResultMap_1" type="cn.bdqn.domain.House" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="start_name" property="startName" jdbcType="VARCHAR" />
+    <result column="start_value" property="startValue" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="narrate" property="narrate" jdbcType="VARCHAR" />
+    <result column="house_name" property="houseName" jdbcType="VARCHAR" />
+    <result column="uptown" property="uptown" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="house_type_name" property="houseTypeName" jdbcType="VARCHAR" />
+    <result column="house_lease_name" property="houseLeaseName" jdbcType="VARCHAR" />
+    <result column="residue_room" property="residueRoom" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+<!--    用户表关联-->
+      <association property="user" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="user_id"/>
+
+<!--    起租时间表关联-->
+    <association property="start" select="cn.bdqn.mapper.StartMapper.selectByPrimaryKey" column="start_id"/>
+
+<!--   房屋类型对象 -->
+    <association property="houseType" select="cn.bdqn.mapper.HouseTypeMapper.selectByPrimaryKey" column="house_type_id"/>
+
+<!--    租赁类型对象-->
+    <association property="houseLease" select="cn.bdqn.mapper.HouseLeaseMapper.selectByPrimaryKey" column="house_lease_id"/>
+  </resultMap>
+
+  <sql id="Base_Column_List_1" >
+    id, user_id ,user_name, latitude, longitude,start_id,  start_name, start_value, price,
+    narrate, house_name, uptown, address,house_type_id,house_type_name,house_lease_id,
+    house_lease_name, residue_room, state
+  </sql>
+<!--  根据各种信息查询房屋-->
+  <select id="selectByAddressORLeaseTypeORPriceORStartValue" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+        t_house
+    <where>
+        <if test="houseLeaseName != null">
+          and house_lease_name = #{houseLeaseName}
+        </if>
+        <if test="price != null">
+          and <![CDATA[ price <= #{price} ]]>
+        </if>
+        <if test="startValue != null">
+          and start_value >=#{startValue}
+        </if>
+        <if test="address != null">
+          and address like concat('%',#{address},'%')
+        </if>
+        and state=0
+    </where>
+
+  </select>
+
+<!--根据房屋id查询  -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap_1" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List_1" />
+    from t_house
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_house
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+<!--添加房屋信息-->
+  <insert id="insert" parameterType="cn.bdqn.domain.House" >
+    insert into t_house (id, user_id, user_name, 
+      latitude, longitude, start_id, 
+      start_name, start_value, price, 
+      narrate, house_name, uptown, 
+      address, house_type_id, house_type_name, 
+      house_lease_id, house_lease_name, residue_room, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+      #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, #{start.id,jdbcType=INTEGER},
+      #{startName,jdbcType=VARCHAR}, #{startValue,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{narrate,jdbcType=VARCHAR}, #{houseName,jdbcType=VARCHAR}, #{uptown,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{houseType.id,jdbcType=INTEGER}, #{houseTypeName,jdbcType=VARCHAR},
+      #{houseLease.id,jdbcType=INTEGER}, #{houseLeaseName,jdbcType=VARCHAR}, #{residueRoom,jdbcType=INTEGER},
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.bdqn.domain.House" >
+    insert into t_house
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="startId != null" >
+        start_id,
+      </if>
+      <if test="startName != null" >
+        start_name,
+      </if>
+      <if test="startValue != null" >
+        start_value,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="narrate != null" >
+        narrate,
+      </if>
+      <if test="houseName != null" >
+        house_name,
+      </if>
+      <if test="uptown != null" >
+        uptown,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="houseTypeId != null" >
+        house_type_id,
+      </if>
+      <if test="houseTypeName != null" >
+        house_type_name,
+      </if>
+      <if test="houseLeaseId != null" >
+        house_lease_id,
+      </if>
+      <if test="houseLeaseName != null" >
+        house_lease_name,
+      </if>
+      <if test="residueRoom != null" >
+        residue_room,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="startId != null" >
+        #{startId,jdbcType=INTEGER},
+      </if>
+      <if test="startName != null" >
+        #{startName,jdbcType=VARCHAR},
+      </if>
+      <if test="startValue != null" >
+        #{startValue,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="narrate != null" >
+        #{narrate,jdbcType=VARCHAR},
+      </if>
+      <if test="houseName != null" >
+        #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="uptown != null" >
+        #{uptown,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="houseTypeId != null" >
+        #{houseTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="houseTypeName != null" >
+        #{houseTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseLeaseId != null" >
+        #{houseLeaseId,jdbcType=INTEGER},
+      </if>
+      <if test="houseLeaseName != null" >
+        #{houseLeaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="residueRoom != null" >
+        #{residueRoom,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.House" >
+    update t_house
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="startId != null" >
+        start_id = #{startId,jdbcType=INTEGER},
+      </if>
+      <if test="startName != null" >
+        start_name = #{startName,jdbcType=VARCHAR},
+      </if>
+      <if test="startValue != null" >
+        start_value = #{startValue,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="narrate != null" >
+        narrate = #{narrate,jdbcType=VARCHAR},
+      </if>
+      <if test="houseName != null" >
+        house_name = #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="uptown != null" >
+        uptown = #{uptown,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="houseTypeId != null" >
+        house_type_id = #{houseTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="houseTypeName != null" >
+        house_type_name = #{houseTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseLeaseId != null" >
+        house_lease_id = #{houseLeaseId,jdbcType=INTEGER},
+      </if>
+      <if test="houseLeaseName != null" >
+        house_lease_name = #{houseLeaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="residueRoom != null" >
+        residue_room = #{residueRoom,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.House" >
+    update t_house
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      start_id = #{startId,jdbcType=INTEGER},
+      start_name = #{startName,jdbcType=VARCHAR},
+      start_value = #{startValue,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      narrate = #{narrate,jdbcType=VARCHAR},
+      house_name = #{houseName,jdbcType=VARCHAR},
+      uptown = #{uptown,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      house_type_id = #{houseTypeId,jdbcType=INTEGER},
+      house_type_name = #{houseTypeName,jdbcType=VARCHAR},
+      house_lease_id = #{houseLeaseId,jdbcType=INTEGER},
+      house_lease_name = #{houseLeaseName,jdbcType=VARCHAR},
+      residue_room = #{residueRoom,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
