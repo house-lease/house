@@ -24,7 +24,7 @@
 <!--    开启定时器注解-->
     <task:annotation-driven/>
     <task:scheduled-tasks>
-        <task:scheduled ref="paymentServiceTest" method="testTimeOfPaymen" cron="0 0 17 * * ?"/>
+        <task:scheduled ref="paymentServiceTest" method="testTimeOfPaymen" cron="0 0 12 * * ?"/>
     </task:scheduled-tasks>
 
 
