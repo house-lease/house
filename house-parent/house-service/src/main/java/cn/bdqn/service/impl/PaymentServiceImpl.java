@@ -40,8 +40,8 @@ public class PaymentServiceImpl implements PaymentService {
             Money payeeMoney = moneyMapper.selectByPrimaryKey(payeeUserId);//收款人资金对象
             payerMoney.setMoney(payerMoney.getMoney().subtract(money));//付款
             payeeMoney.setMoney(payeeMoney.getMoney().add(money));//收款
-            moneyMapper.updateByPrimaryKey(payeeMoney);//更新付款到数据库
-            moneyMapper.updateByPrimaryKey(payerMoney);//更细收款
+            moneyMapper.updateByUserId(payeeMoney);//更新付款到数据库
+            moneyMapper.updateByUserId(payerMoney);//更细收款
 //            钱到位之后开始 修改房租日期
             Calendar calendar = Calendar.getInstance();//操作date的工具类
             calendar.setTime(item.getNextTime());//设置要操作的时间
