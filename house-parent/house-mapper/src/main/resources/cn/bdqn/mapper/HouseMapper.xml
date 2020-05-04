@@ -97,6 +97,9 @@
     delete from t_house
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+
+<!--添加房屋信息-->
   <insert id="insert" parameterType="cn.bdqn.domain.House" >
     insert into t_house (id, user_id, user_name, 
       latitude, longitude, start_id, 
@@ -105,12 +108,12 @@
       address, house_type_id, house_type_name, 
       house_lease_id, house_lease_name, residue_room, 
       state)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, #{startId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+      #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, #{start.id,jdbcType=INTEGER},
       #{startName,jdbcType=VARCHAR}, #{startValue,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
       #{narrate,jdbcType=VARCHAR}, #{houseName,jdbcType=VARCHAR}, #{uptown,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{houseTypeId,jdbcType=INTEGER}, #{houseTypeName,jdbcType=VARCHAR}, 
-      #{houseLeaseId,jdbcType=INTEGER}, #{houseLeaseName,jdbcType=VARCHAR}, #{residueRoom,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{houseType.id,jdbcType=INTEGER}, #{houseTypeName,jdbcType=VARCHAR},
+      #{houseLease.id,jdbcType=INTEGER}, #{houseLeaseName,jdbcType=VARCHAR}, #{residueRoom,jdbcType=INTEGER},
       #{state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.bdqn.domain.House" >

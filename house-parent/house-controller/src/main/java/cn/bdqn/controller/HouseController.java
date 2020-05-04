@@ -3,6 +3,7 @@ package cn.bdqn.controller;
 import cn.bdqn.domain.House;
 import cn.bdqn.domain.HouseImage;
 import cn.bdqn.service.HouseService;
+import cn.bdqn.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,27 +31,42 @@ public class HouseController {
      */
     @RequestMapping("/queryHouse")
     @ResponseBody
-    public List<House> queryHouse(String address,  String houseLeaseName, BigDecimal price, Integer startValue){
+    public Result queryHouse(String address, String houseLeaseName, BigDecimal price, Integer startValue){
 
-        List<House> houses=new ArrayList<>();
+        List<House> houses = new ArrayList<>();
         try {
             //调用查询房屋的方法
             houses = houseService.queryByAddressORLeaseTypeORPriceORStartValue(address,"".equals(houseLeaseName.trim())?null:houseLeaseName,price,startValue);
+            Result result = new Result();
+            result.setData(houses);
+            result.setMessage("加载完成");
+            return result;
         }catch (Exception e){
+            Result result = new Result();
             e.printStackTrace();
+            result.setData(null);
+            result.setMessage("网络异常");
+            return result;
         }
-        return houses;
+
     }
 
     @RequestMapping("/queryByHouseId")
     @ResponseBody
-    public House queryByHouseId(Integer houseId){
+    public Result queryByHouseId(Integer houseId){
         try{
+            Result result = new Result();
             //根据id查询房屋详细信息
-            return houseService.selectByPrimaryKey(houseId);
+            House house = houseService.selectByPrimaryKey(houseId);
+            result.setData(house);
+            result.setMessage("加载完成");
+            return result;
         }catch (Exception e){
+            Result result = new Result();
             e.printStackTrace();
-            return null;
+            result.setData(null);
+            result.setMessage("网络异常");
+            return result;
         }
     }
 }

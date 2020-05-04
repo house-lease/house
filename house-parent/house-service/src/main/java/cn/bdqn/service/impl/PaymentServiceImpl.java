@@ -28,7 +28,6 @@ public class PaymentServiceImpl implements PaymentService {
     public List<Payment> queryByState() {
         return paymentMapper.selectByState();
     }
-
     @Override
     @Transactional(readOnly = false, propagation = Propagation.NOT_SUPPORTED)
     public void TimeOfPaymen() {

@@ -1,50 +1,47 @@
 package cn.bdqn.controller;
 
-import cn.bdqn.service.CollectService;
+import cn.bdqn.service.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/collect")
-public class CollectController {
+@RequestMapping("/browse")
+public class BrowseController {
 
     @Autowired
-    private CollectService service;
+    private BrowseService service;
 
-    @RequestMapping("/addCollectRecord")
+    @RequestMapping("/addInfo")
     @ResponseBody
-    public String addCollectRecord() {
-
+    public String addInfo(){
+        int num = 0;
         try {
-            service.insertCollectByUserIdAndHouseId(1, 1);
-        } catch (Exception e) {
+            num = service.insertBrowseByUserIdAndHouseId(1,1);
+        }catch (Exception e){
             e.printStackTrace();
         }
 
-
-        return "index";
-
+        return ""+num;
     }
 
     @RequestMapping("/deleteInfo")
     @ResponseBody
-    public String deleteInfo() {
+    public String deleteInfo(){
 
-        service.deleteCollectByCollectId(1);
+        service.deleteBrowseByBrowseId(1);
 
         return "index";
     }
 
     @RequestMapping("/queryInfoByUserId")
     @ResponseBody
-    public String queryInfoByUserId() {
+    public String queryInfoByUserId(){
 
         int num = service.queryInfoByUser_id(1);
 
-        return "" + num;
+        return ""+num;
 
     }
 
