@@ -18,27 +18,43 @@
     id, nickname, sex, user_name, idcard, phone, landlord, register_time, image_url, open_id,
     state
   </sql>
+
+<!--  根据openid查询用户-->
+  <select id="selectByOpenId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_user
+    where open_id = #{openId} and state = 0
+  </select>
+
+
+<!--  根据id查询用户-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+
+<!--  添加用户-->
   <insert id="insert" parameterType="cn.bdqn.domain.User" >
-    insert into t_user (id, nickname, sex, 
-      user_name, idcard, phone, 
+    insert into t_user (id, nickname, sex,
+      user_name, idcard, phone,
       landlord, register_time, image_url, open_id,
       state)
-    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
-      #{userName,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
+      #{userName,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{landlord,jdbcType=INTEGER}, #{registerTime,jdbcType=DATE}, #{imageUrl,jdbcType=VARCHAR},
       #{open_id}
       #{state,jdbcType=INTEGER})
   </insert>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
   <insert id="insertSelective" parameterType="cn.bdqn.domain.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >

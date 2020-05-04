@@ -3,28 +3,48 @@
 <mapper namespace="cn.bdqn.mapper.MoneyMapper" >
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.Money" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="DECIMAL" />
+<!--    关联用户表-->
+    <association property="user" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="user_id"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, money
   </sql>
+
+<!--  根据id查询-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_money
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_money
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+
+<!--  根据用户id查询-->
+  <select id="selectByUerId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_money
+    where user_id = #{userId}
+  </select>
+
+
+  <!--  //    根据用户id修改钱数-->
+  <update id="updateByUserId" parameterType="cn.bdqn.domain.Money" >
+    update t_money
+    set
+      money = #{money,jdbcType=DECIMAL}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+<!--  添加对象-->
   <insert id="insert" parameterType="cn.bdqn.domain.Money" >
     insert into t_money (id, user_id, money
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}
+    values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}
       )
   </insert>
+
+
   <insert id="insertSelective" parameterType="cn.bdqn.domain.Money" >
     insert into t_money
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -62,10 +82,6 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Money" >
-    update t_money
-    set user_id = #{userId,jdbcType=INTEGER},
-      money = #{money,jdbcType=DECIMAL}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+
 </mapper>
