@@ -23,6 +23,9 @@
 
 <!--    开启定时器注解-->
     <task:annotation-driven/>
+    <task:scheduled-tasks>
+        <task:scheduled ref="paymentServiceTest" method="testTimeOfPaymen" cron="0 0 12 * * ?"/>
+    </task:scheduled-tasks>
 
 
     <!--开启事务管理器-->

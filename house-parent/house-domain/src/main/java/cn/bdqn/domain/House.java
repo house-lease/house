@@ -249,4 +249,31 @@ public class House {
     public void setState(Integer state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "id=" + id +
+                ", user=" + user +
+                ", userName='" + userName + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", start=" + start +
+                ", startName='" + startName + '\'' +
+                ", startValue=" + startValue +
+                ", price=" + price +
+                ", narrate='" + narrate + '\'' +
+                ", houseName='" + houseName + '\'' +
+                ", uptown='" + uptown + '\'' +
+                ", address='" + address + '\'' +
+                ", houseType=" + houseType +
+                ", houseTypeName='" + houseTypeName + '\'' +
+                ", houseLease=" + houseLease +
+                ", houseLeaseName='" + houseLeaseName + '\'' +
+                ", houseImages=" + houseImages +
+                ", houseCareful=" + houseCareful +
+                ", residueRoom=" + residueRoom +
+                ", state=" + state +
+                '}';
+    }
 }

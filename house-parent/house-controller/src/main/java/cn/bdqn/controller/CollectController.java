@@ -16,11 +16,11 @@ public class CollectController {
 
     @RequestMapping("/addCollectRecord")
     @ResponseBody
-    public String addCollectRecord(){
+    public String addCollectRecord() {
 
         try {
-            service.insertCollectByUserIdAndHouseId(1,1);
-        }catch (Exception e){
+            service.insertCollectByUserIdAndHouseId(1, 1);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -31,7 +31,7 @@ public class CollectController {
 
     @RequestMapping("/deleteInfo")
     @ResponseBody
-    public String deleteInfo(){
+    public String deleteInfo() {
 
         service.deleteCollectByCollectId(1);
 
@@ -40,11 +40,11 @@ public class CollectController {
 
     @RequestMapping("/queryInfoByUserId")
     @ResponseBody
-    public String queryInfoByUserId(){
+    public String queryInfoByUserId() {
 
         int num = service.queryInfoByUser_id(1);
 
-        return ""+num;
+        return "" + num;
 
     }
 

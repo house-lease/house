@@ -42,4 +42,13 @@ public class Money {
     public void setMoney(BigDecimal money) {
         this.money = money;
     }
+
+    @Override
+    public String toString() {
+        return "Money{" +
+                "id=" + id +
+                ", user=" + user +
+                ", money=" + money +
+                '}';
+    }
 }

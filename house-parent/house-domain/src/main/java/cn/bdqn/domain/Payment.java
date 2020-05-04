@@ -179,4 +179,25 @@ public class Payment {
     public void setState(Integer state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", payerUser=" + payerUser +
+                ", payerName='" + payerName + '\'' +
+                ", payeeUser=" + payeeUser +
+                ", payeeName='" + payeeName + '\'' +
+                ", house=" + house +
+                ", houseName='" + houseName + '\'' +
+                ", cashState=" + cashState +
+                ", sumMoney=" + sumMoney +
+                ", residueMoney=" + residueMoney +
+                ", number=" + number +
+                ", deliveryNumber=" + deliveryNumber +
+                ", startTime=" + startTime +
+                ", nextTime=" + nextTime +
+                ", state=" + state +
+                '}';
+    }
 }

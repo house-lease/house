@@ -42,8 +42,8 @@ public class HouseController {
             result.setMessage("加载完成");
             return result;
         }catch (Exception e){
-            e.printStackTrace();
             Result result = new Result();
+            e.printStackTrace();
             result.setData(null);
             result.setMessage("网络异常");
             return result;

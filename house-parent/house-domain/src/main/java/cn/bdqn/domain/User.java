@@ -130,4 +130,21 @@ public class User {
     public void setState(Integer state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", sex=" + sex +
+                ", userName='" + userName + '\'' +
+                ", idcard='" + idcard + '\'' +
+                ", phone='" + phone + '\'' +
+                ", landlord=" + landlord +
+                ", registerTime=" + registerTime +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", openId='" + openId + '\'' +
+                ", state=" + state +
+                '}';
+    }
 }
