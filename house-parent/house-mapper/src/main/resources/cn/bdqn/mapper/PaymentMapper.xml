@@ -3,11 +3,11 @@
 <mapper namespace="cn.bdqn.mapper.PaymentMapper" >
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.Payment" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="payer_id" property="payerId" jdbcType="INTEGER" />
+    <result column="payer_id" property="payerUser.id" jdbcType="INTEGER" />
     <result column="payer_name" property="payerName" jdbcType="VARCHAR" />
-    <result column="payee_id" property="payeeId" jdbcType="INTEGER" />
+    <result column="payee_id" property="payeeUser.id" jdbcType="INTEGER" />
     <result column="payee_name" property="payeeName" jdbcType="VARCHAR" />
-    <result column="house_id" property="houseId" jdbcType="INTEGER" />
+    <result column="house_id" property="house.id" jdbcType="INTEGER" />
     <result column="house_name" property="houseName" jdbcType="VARCHAR" />
     <result column="cash_state" property="cashState" jdbcType="INTEGER" />
     <result column="sum_money" property="sumMoney" jdbcType="DECIMAL" />
@@ -17,6 +17,11 @@
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="next_time" property="nextTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="PaymentResultMap" type="cn.bdqn.domain.Payment" extends="BaseResultMap">
+      <association property="payerUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payer_id"/>
+      <association property="payeeUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payee_id"/>
+      <association property="house" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey" column="house_id"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, payer_id, payer_name, payee_id, payee_name, house_id, house_name, cash_state, 
@@ -146,20 +151,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Payment" >
     update t_payment
     <set >
-      <if test="payerId != null" >
-        payer_id = #{payerId,jdbcType=INTEGER},
+      <if test="payerUser.id != null" >
+        payer_id = #{payerUser.id,jdbcType=INTEGER},
       </if>
       <if test="payerName != null" >
         payer_name = #{payerName,jdbcType=VARCHAR},
       </if>
-      <if test="payeeId != null" >
-        payee_id = #{payeeId,jdbcType=INTEGER},
+      <if test="payeeUser.id != null" >
+        payee_id = #{payeeUser.id,jdbcType=INTEGER},
       </if>
       <if test="payeeName != null" >
         payee_name = #{payeeName,jdbcType=VARCHAR},
       </if>
-      <if test="houseId != null" >
-        house_id = #{houseId,jdbcType=INTEGER},
+      <if test="house.id != null" >
+        house_id = #{house.id,jdbcType=INTEGER},
       </if>
       <if test="houseName != null" >
         house_name = #{houseName,jdbcType=VARCHAR},
@@ -209,4 +214,9 @@
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByState" resultMap="PaymentResultMap">
+    select  <include refid="Base_Column_List" />
+    from  t_payment
+    where state = 1 and now() <![CDATA[ > ]]> next_time;
+  </select>
 </mapper>

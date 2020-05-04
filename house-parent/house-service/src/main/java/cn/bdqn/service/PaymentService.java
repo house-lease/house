@@ -11,4 +11,9 @@ public interface PaymentService {
      * @return
      */
     List<Payment> queryByState();
+
+    /**
+     * 定时付款
+     */
+    void TimeOfPaymen();
 }

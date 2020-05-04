@@ -3,7 +3,7 @@
 <mapper namespace="cn.bdqn.mapper.MoneyMapper" >
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.Money" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_id" property="user.id" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -53,9 +53,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Money" >
     update t_money
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
       <if test="money != null" >
         money = #{money,jdbcType=DECIMAL},
       </if>
@@ -64,8 +61,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Money" >
     update t_money
-    set user_id = #{userId,jdbcType=INTEGER},
-      money = #{money,jdbcType=DECIMAL}
+    set money = #{money,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
