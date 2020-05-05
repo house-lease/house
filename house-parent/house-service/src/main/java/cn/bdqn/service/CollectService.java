@@ -1,5 +1,9 @@
 package cn.bdqn.service;
 
+import cn.bdqn.domain.Collect;
+
+import java.util.List;
+
 /**
  * 收藏业务层
  */
@@ -19,7 +23,7 @@ public interface CollectService {
     /**
      * 根据用户id查看收藏房屋信息
      */
-    public int queryInfoByUser_id(Integer userId);
+    public List<Collect> queryInfoByUser_id(Integer userId);
 
 
 }

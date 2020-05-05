@@ -1,5 +1,9 @@
 package cn.bdqn.service;
 
+import cn.bdqn.domain.Browse;
+
+import java.util.List;
+
 /**
  * 浏览记录业务层
  */
@@ -19,6 +23,6 @@ public interface BrowseService {
     /**
      * 根据用户id查看浏览记录
      */
-    public int queryInfoByUser_id(Integer userId);
+    public List<Browse> queryInfoByUser_id(Integer userId);
 
 }

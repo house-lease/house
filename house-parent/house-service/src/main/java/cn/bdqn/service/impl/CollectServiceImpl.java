@@ -18,7 +18,6 @@ public class CollectServiceImpl implements CollectService {
     @Autowired
     private CollectMapper mapper;
 
-
     /**
      * 根据用户id和房屋id添加收藏
      */
@@ -35,16 +34,17 @@ public class CollectServiceImpl implements CollectService {
 
         //创建收藏对象，为添加方法准备数据
         Collect collect = new Collect();
+        //给收藏时间字段赋值
         collect.setCollectTime(new Date());
+        //设置收藏状态
         collect.setState(0);
+        //设置用户id
         collect.setUser(user);
-
+        //设置房屋id
         collect.setHouse(house);
 
-        //向数据库添加一条收藏记录并返回受影响行数
+        ////调用mapper层的根据用户和房屋id添加记录的方法
         int num = mapper.insert(collect);
-
-        System.out.println(num);
 
         return num;
     }
@@ -55,7 +55,7 @@ public class CollectServiceImpl implements CollectService {
     @Override
     public int deleteCollectByCollectId(Integer CollectId) {
 
-        //删除记录并返回受影响行数
+        //调用mapper层的根据收藏id“删除”记录的方法
         int num = mapper.deleteInfoById(CollectId);
 
         return num;
@@ -65,15 +65,11 @@ public class CollectServiceImpl implements CollectService {
      * 根据用户id查看收藏房屋信息
      */
     @Override
-    public int queryInfoByUser_id(Integer userId) {
+    public List<Collect> queryInfoByUser_id(Integer userId) {
 
-        List<Collect> list = mapper.selectAllInfoByUserId(1);
+        //调用mapper的根据用户id查询用户收藏记录的方法并返回该用户的全部收藏数据
+        List<Collect> list = mapper.selectAllInfoByUserId(userId);
 
-        for (Collect collect:list) {
-            System.out.println(collect.getHouse().getHouseName());
-            System.out.println(collect.getUser().getUserName());
-        }
-
-        return 0;
+        return list;
     }
 }

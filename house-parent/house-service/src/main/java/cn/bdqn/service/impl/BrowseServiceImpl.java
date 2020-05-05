@@ -25,18 +25,26 @@ public class BrowseServiceImpl implements BrowseService {
     @Override
     public int insertBrowseByUserIdAndHouseId(Integer userId, Integer houseId) {
 
+        //创建一个user对象存入用户id
         User user = new User();
         user.setId(userId);
 
+        //创建一个房屋对象存入房屋id
         House house = new House();
         house.setId(houseId);
 
+        //创建浏览记录对象，为添加方法准备数据
         Browse browse = new Browse();
-        browse.setState(0);
+        //给浏览时间字段赋值
         browse.setBrowseTime(new Date());
+        //设置收藏状态
+        browse.setState(0);
+        //设置用户id
         browse.setUser(user);
+        //设置房屋id
         browse.setHouse(house);
 
+        //调用mapper层的添加记录方法
         int num =  mapper.insert(browse);
 
         return num;
@@ -48,7 +56,8 @@ public class BrowseServiceImpl implements BrowseService {
     @Override
     public int deleteBrowseByBrowseId(Integer browseId) {
 
-        int num = mapper.deleteInfoById(1);
+        //调用mapper层的根据浏览记录id“删除”记录的方法
+        int num = mapper.deleteInfoById(browseId);
 
         return num;
     }
@@ -57,15 +66,11 @@ public class BrowseServiceImpl implements BrowseService {
      * 根据用户id查看浏览记录
      */
     @Override
-    public int queryInfoByUser_id(Integer userId) {
+    public List<Browse> queryInfoByUser_id(Integer userId) {
 
-        List<Browse> list = mapper.selectAllInfoByUserId(1);
+        //调用mapper层的根据用户id查询该用户的全部浏览记录方法
+        List<Browse> list = mapper.selectAllInfoByUserId(userId);
 
-        for (Browse browse:list) {
-            System.out.println(browse.getHouse().getHouseName());
-            System.out.println(browse.getUser().getUserName());
-        }
-
-        return 0;
+        return list;
     }
 }
