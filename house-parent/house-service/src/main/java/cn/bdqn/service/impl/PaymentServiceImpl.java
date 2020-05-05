@@ -35,7 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
         payments.forEach(item->{
             int payerUserId = item.getPayerUser().getId();//付款人id
             int payeeUserId = item.getPayeeUser().getId();//收款人ID
-            BigDecimal money = item.getHouse().getPrice().multiply(new BigDecimal(item.getHouse().getStartValue()));//所需支付的押金
+            BigDecimal money = item.getHouse().getPrice().multiply(new BigDecimal(item.getHouse().getStartValue()));//所需支付的租金
             Money payerMoney = moneyMapper.selectByPrimaryKey(payerUserId);//付款人资金对象
             Money payeeMoney = moneyMapper.selectByPrimaryKey(payeeUserId);//收款人资金对象
             payerMoney.setMoney(payerMoney.getMoney().subtract(money));//付款
@@ -48,6 +48,8 @@ public class PaymentServiceImpl implements PaymentService {
             calendar.add(Calendar.MONTH, item.getHouse().getStartValue());//给要操作的时间加[item.getHouse().getStartValue()]个月,
             item.setStartTime(item.getNextTime());//设置上次的付款时间, 不出意外的话是房租到期时间
             item.setNextTime(calendar.getTime());//设置下次交租时间
+            item.setDeliveryNumber(item.getDeliveryNumber()+1);//已交次数加1
+            item.setSumMoney(money);//需支付的金额
             //并更新付款对象
             paymentMapper.updateByPrimaryKeySelective(item);
         });

@@ -64,10 +64,12 @@ public class Record {
     }
 
     public String getPayerName() {
-        return payerName;
+
+        return payerName == null ? this.payerUser.getUserName() : null;
     }
 
     public void setPayerName(String payerName) {
+
         this.payerName = payerName == null ? null : payerName.trim();
     }
 
@@ -95,8 +97,9 @@ public class Record {
         this.house = house;
     }
 
-    public String getPayeeName() {
-        return payeeName;
+    public String getPayeeName()
+    {
+        return payeeName == null ? this.payeeUser.getUserName() : null;
     }
 
     public void setPayeeName(String payeeName) {
@@ -106,7 +109,8 @@ public class Record {
 
 
     public String getHouseName() {
-        return houseName;
+
+        return houseName == null ? this.getHouse().getHouseName() : null;
     }
 
     public void setHouseName(String houseName) {
