@@ -2,8 +2,12 @@ package cn.bdqn.service.impl;
 
 import cn.bdqn.domain.Collect;
 import cn.bdqn.domain.House;
+import cn.bdqn.domain.HouseImage;
 import cn.bdqn.domain.User;
 import cn.bdqn.mapper.CollectMapper;
+import cn.bdqn.mapper.HouseImageMapper;
+import cn.bdqn.mapper.HouseMapper;
+import cn.bdqn.mapper.UserMapper;
 import cn.bdqn.service.CollectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,19 +22,31 @@ public class CollectServiceImpl implements CollectService {
     @Autowired
     private CollectMapper mapper;
 
+
+    //用户接口
+    @Autowired
+    private UserMapper userMapper;
+
+    //房屋图片
+    @Autowired
+    private HouseImageMapper houseImageMapper;
+
+
+    //房屋接口
+    @Autowired
+    private HouseMapper houseMapper;
+
     /**
      * 根据用户id和房屋id添加收藏
      */
     @Override
-    public int insertCollectByUserIdAndHouseId(Integer userId, Integer houseId) {
+    public void insertCollectByUserIdAndHouseId(Integer userId, Integer houseId) {
 
-        //创建一个user对象存入用户id
-        User user = new User();
-        user.setId(userId);
+       //根据id查询用户
+        User user = userMapper.selectByPrimaryKey(userId);
 
-        //创建一个房屋对象存入房屋id
-        House house = new House();
-        house.setId(houseId);
+        //根据房屋id查询房屋对象
+        House house = houseMapper.selectByPrimaryKey(houseId);
 
         //创建收藏对象，为添加方法准备数据
         Collect collect = new Collect();
@@ -44,21 +60,21 @@ public class CollectServiceImpl implements CollectService {
         collect.setHouse(house);
 
         ////调用mapper层的根据用户和房屋id添加记录的方法
-        int num = mapper.insert(collect);
+         mapper.insert(collect);
 
-        return num;
+
     }
 
     /**
      * 根据收藏id删除收藏
      */
     @Override
-    public int deleteCollectByCollectId(Integer CollectId) {
+    public void deleteCollectByCollectId(Integer CollectId) {
 
         //调用mapper层的根据收藏id“删除”记录的方法
-        int num = mapper.deleteInfoById(CollectId);
+         mapper.deleteInfoById(CollectId);
 
-        return num;
+
     }
 
     /**
@@ -69,6 +85,11 @@ public class CollectServiceImpl implements CollectService {
 
         //调用mapper的根据用户id查询用户收藏记录的方法并返回该用户的全部收藏数据
         List<Collect> list = mapper.selectAllInfoByUserId(userId);
+        //获取房屋图片
+        for (Collect c: list) {
+            List<HouseImage> houseImages = houseImageMapper.selectByHouseId(c.getHouse().getId());
+            c.getHouse().setHouseImages(houseImages);
+        }
 
         return list;
     }

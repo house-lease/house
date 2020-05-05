@@ -34,15 +34,15 @@ public class HouseController {
     public Result queryHouse(String address, String houseLeaseName, BigDecimal price, Integer startValue){
 
         List<House> houses = new ArrayList<>();
+        Result result = new Result();
         try {
             //调用查询房屋的方法
             houses = houseService.queryByAddressORLeaseTypeORPriceORStartValue(address,"".equals(houseLeaseName.trim())?null:houseLeaseName,price,startValue);
-            Result result = new Result();
+
             result.setData(houses);
             result.setMessage("加载完成");
             return result;
         }catch (Exception e){
-            Result result = new Result();
             e.printStackTrace();
             result.setData(null);
             result.setMessage("网络异常");
@@ -54,15 +54,15 @@ public class HouseController {
     @RequestMapping("/queryByHouseId")
     @ResponseBody
     public Result queryByHouseId(Integer houseId){
+        Result result = new Result();
         try{
-            Result result = new Result();
+
             //根据id查询房屋详细信息
             House house = houseService.selectByPrimaryKey(houseId);
             result.setData(house);
             result.setMessage("加载完成");
             return result;
         }catch (Exception e){
-            Result result = new Result();
             e.printStackTrace();
             result.setData(null);
             result.setMessage("网络异常");

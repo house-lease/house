@@ -1,10 +1,10 @@
 package cn.bdqn.service.impl;
 
-import cn.bdqn.domain.Browse;
-import cn.bdqn.domain.Collect;
-import cn.bdqn.domain.House;
-import cn.bdqn.domain.User;
+import cn.bdqn.domain.*;
 import cn.bdqn.mapper.BrowseMapper;
+import cn.bdqn.mapper.HouseImageMapper;
+import cn.bdqn.mapper.HouseMapper;
+import cn.bdqn.mapper.UserMapper;
 import cn.bdqn.service.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,19 +19,30 @@ public class BrowseServiceImpl implements BrowseService {
     @Autowired
     private BrowseMapper mapper;
 
+    //用户接口
+    @Autowired
+    private UserMapper userMapper;
+
+
+    //房屋接口
+    @Autowired
+    private HouseMapper houseMapper;
+
+    //房屋图片
+    @Autowired
+    private HouseImageMapper houseImageMapper;
+
     /**
      * 根据用户id和房屋id添加浏览记录
      */
     @Override
-    public int insertBrowseByUserIdAndHouseId(Integer userId, Integer houseId) {
+    public void insertBrowseByUserIdAndHouseId(Integer userId, Integer houseId) {
 
-        //创建一个user对象存入用户id
-        User user = new User();
-        user.setId(userId);
+        //根据id查询用户
+        User user = userMapper.selectByPrimaryKey(userId);
 
-        //创建一个房屋对象存入房屋id
-        House house = new House();
-        house.setId(houseId);
+        //根据房屋id查询房屋对象
+        House house = houseMapper.selectByPrimaryKey(houseId);
 
         //创建浏览记录对象，为添加方法准备数据
         Browse browse = new Browse();
@@ -45,21 +56,19 @@ public class BrowseServiceImpl implements BrowseService {
         browse.setHouse(house);
 
         //调用mapper层的添加记录方法
-        int num =  mapper.insert(browse);
+        mapper.insert(browse);
 
-        return num;
     }
 
     /**
      * 根据收藏id删除浏览记录
      */
     @Override
-    public int deleteBrowseByBrowseId(Integer browseId) {
+    public void deleteBrowseByBrowseId(Integer browseId) {
 
         //调用mapper层的根据浏览记录id“删除”记录的方法
-        int num = mapper.deleteInfoById(browseId);
+        mapper.deleteInfoById(browseId);
 
-        return num;
     }
 
     /**
@@ -71,6 +80,11 @@ public class BrowseServiceImpl implements BrowseService {
         //调用mapper层的根据用户id查询该用户的全部浏览记录方法
         List<Browse> list = mapper.selectAllInfoByUserId(userId);
 
+        //获取房屋图片
+        for (Browse b: list) {
+            List<HouseImage> houseImages = houseImageMapper.selectByHouseId(b.getHouse().getId());
+            b.getHouse().setHouseImages(houseImages);
+        }
         return list;
     }
 }

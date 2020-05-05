@@ -27,6 +27,7 @@ public class BrowseController {
      * @return
      */
     @RequestMapping("/addInfo")
+    @ResponseBody
     public Result addInfo(Integer userId,Integer houseId){
 
         //新建Result对象
@@ -54,6 +55,7 @@ public class BrowseController {
      * @return
      */
     @RequestMapping("/deleteInfo")
+    @ResponseBody
     public Result deleteInfo(Integer browseId){
 
         //新建Result对象
@@ -78,6 +80,7 @@ public class BrowseController {
      * @return
      */
     @RequestMapping("/queryInfoByUserId")
+    @ResponseBody
     public Result queryInfoByUserId(Integer userId){
 
         //新建Result对象

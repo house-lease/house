@@ -28,6 +28,7 @@ public class CollectController {
      * @return
      */
     @RequestMapping("/addCollectRecord")
+    @ResponseBody
     public Result addCollectRecord(Integer userId,Integer houseId) {
 
         //新建Result对象
@@ -54,20 +55,20 @@ public class CollectController {
      * @return
      */
     @RequestMapping("/deleteInfo")
+    @ResponseBody
     public Result deleteInfo(Integer collectId) {
 
         //新建Result对象
         Result result = new Result();
-
         try{
             //根据收藏id删除信息
             service.deleteCollectByCollectId(collectId);
             //设置返回信息为成功
-            result.setMessage("添加成功");
+            result.setMessage("删除成功~");
         }catch (Exception e){
             e.printStackTrace();
             //设置返回信息为失败
-            result.setMessage("添加失败");
+            result.setMessage("删除失败~");
         }
 
         return result;
@@ -79,20 +80,17 @@ public class CollectController {
      * @return
      */
     @RequestMapping("/queryInfoByUserId")
+    @ResponseBody
     public Result queryInfoByUserId(Integer userId) {
 
         //新建Result对象
         Result result = new Result();
-
         //调用service层的根据用户id查询该用户收藏记录的方法
         List<Collect> collects = service.queryInfoByUser_id(userId);
-
         //设置返回的数据
         result.setData(collects);
-
         //设置返回的信息
         result.setMessage("收藏信息");
-
         return result;
 
     }

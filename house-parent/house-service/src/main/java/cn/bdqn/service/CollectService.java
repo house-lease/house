@@ -12,13 +12,13 @@ public interface CollectService {
     /**
      * 根据用户id和房屋id添加收藏
      */
-    public int insertCollectByUserIdAndHouseId(Integer userId, Integer houseId);
+    public void insertCollectByUserIdAndHouseId(Integer userId, Integer houseId);
     
 
     /**
      * 根据收藏id删除收藏
      */
-    public int deleteCollectByCollectId(Integer CollectId);
+    public void deleteCollectByCollectId(Integer CollectId);
 
     /**
      * 根据用户id查看收藏房屋信息
