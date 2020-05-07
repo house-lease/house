@@ -3,12 +3,16 @@
 <mapper namespace="cn.bdqn.mapper.ChatMapper" >
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.Chat" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="send_user_id" property="sendUserId" jdbcType="INTEGER" />
-    <result column="reception_user_id" property="receptionUserId" jdbcType="INTEGER" />
     <result column="message" property="message" jdbcType="VARCHAR" />
     <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <!--用户表关系映射-->
+    <association property="sendUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="send_user_id"/>
+    <!--用户表关系映射-->
+    <association property="receptionUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="reception_user_id"/>
   </resultMap>
+
+
   <sql id="Base_Column_List" >
     id, send_user_id, reception_user_id, message, send_time, state
   </sql>
@@ -26,7 +30,7 @@
     insert into t_chat (id, send_user_id, reception_user_id, 
       message, send_time, state
       )
-    values (#{id,jdbcType=INTEGER}, #{sendUserId,jdbcType=INTEGER}, #{receptionUserId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{sendUser.id,jdbcType=INTEGER}, #{receptionUser.id,jdbcType=INTEGER},
       #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}
       )
   </insert>
@@ -102,5 +106,23 @@
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--根据发送和接收用户的id查询记录-->
+  <select id="queryAllInfoBySendUserIdAndReceptionUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+        <include refid="Base_Column_List" />
+    FROM t_chat
+    WHERE
+        send_user_id = #{sendUserId} AND reception_user_id = #{receptionUserId} AND state = 0
+    OR send_user_id = #{receptionUserId} AND reception_user_id = #{sendUserId} AND state = 0
+    ORDER BY send_time ASC
+  </select>
+
+  <update id="deleteInfoById">
+    update t_chat set state = 1
+    where id IN
+    <foreach collection="list" item="ids" open="(" separator="," close=")">
+      #{ids}
+    </foreach>
   </update>
 </mapper>
