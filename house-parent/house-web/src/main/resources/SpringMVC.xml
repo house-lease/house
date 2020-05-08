@@ -43,13 +43,13 @@
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="#{1024*1024*10}"/>
     </bean>
-    <!--配置逻辑视图-->
-    <mvc:view-controller path="/addUlRegister" view-name="register"/>
-    <mvc:view-controller path="/addUlLogin" view-name="login"/>
-    <mvc:view-controller path="/addUiRepayment" view-name="repayment"/>
-    <mvc:view-controller path="/addUiBorrow" view-name="borrow"/>
-    <mvc:view-controller path="/addUiUserInfo" view-name="userInfo"/>
-    <mvc:view-controller path="/addUib" view-name="backstage"/>
+<!--    &lt;!&ndash;配置逻辑视图&ndash;&gt;-->
+<!--    <mvc:view-controller path="/addUlRegister" view-name="register"/>-->
+<!--    <mvc:view-controller path="/addUlLogin" view-name="login"/>-->
+<!--    <mvc:view-controller path="/addUiRepayment" view-name="repayment"/>-->
+<!--    <mvc:view-controller path="/addUiBorrow" view-name="borrow"/>-->
+<!--    <mvc:view-controller path="/addUiUserInfo" view-name="userInfo"/>-->
+<!--    <mvc:view-controller path="/addUib" view-name="backstage"/>-->
     <!--配置拦截器-->
 <!--    <mvc:interceptors>-->
 <!--        <mvc:interceptor>-->

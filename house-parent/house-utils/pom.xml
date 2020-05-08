@@ -12,6 +12,12 @@
     <artifactId>house-utils</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>cn.bdqn</groupId>
+            <artifactId>house-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!--springMVC的jar包-->
         <!--包含web应用开发时，用到spring框架时所需的核心类、文件上传以及工具类等-->
         <dependency>
@@ -20,6 +26,20 @@
             <version>5.2.1.RELEASE</version>
         </dependency>
 
+        <!--原生servlet-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--jstl表达式-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
         <!--与SpringMVC框架相关的jar包-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -31,6 +51,19 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.3.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>5.2.1.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>5.2.1.RELEASE</version>
         </dependency>
     </dependencies>
 
