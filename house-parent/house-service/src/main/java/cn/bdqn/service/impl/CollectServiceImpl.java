@@ -93,4 +93,17 @@ public class CollectServiceImpl implements CollectService {
 
         return list;
     }
+
+    @Override
+    public Collect queryInfoByHouse_idAndUser_id(Integer houseId, Integer userId) {
+
+        //调用mapper的根据用户id和房屋id查询收藏记录的方法并返回收藏数据
+        Collect collect = mapper.selectInfoByHouseIdAndUserId(houseId,userId);
+        //获取房屋图片
+        List<HouseImage> houseImages = houseImageMapper.selectByHouseId(collect.getHouse().getId());
+        collect.getHouse().setHouseImages(houseImages);
+
+        return collect;
+
+    }
 }

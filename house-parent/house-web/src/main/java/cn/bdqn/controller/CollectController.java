@@ -95,4 +95,25 @@ public class CollectController {
 
     }
 
+    /**
+     * 根据用户id查询用户的收藏记录
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/queryInfoByUserIdAndHouseId")
+    @ResponseBody
+    public Result queryInfoByUserIdAndHouseId(Integer userId,Integer houseId) {
+
+        //新建Result对象
+        Result result = new Result();
+        //调用service层的根据用户id查询该用户收藏记录的方法
+        Collect collect = service.queryInfoByHouse_idAndUser_id(userId,houseId);
+        //设置返回的数据
+        result.setData(collect);
+        //设置返回的信息
+        result.setMessage("收藏信息");
+        return result;
+
+    }
+
 }

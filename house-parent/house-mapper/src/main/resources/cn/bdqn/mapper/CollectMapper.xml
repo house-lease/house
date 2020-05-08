@@ -111,4 +111,13 @@
 	    user_id = #{userId} AND state = 0
   </select>
 
+  <select id="selectInfoByHouseIdAndUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    t_collect
+    WHERE
+    user_id = #{userId} and house_id = #{houseId} AND state = 0
+  </select>
+
 </mapper>
