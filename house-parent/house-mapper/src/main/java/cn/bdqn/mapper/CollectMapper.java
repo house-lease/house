@@ -2,6 +2,7 @@ package cn.bdqn.mapper;
 
 import cn.bdqn.domain.Collect;
 import cn.bdqn.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,5 +30,10 @@ public interface CollectMapper {
      * 根据用户id查询所有收藏信息
      */
     public List<Collect> selectAllInfoByUserId(Integer userId);
+
+    /**
+     *根据房屋id 和用户id查询查看收藏信息
+     */
+    public Collect selectInfoByHouseIdAndUserId(@Param("houseId")Integer houseId,@Param("userId") Integer userId);
 
 }

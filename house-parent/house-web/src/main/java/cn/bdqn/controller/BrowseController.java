@@ -43,7 +43,7 @@ public class BrowseController {
             e.printStackTrace();
 
             //设置返回消息为失败
-            result.setMessage("添加成功");
+            result.setMessage("添加失败");
         }
 
         return result;

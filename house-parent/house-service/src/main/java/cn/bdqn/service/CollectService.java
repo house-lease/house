@@ -25,5 +25,9 @@ public interface CollectService {
      */
     public List<Collect> queryInfoByUser_id(Integer userId);
 
+    /**
+     * 根据房屋id 和用户id查询查看收藏信息
+     */
+    public Collect queryInfoByHouse_idAndUser_id(Integer houseId,Integer userId);
 
 }
