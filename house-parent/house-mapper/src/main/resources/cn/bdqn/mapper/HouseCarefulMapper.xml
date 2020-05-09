@@ -4,89 +4,24 @@
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.HouseCareful" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="house_id" property="houseId" jdbcType="INTEGER" />
-    <result column="furniture" property="furniture" jdbcType="VARCHAR" />
-    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="chuang" property="chuang" jdbcType="INTEGER" />
+    <result column="shafa" property="shafa" jdbcType="INTEGER" />
+    <result column="kongtiao" property="kongtiao" jdbcType="INTEGER" />
+    <result column="ranqi" property="ranqi" jdbcType="INTEGER" />
+    <result column="xiyiji" property="xiyiji" jdbcType="INTEGER" />
+    <result column="kuandai" property="kuandai" jdbcType="INTEGER" />
+    <result column="dianshi" property="dianshi" jdbcType="INTEGER" />
+    <result column="bingxiang" property="bingxiang" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, house_id, furniture, state
+    id, house_id, chuang, shafa, kongtiao, ranqi, xiyiji, kuandai, dianshi, bingxiang
   </sql>
 
-<!--  根据房屋id查询详细信息-->
+
+<!--  根据房屋id查询-->
   <select id="selectByHouseId" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
+    select <include refid="Base_Column_List"/>
     from t_house_careful
     where house_id = #{houseId}
   </select>
-
-
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_house_careful
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_house_careful
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="cn.bdqn.domain.HouseCareful" >
-    insert into t_house_careful (id, house_id, furniture, 
-      state)
-    values (#{id,jdbcType=INTEGER}, #{houseId,jdbcType=INTEGER}, #{furniture,jdbcType=VARCHAR}, 
-      #{state,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.bdqn.domain.HouseCareful" >
-    insert into t_house_careful
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="houseId != null" >
-        house_id,
-      </if>
-      <if test="furniture != null" >
-        furniture,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="houseId != null" >
-        #{houseId,jdbcType=INTEGER},
-      </if>
-      <if test="furniture != null" >
-        #{furniture,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.HouseCareful" >
-    update t_house_careful
-    <set >
-      <if test="houseId != null" >
-        house_id = #{houseId,jdbcType=INTEGER},
-      </if>
-      <if test="furniture != null" >
-        furniture = #{furniture,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.HouseCareful" >
-    update t_house_careful
-    set house_id = #{houseId,jdbcType=INTEGER},
-      furniture = #{furniture,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 </mapper>

@@ -1,32 +1,28 @@
 package cn.bdqn.domain;
 
-import org.springframework.stereotype.Component;
-
 /**
- * 房屋详细信息对象
+ * 房屋详细信息
  */
-@Component
 public class HouseCareful {
-
-    //房屋详细信息id
     private Integer id;
 
-    //家具
-    private String furniture;
-
-    //房屋id
     private Integer houseId;
 
-    //家具的状态 0有 1没有'
-    private Integer state;
+    private Integer chuang;
 
-    public Integer getHouseId() {
-        return houseId;
-    }
+    private Integer shafa;
 
-    public void setHouseId(Integer houseId) {
-        this.houseId = houseId;
-    }
+    private Integer kongtiao;
+
+    private Integer ranqi;
+
+    private Integer xiyiji;
+
+    private Integer kuandai;
+
+    private Integer dianshi;
+
+    private Integer bingxiang;
 
     public Integer getId() {
         return id;
@@ -36,19 +32,75 @@ public class HouseCareful {
         this.id = id;
     }
 
-    public String getFurniture() {
-        return furniture;
+    public Integer getHouseId() {
+        return houseId;
     }
 
-    public void setFurniture(String furniture) {
-        this.furniture = furniture == null ? null : furniture.trim();
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
     }
 
-    public Integer getState() {
-        return state;
+    public Integer getChuang() {
+        return chuang;
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setChuang(Integer chuang) {
+        this.chuang = chuang;
+    }
+
+    public Integer getShafa() {
+        return shafa;
+    }
+
+    public void setShafa(Integer shafa) {
+        this.shafa = shafa;
+    }
+
+    public Integer getKongtiao() {
+        return kongtiao;
+    }
+
+    public void setKongtiao(Integer kongtiao) {
+        this.kongtiao = kongtiao;
+    }
+
+    public Integer getRanqi() {
+        return ranqi;
+    }
+
+    public void setRanqi(Integer ranqi) {
+        this.ranqi = ranqi;
+    }
+
+    public Integer getXiyiji() {
+        return xiyiji;
+    }
+
+    public void setXiyiji(Integer xiyiji) {
+        this.xiyiji = xiyiji;
+    }
+
+    public Integer getKuandai() {
+        return kuandai;
+    }
+
+    public void setKuandai(Integer kuandai) {
+        this.kuandai = kuandai;
+    }
+
+    public Integer getDianshi() {
+        return dianshi;
+    }
+
+    public void setDianshi(Integer dianshi) {
+        this.dianshi = dianshi;
+    }
+
+    public Integer getBingxiang() {
+        return bingxiang;
+    }
+
+    public void setBingxiang(Integer bingxiang) {
+        this.bingxiang = bingxiang;
     }
 }

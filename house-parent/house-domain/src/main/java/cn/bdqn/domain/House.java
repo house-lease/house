@@ -66,8 +66,8 @@ public class House {
     //房屋图片列表
     public List<HouseImage> houseImages  = new ArrayList<>();
 
-    //房屋详细信息数组
-    public List<HouseCareful> houseCareful = new ArrayList<>();
+    //房屋详细详细信息对象
+    private HouseCareful houseCareful;
 
     //剩余房间
     private Integer residueRoom;
@@ -83,11 +83,11 @@ public class House {
         this.id = id;
     }
 
-    public List<HouseCareful> getHouseCareful() {
+    public HouseCareful getHouseCareful() {
         return houseCareful;
     }
 
-    public void setHouseCareful(List<HouseCareful> houseCareful) {
+    public void setHouseCareful(HouseCareful houseCareful) {
         this.houseCareful = houseCareful;
     }
 

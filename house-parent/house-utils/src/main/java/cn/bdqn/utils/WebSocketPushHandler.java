@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
+import sun.plugin2.message.Message;
 
 @Component
 public class WebSocketPushHandler implements WebSocketHandler {
@@ -27,11 +29,12 @@ public class WebSocketPushHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         // 将消息进行转化，因为是消息是json数据，可能里面包含了发送给某个人的信息，所以需要用json相关的工具类处理之后再封装成TextMessage，
         // 我这儿并没有做处理，消息的封装格式一般有{from:xxxx,to:xxxxx,msg:xxxxx}，来自哪里，发送给谁，什么消息等等
-         //TextMessage msg = (TextMessage)message.getPayload();
+
+        TextMessage textMessage = (TextMessage) JSONObject.toJSON(message.getPayload());
         // 给所有用户群发消息
         //sendMessagesToUsers(msg);
          //给指定用户群发消息
-//        sendMessageToUser(userId, msg);
+        //sendMessageToUser(session.getId(), new TextMessage();
         System.out.println(message.getPayload());
 
     }

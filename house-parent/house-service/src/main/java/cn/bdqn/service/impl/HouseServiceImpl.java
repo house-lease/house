@@ -1,9 +1,7 @@
 package cn.bdqn.service.impl;
 
 import cn.bdqn.domain.House;
-import cn.bdqn.domain.HouseCareful;
 import cn.bdqn.domain.HouseImage;
-import cn.bdqn.mapper.HouseCarefulMapper;
 import cn.bdqn.mapper.HouseImageMapper;
 import cn.bdqn.mapper.HouseMapper;
 import cn.bdqn.service.HouseService;
@@ -24,9 +22,7 @@ public class HouseServiceImpl implements HouseService {
     @Autowired
     private HouseImageMapper houseImageMapper;
 
-    //房屋详细信息接口
-    @Autowired
-    private HouseCarefulMapper houseCarefulMapper;
+
 
     /**
      * 查询房屋信息
@@ -55,10 +51,6 @@ public class HouseServiceImpl implements HouseService {
         House house = houseMapper.selectByPrimaryKey(id);
         //根据房屋id查询房屋图片信息
         List<HouseImage> houseImages = houseImageMapper.selectByHouseId(id);
-        //根据房屋id查询房屋详细信息
-        List<HouseCareful> houseCarefulList = houseCarefulMapper.selectByHouseId(id);
-        //封装到房屋信息中
-        house.setHouseCareful(houseCarefulList);
         house.setHouseImages(houseImages);
         //返回对象
         return house;

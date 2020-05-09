@@ -26,6 +26,7 @@ public class MyWebSocketInterceptor implements HandshakeInterceptor {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
             HttpServletRequest httpRequest = servletRequest.getServletRequest();
             String id =  httpRequest.getParameter("id");
+            System.out.println(arg2);
 
             System.out.println(id);
 
