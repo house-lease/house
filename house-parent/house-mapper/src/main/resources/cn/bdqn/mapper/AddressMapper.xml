@@ -10,6 +10,15 @@
   <sql id="Base_Column_List" >
     id, address, parent_id, state
   </sql>
+
+<!--  查询父级地理位置-->
+
+  <select id="selectByParent" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_address
+    where parent_id is null
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
