@@ -36,16 +36,19 @@ public class CollectController {
 
         try {
             //根据用户id和房屋id添加收藏信息
-            service.insertCollectByUserIdAndHouseId(userId, houseId);
+            Collect collect = service.insertCollectByUserIdAndHouseId(userId, houseId);
             //设置返回信息为成功
+            result.setData(collect);
             result.setMessage("添加成功");
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             //设置返回信息为失败
             result.setMessage("添加失败");
+            return result;
         }
 
-        return result;
+
 
     }
 
@@ -63,15 +66,19 @@ public class CollectController {
         try{
             //根据收藏id删除信息
             service.deleteCollectByCollectId(collectId);
+            result.setData(true);
             //设置返回信息为成功
             result.setMessage("删除成功~");
+            return result;
         }catch (Exception e){
             e.printStackTrace();
             //设置返回信息为失败
+            result.setData(false);
             result.setMessage("删除失败~");
+            return result;
         }
 
-        return result;
+
     }
 
     /**
@@ -102,18 +109,23 @@ public class CollectController {
      */
     @RequestMapping("/queryInfoByUserIdAndHouseId")
     @ResponseBody
-    public Result queryInfoByUserIdAndHouseId(Integer userId,Integer houseId) {
+    public Result queryInfoByUserIdAndHouseId(Integer houseId,Integer userId) {
 
         //新建Result对象
         Result result = new Result();
-        //调用service层的根据用户id查询该用户收藏记录的方法
-        Collect collect = service.queryInfoByHouse_idAndUser_id(userId,houseId);
-        //设置返回的数据
-        result.setData(collect);
-        //设置返回的信息
-        result.setMessage("收藏信息");
-        return result;
-
+        try {
+            //调用service层的根据用户id查询该用户收藏记录的方法
+            Collect collect = service.queryInfoByHouse_idAndUser_id(houseId,userId);
+            //设置返回的数据
+            result.setData(collect);
+            //设置返回的信息
+            result.setMessage("收藏信息");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("查询失败");
+            return result;
+        }
     }
 
 }

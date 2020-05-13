@@ -12,7 +12,7 @@ public interface CollectService {
     /**
      * 根据用户id和房屋id添加收藏
      */
-    public void insertCollectByUserIdAndHouseId(Integer userId, Integer houseId);
+    public Collect insertCollectByUserIdAndHouseId(Integer userId, Integer houseId);
     
 
     /**

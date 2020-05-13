@@ -40,7 +40,7 @@ public class CollectServiceImpl implements CollectService {
      * 根据用户id和房屋id添加收藏
      */
     @Override
-    public void insertCollectByUserIdAndHouseId(Integer userId, Integer houseId) {
+    public Collect insertCollectByUserIdAndHouseId(Integer userId, Integer houseId) {
 
        //根据id查询用户
         User user = userMapper.selectByPrimaryKey(userId);
@@ -62,6 +62,7 @@ public class CollectServiceImpl implements CollectService {
         ////调用mapper层的根据用户和房屋id添加记录的方法
          mapper.insert(collect);
 
+         return collect;
 
     }
 
@@ -99,9 +100,6 @@ public class CollectServiceImpl implements CollectService {
 
         //调用mapper的根据用户id和房屋id查询收藏记录的方法并返回收藏数据
         Collect collect = mapper.selectInfoByHouseIdAndUserId(houseId,userId);
-        //获取房屋图片
-        List<HouseImage> houseImages = houseImageMapper.selectByHouseId(collect.getHouse().getId());
-        collect.getHouse().setHouseImages(houseImages);
 
         return collect;
 

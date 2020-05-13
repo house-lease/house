@@ -8,6 +8,8 @@ import cn.bdqn.service.HouseImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HouseImageServiceImpl implements HouseImageService {
 
@@ -16,6 +18,17 @@ public class HouseImageServiceImpl implements HouseImageService {
 
     @Autowired
     private ImagePlaceMapper imagePlaceMapper;
+
+    /**
+     * 根据房屋id和图片位置id查询图片
+     * @param houseId
+     * @param imagePlaceId
+     * @return
+     */
+    @Override
+    public List<HouseImage> queryByHouseIdAndImagePlaceId(Integer houseId, Integer imagePlaceId) {
+        return houseImageMapper.selectByHouseIdAndImagePlaceId(houseId,imagePlaceId);
+    }
 
     /**
      * 添加图片对象

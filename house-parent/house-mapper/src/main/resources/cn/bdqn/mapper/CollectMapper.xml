@@ -25,6 +25,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.bdqn.domain.Collect">
+    <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="java.lang.Integer">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into t_collect (id, user_id, house_id, 
       collect_time, state)
     values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{house.id,jdbcType=INTEGER},
