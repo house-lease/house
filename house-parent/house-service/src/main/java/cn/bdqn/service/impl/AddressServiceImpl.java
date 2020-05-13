@@ -22,4 +22,15 @@ public class AddressServiceImpl implements AddressService {
     public List<Address> queryByParent() {
         return addressMapper.selectByParent();
     }
+
+
+    /**
+     * 根据父级id查询子级对象
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<Address> queryByChild(Integer parentId) {
+        return addressMapper.selectByChild(parentId);
+    }
 }

@@ -22,4 +22,12 @@ public interface AddressMapper {
 
     // 查询父级地理位置
     public List<Address> selectByParent();
+
+
+    /**
+     * 根据父级id查询子级对象
+     * @param parentId
+     * @return
+     */
+    public List<Address> selectByChild(Integer parentId);
 }

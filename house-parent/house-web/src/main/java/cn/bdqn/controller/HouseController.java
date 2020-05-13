@@ -1,9 +1,10 @@
 package cn.bdqn.controller;
 
-import cn.bdqn.domain.House;
-import cn.bdqn.domain.HouseImage;
+import cn.bdqn.domain.*;
 import cn.bdqn.service.HouseService;
 import cn.bdqn.utils.Result;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,50 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public Result save(String user, String address, Double latitude, Double longitude, String start, BigDecimal price,
+                       String narrate, String houseName, String uptown, String houseType, String houseLease,
+                       String houseCareful, Integer residueRoom){
+
+        Start start1 =  JSONObject.parseObject(start,Start.class);
+        User user1 =  JSONObject.parseObject(user,User.class);
+        HouseCareful houseCareful1 =  JSONObject.parseObject(houseCareful,HouseCareful.class);
+        HouseType houseType1 =  JSONObject.parseObject(houseType,HouseType.class);
+        HouseLease houseLease1 =  JSONObject.parseObject(houseLease,HouseLease.class);
+        Result result = new Result();
+        try {
+            House house = new House();
+            house.setAddress(address);
+            house.setHouseCareful(houseCareful1);
+            house.setHouseLease(houseLease1);
+            house.setHouseLeaseName(houseLease1.getLeaseType());
+            house.setHouseName(houseName);
+            house.setUser(user1);
+            house.setUserName(user1.getUserName());
+            house.setLatitude(latitude);
+            house.setLongitude(longitude);
+            house.setPrice(price);
+            house.setResidueRoom(residueRoom);
+            house.setUptown(uptown);
+            house.setNarrate(narrate);
+            house.setStart(start1);
+            house.setStartName(start1.getStartName());
+            house.setStartValue(start1.getStartValue());
+            house.setHouseType(houseType1);
+            house.setHouseTypeName(houseType1.getHouseType());
+            house.setState(0);
+            House house1 = houseService.save(house);
+            result.setData(house1);
+            result.setMessage("添加成功~");
+            return result;
+        }catch (Exception e){
+            result.setMessage("添加失败~");
+            e.printStackTrace();
+            return result;
+        }
+    }
 
     /**
      * 查询房屋方法

@@ -103,4 +103,20 @@ public class HouseCareful {
     public void setBingxiang(Integer bingxiang) {
         this.bingxiang = bingxiang;
     }
+
+    @Override
+    public String toString() {
+        return "HouseCareful{" +
+                "id=" + id +
+                ", houseId=" + houseId +
+                ", chuang=" + chuang +
+                ", shafa=" + shafa +
+                ", kongtiao=" + kongtiao +
+                ", ranqi=" + ranqi +
+                ", xiyiji=" + xiyiji +
+                ", kuandai=" + kuandai +
+                ", dianshi=" + dianshi +
+                ", bingxiang=" + bingxiang +
+                '}';
+    }
 }

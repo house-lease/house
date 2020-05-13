@@ -2,18 +2,15 @@ package cn.bdqn.mapper;
 
 import cn.bdqn.domain.HouseCareful;
 
-/**
- * 房屋详细信息接口
- */
+import java.util.List;
+
 public interface HouseCarefulMapper {
 
-
-    /**
-     * 根据房屋id查询
-     * @param houseId
-     * @return
-     */
+    //    根据房屋id查询
     public HouseCareful selectByHouseId(Integer houseId);
+
+    //添加
+    void insert(HouseCareful record);
 
 
 }

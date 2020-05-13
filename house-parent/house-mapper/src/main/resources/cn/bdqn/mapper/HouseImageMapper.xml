@@ -40,12 +40,15 @@
     delete from t_house_image
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+<!--  添加-->
   <insert id="insert" parameterType="cn.bdqn.domain.HouseImage" >
     insert into t_house_image (id, image_place_id, house_id, 
       image_url, state)
-    values (#{id,jdbcType=INTEGER}, #{imagePlaceId,jdbcType=INTEGER}, #{houseId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{imagePlace.id,jdbcType=INTEGER}, #{houseId,jdbcType=INTEGER},
       #{imageUrl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
   </insert>
+
   <insert id="insertSelective" parameterType="cn.bdqn.domain.HouseImage" >
     insert into t_house_image
     <trim prefix="(" suffix=")" suffixOverrides="," >

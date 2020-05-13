@@ -25,8 +25,15 @@ public interface HouseImageMapper {
      */
     public List<HouseImage> selectByHouseIdAndImagePlaceId(@Param("houseId") Integer houseId,@Param("imagePlaceId") Integer imagePlaceId);
 
+
     int deleteByPrimaryKey(Integer id);
 
+
+    /**
+     * 添加
+     * @param record
+     * @return
+     */
     int insert(HouseImage record);
 
     int insertSelective(HouseImage record);

@@ -104,6 +104,11 @@
 
 <!--添加房屋信息-->
   <insert id="insert" parameterType="cn.bdqn.domain.House" >
+
+    <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="java.lang.Integer">
+      select LAST_INSERT_ID()
+    </selectKey>
+
     insert into t_house (id, user_id, user_name, 
       latitude, longitude, start_id, 
       start_name, start_value, price, 
@@ -119,6 +124,9 @@
       #{houseLease.id,jdbcType=INTEGER}, #{houseLeaseName,jdbcType=VARCHAR}, #{residueRoom,jdbcType=INTEGER},
       #{state,jdbcType=INTEGER})
   </insert>
+
+
+
   <insert id="insertSelective" parameterType="cn.bdqn.domain.House" >
     insert into t_house
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -240,6 +248,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.House" >
     update t_house
     <set >
@@ -300,6 +309,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.House" >
     update t_house
     set user_id = #{userId,jdbcType=INTEGER},

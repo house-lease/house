@@ -19,6 +19,13 @@
     where parent_id is null
   </select>
 
+<!--  根据父级id查询子级对象-->
+  <select id="selectByChild" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_address
+    where parent_id = #{parentId}
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

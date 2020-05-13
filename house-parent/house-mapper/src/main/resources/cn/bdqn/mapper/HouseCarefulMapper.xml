@@ -24,4 +24,15 @@
     from t_house_careful
     where house_id = #{houseId}
   </select>
+
+  <insert id="insert" parameterType="cn.bdqn.domain.HouseCareful" >
+    insert into t_house_careful (id, house_id, chuang,
+      shafa, kongtiao, ranqi,
+      xiyiji, kuandai, dianshi,
+      bingxiang)
+    values (#{id,jdbcType=INTEGER}, #{houseId,jdbcType=INTEGER}, #{chuang,jdbcType=INTEGER},
+      #{shafa,jdbcType=INTEGER}, #{kongtiao,jdbcType=INTEGER}, #{ranqi,jdbcType=INTEGER},
+      #{xiyiji,jdbcType=INTEGER}, #{kuandai,jdbcType=INTEGER}, #{dianshi,jdbcType=INTEGER},
+      #{bingxiang,jdbcType=INTEGER})
+  </insert>
 </mapper>

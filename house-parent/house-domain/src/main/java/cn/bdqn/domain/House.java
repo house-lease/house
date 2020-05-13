@@ -171,13 +171,9 @@ public class House {
         this.address = address == null ? null : address.trim();
     }
 
-
-
     public String getHouseTypeName() {
         return houseTypeName;
     }
-
-
 
     public List<HouseImage> getHouseImages() {
         return houseImages;

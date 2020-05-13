@@ -33,4 +33,25 @@ public class AddressController {
             return result;
         }
     }
+
+    @RequestMapping("/queryByChild")
+    @ResponseBody
+    public Result queryByChild(Integer parentId){
+
+        Result result = new Result();
+        try {
+            //根据父级id查询
+            List<Address> addresses = addressService.queryByChild(parentId);
+            result.setData(addresses);
+            result.setMessage("查询成功~");
+
+            return result;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("查询失败~");
+            return  result;
+        }
+
+    }
 }

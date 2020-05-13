@@ -1,7 +1,9 @@
 package cn.bdqn.service.impl;
 
 import cn.bdqn.domain.House;
+import cn.bdqn.domain.HouseCareful;
 import cn.bdqn.domain.HouseImage;
+import cn.bdqn.mapper.HouseCarefulMapper;
 import cn.bdqn.mapper.HouseImageMapper;
 import cn.bdqn.mapper.HouseMapper;
 import cn.bdqn.service.HouseService;
@@ -22,7 +24,25 @@ public class HouseServiceImpl implements HouseService {
     @Autowired
     private HouseImageMapper houseImageMapper;
 
+    @Autowired
+    private HouseCarefulMapper houseCarefulMapper;
 
+
+//    添加房屋的方法
+    @Override
+    public House save(House record) {
+
+        //调用添加方法
+        houseMapper.insert(record);
+
+        //设置房屋id
+        record.getHouseCareful().setHouseId(record.getId());
+        //添加房屋详细信息
+        houseCarefulMapper.insert(record.getHouseCareful());
+
+        return record;
+
+    }
 
     /**
      * 查询房屋信息

@@ -11,6 +11,13 @@ import java.util.List;
  */
 public interface HouseService {
 
+
+    /**
+     * 添加房屋
+     * @param record
+     */
+    public House save(House record);
+
     //查询房屋信息
     public List<House> queryByAddressORLeaseTypeORPriceORStartValue(String address, String houseLeaseName, BigDecimal price, Integer startValue);
 

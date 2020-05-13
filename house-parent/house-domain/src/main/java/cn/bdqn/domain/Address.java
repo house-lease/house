@@ -51,4 +51,5 @@ public class Address {
     public void setState(Integer state) {
         this.state = state;
     }
+
 }
