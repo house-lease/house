@@ -27,8 +27,27 @@ public class HouseServiceImpl implements HouseService {
     @Autowired
     private HouseCarefulMapper houseCarefulMapper;
 
+    /**
+     * 根据经纬度查询周边的房屋
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    @Override
+    public List<House> queryRim(Double latitude, Double longitude) {
+        //根据经纬度查询周边房屋
+        List<House> houses = houseMapper.selectRim(latitude,longitude);
+        //根据房屋id循环查找房屋图片
+        for (House house:houses) {
+            //调用根据房屋id查询房屋图片的方法
+            List<HouseImage> images = houseImageMapper.selectByHouseId(house.getId());
+            //添加图片
+            house.setHouseImages(images);
+        }
+        return houses;
+    }
 
-//    添加房屋的方法
+    //    添加房屋的方法
     @Override
     public House save(House record) {
 

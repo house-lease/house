@@ -53,4 +53,12 @@ public interface HouseMapper {
      * @param record
      */
     void updateByPrimaryKey(House record);
+
+    /**
+     * 根据经纬度查询周边的房屋
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public List<House> selectRim(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
 }

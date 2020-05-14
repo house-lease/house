@@ -13,6 +13,15 @@ public interface HouseService {
 
 
     /**
+     * 根据经纬度查询周边的房屋
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public List<House> queryRim(Double latitude,Double longitude);
+
+
+    /**
      * 添加房屋
      * @param record
      */

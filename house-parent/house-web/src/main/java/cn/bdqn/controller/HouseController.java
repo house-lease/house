@@ -25,6 +25,40 @@ public class HouseController {
     private HouseService houseService;
 
 
+
+    @RequestMapping("/rim")
+    @ResponseBody
+    public Result queryRim(Double latitude, Double longitude){
+        Result result = new Result();
+        try {
+            List<House> houses = houseService.queryRim(latitude,longitude);
+            result.setData(houses);
+            result.setMessage("查询成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("查询失败~");
+            return result;
+        }
+    }
+
+    /**
+     * 添加房屋的方法
+     * @param user
+     * @param address
+     * @param latitude
+     * @param longitude
+     * @param start
+     * @param price
+     * @param narrate
+     * @param houseName
+     * @param uptown
+     * @param houseType
+     * @param houseLease
+     * @param houseCareful
+     * @param residueRoom
+     * @return
+     */
     @RequestMapping("/save")
     @ResponseBody
     public Result save(String user, String address, Double latitude, Double longitude, String start, BigDecimal price,
