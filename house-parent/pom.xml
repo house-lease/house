@@ -183,11 +183,7 @@
                 <version>1.2.62</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.3.5</version>
-            </dependency>
+
             <!--mybatis-spring整合框架-->
             <dependency>
                 <groupId>org.mybatis</groupId>
@@ -217,6 +213,30 @@
                 <artifactId>alipay-sdk-javacomm</artifactId>
                 <version>0.0.3</version>
             </dependency>
+<!--           实名验证-->
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.3.5</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>org.apache.httpcomponents</groupId>-->
+<!--                <artifactId>httpcore</artifactId>-->
+<!--                <version>4.2.1</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-util</artifactId>
+                <version>9.3.7.v20160115</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

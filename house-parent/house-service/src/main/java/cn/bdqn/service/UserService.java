@@ -39,4 +39,10 @@ public interface UserService {
     public User login( String code,String image_url,String nickName,Integer sex);
 
 
+    /**
+     * 实名认证
+     * @param imageName
+     */
+    public User authentication(Integer userId, String imageName);
+
 }

@@ -64,7 +64,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="t_house_careful" domainObjectName="HouseCareful"
+        <table tableName="t_apply" domainObjectName="Apply"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

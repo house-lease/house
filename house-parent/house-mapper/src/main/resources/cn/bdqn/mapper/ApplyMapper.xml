@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bdqn.mapper.ApplyMapper" >
+  <resultMap id="BaseResultMap" type="cn.bdqn.domain.Apply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="house_image_url" property="houseImageUrl" jdbcType="VARCHAR" />
+    <result column="cash" property="cash" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+<!--    关联用户表-->
+    <association property="user" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="user_id"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, user_name, user_phone, house_image_url, cash, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.bdqn.domain.Apply" >
+    insert into t_apply (id, user_id, user_name, 
+      user_phone, house_image_url, cash, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{user.id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+      #{userPhone,jdbcType=VARCHAR}, #{houseImageUrl,jdbcType=VARCHAR}, #{cash,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.bdqn.domain.Apply" >
+    insert into t_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="user.id != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="houseImageUrl != null" >
+        house_image_url,
+      </if>
+      <if test="cash != null" >
+        cash,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="user.id != null" >
+        #{user.id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="houseImageUrl != null" >
+        #{houseImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cash != null" >
+        #{cash,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Apply" >
+    update t_apply
+    <set >
+      <if test="user.id != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="houseImageUrl != null" >
+        house_image_url = #{houseImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cash != null" >
+        cash = #{cash,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Apply" >
+    update t_apply
+    set user_id = #{user.id,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      house_image_url = #{houseImageUrl,jdbcType=VARCHAR},
+      cash = #{cash,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

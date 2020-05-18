@@ -1,12 +1,18 @@
 package cn.bdqn.controller;
 
+import cn.bdqn.domain.HouseImage;
 import cn.bdqn.domain.User;
 import cn.bdqn.service.UserService;
 import cn.bdqn.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 
 @Controller
 @RequestMapping("/user")
@@ -45,4 +51,6 @@ public class UserController {
         }
 
     }
+
+
 }

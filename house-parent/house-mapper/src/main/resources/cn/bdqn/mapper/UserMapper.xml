@@ -179,7 +179,7 @@
       landlord = #{landlord,jdbcType=INTEGER},
       register_time = #{registerTime,jdbcType=DATE},
       image_url = #{imageUrl,jdbcType=VARCHAR},
-      open_id = #{openId}
+      open_id = #{openId},
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

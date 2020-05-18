@@ -70,10 +70,10 @@
     <include refid="Base_Column_List_1"/>
     from t_house
     <![CDATA[
-    WHERE latitude > #{latitude}-1
-    AND latitude < #{latitude}+1
-    AND longitude > #{longitude}-1
-    AND longitude < #{longitude}+1
+    WHERE latitude > #{latitude}-0.1
+    AND latitude < #{latitude}+0.1
+    AND longitude > #{longitude}-0.1
+    AND longitude < #{longitude}+0.1
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180 )
     *SIN((latitude * 3.1415) / 180 ) +COS((#{latitude} * 3.1415) / 180 )
     * COS((latitude * 3.1415) / 180 )*COS((#{longitude}* 3.1415) / 180 - (longitude * 3.1415) / 180 ) ) * 6380 ASC LIMIT 10
