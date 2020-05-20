@@ -1,27 +1,37 @@
-package cn.bdqn.utils;
+package cn.bdqn.chat;
+
+import cn.bdqn.domain.Chat;
+import cn.bdqn.domain.User;
+import cn.bdqn.service.ChatService;
+import cn.bdqn.service.UserService;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
-import sun.plugin2.message.Message;
 
 @Component
 public class WebSocketPushHandler implements WebSocketHandler {
     private static final List<WebSocketSession> users = new ArrayList<>();
 
+    @Autowired
+    private ChatService chatService;
+
+    @Autowired
+    private UserService userService;
     // 用户进入系统监听
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        users.add(session);
+        User user =(User) session.getAttributes().get("user");
         System.out.println("成功进入了系统。。。");
-        System.out.println(session);
+        System.out.println(user);
+
     }
 
     //
@@ -29,14 +39,24 @@ public class WebSocketPushHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         // 将消息进行转化，因为是消息是json数据，可能里面包含了发送给某个人的信息，所以需要用json相关的工具类处理之后再封装成TextMessage，
         // 我这儿并没有做处理，消息的封装格式一般有{from:xxxx,to:xxxxx,msg:xxxxx}，来自哪里，发送给谁，什么消息等等
+        System.out.println(message.getPayload());
 
-        TextMessage textMessage = (TextMessage) JSONObject.toJSON(message.getPayload());
+        Chat chat = new Chat();
+        JSONObject jsonObject = JSONObject.parseObject(message.getPayload().toString());
+        chat.setMessage( (String)jsonObject.get("message"));
+        chat.setSendTime(new Date());
+        chat.setState(0);
+        String sendUserId = (String) jsonObject.get("sendUser");
+        String receptionUser = (String)jsonObject.get("receptionUser");
+        chat.setSendUser(userService.queryByUserId(Integer.parseInt(sendUserId)));
+        chat.setReceptionUser(userService.queryByUserId(Integer.parseInt(receptionUser)));
+        Gson gson = new Gson();
+        System.out.println(chat);
         // 给所有用户群发消息
         //sendMessagesToUsers(msg);
          //给指定用户群发消息
-        //sendMessageToUser(session.getId(), new TextMessage();
-        System.out.println(message.getPayload());
-
+        System.out.println("==========");
+        sendMessageToUser(chat.getReceptionUser().getId(), new TextMessage(gson.toJson(chat)));
     }
 
     // 后台错误信息处理方法
@@ -80,9 +100,10 @@ public class WebSocketPushHandler implements WebSocketHandler {
     /**
      * 发送消息给指定的用户
      */
-    public void sendMessageToUser(String userId, TextMessage message) {
+    public void sendMessageToUser(Integer userId, TextMessage message) {
         for (WebSocketSession user : users) {
-            if (user.getAttributes().get("").equals(userId)) {
+            User user1 = (User) user.getAttributes().get("user");
+            if (user1.getId()==userId) {
                 try {
                     // isOpen()在线就发送
                     if (user.isOpen()) {

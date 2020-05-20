@@ -1,7 +1,7 @@
 package cn.bdqn.controller;
 
-import cn.bdqn.utils.MyWebSocketInterceptor;
-import cn.bdqn.utils.WebSocketPushHandler;
+import cn.bdqn.chat.MyWebSocketInterceptor;
+import cn.bdqn.chat.WebSocketPushHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

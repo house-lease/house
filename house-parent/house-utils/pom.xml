@@ -18,6 +18,9 @@
             <artifactId>house-domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
+
         <!--springMVC的jar包-->
         <!--包含web应用开发时，用到spring框架时所需的核心类、文件上传以及工具类等-->
         <dependency>
@@ -63,6 +66,12 @@
 
 
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.62</version>
@@ -74,21 +83,21 @@
             <version>4.3.5</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.apache.httpcomponents</groupId>-->
-<!--            <artifactId>httpcore</artifactId>-->
-<!--            <version>4.2.1</version>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
         </dependency>
+
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-util</artifactId>
             <version>9.3.7.v20160115</version>
         </dependency>
+
+
 
 
     </dependencies>
