@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
 //    根据openid查询
     @Override
-    public User queryByOpenId(String openId) {
+      public User queryByOpenId(String openId) {
         return userMapper.selectByOpenId(openId);
     }
 

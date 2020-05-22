@@ -1,4 +1,4 @@
-package cn.bdqn.controller;
+package cn.bdqn.chat;
 
 import cn.bdqn.chat.MyWebSocketInterceptor;
 import cn.bdqn.chat.WebSocketPushHandler;
@@ -12,9 +12,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocket implements WebSocketConfigurer {
 
+//    拦截器
     @Autowired
     private MyWebSocketInterceptor myWebSocketInterceptor;
 
+
+//    消息处理器
     @Autowired
     private WebSocketPushHandler webSocketPushHandler;
 

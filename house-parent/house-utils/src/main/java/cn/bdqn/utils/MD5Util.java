@@ -24,7 +24,8 @@ public final class MD5Util {
                 if (s.length() < 2) {
                     s = "0" + s;
                 }
-                sb.append(s);
+
+              sb.append(s);
             }
             // 加密的结果
             return sb.toString();

@@ -27,13 +27,12 @@ public class MyWebSocketInterceptor implements HandshakeInterceptor {
                                    Map<String, Object> arg3) throws Exception {
         try{
 
-            // 将ServerHttpRequest转换成request请求相关的类，用来获取request域中的用户信息
+                  // 将ServerHttpRequest转换成request请求相关的类，用来获取request域中的用户信息
             if (request instanceof ServletServerHttpRequest) {
                 ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
                 HttpServletRequest httpRequest = servletRequest.getServletRequest();
                 String userId= httpRequest.getHeader("user");
                 User user = userService.queryByUserId(Integer.parseInt(userId));
-
                 arg3.put("user",user);
             }
 

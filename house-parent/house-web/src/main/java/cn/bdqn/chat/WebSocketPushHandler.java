@@ -17,6 +17,8 @@ import java.util.List;
 
 @Component
 public class WebSocketPushHandler implements WebSocketHandler {
+
+//    储存用户的集合
     private static final List<WebSocketSession> users = new ArrayList<>();
 
     @Autowired
@@ -27,10 +29,12 @@ public class WebSocketPushHandler implements WebSocketHandler {
     // 用户进入系统监听
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+
         users.add(session);
         User user =(User) session.getAttributes().get("user");
         System.out.println("成功进入了系统。。。");
         System.out.println(user);
+
 
     }
 
