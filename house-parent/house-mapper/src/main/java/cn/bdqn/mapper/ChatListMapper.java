@@ -1,6 +1,7 @@
 package cn.bdqn.mapper;
 
 import cn.bdqn.domain.ChatList;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface ChatListMapper {
 
 
     //  查询会话列表
-    public ChatList selectByChatList(Integer sendUserId, Integer receptionUserId);
+    public ChatList selectByChatList(@Param("sendUserId") Integer sendUserId, @Param("receptionUserId") Integer receptionUserId);
 
     //  查询会话列表
     public List<ChatList> selectAll(Integer userId);

@@ -5,13 +5,13 @@ import java.util.Date;
 public class ChatTest {
     private Integer id;
 
+    private Integer isMyYou;
     //发送用户
     private User sendUser;
 
     //接收用户
     private User receptionUser;
 
-    private Integer receptionUserId;
 
     private String message;
 
@@ -30,13 +30,14 @@ public class ChatTest {
     }
 
 
-    public Integer getReceptionUserId() {
-        return receptionUserId;
+    public Integer getIsMyYou() {
+        return isMyYou;
     }
 
-    public void setReceptionUserId(Integer receptionUserId) {
-        this.receptionUserId = receptionUserId;
+    public void setIsMyYou(Integer isMyYou) {
+        this.isMyYou = isMyYou;
     }
+
 
     public String getMessage() {
         return message;
