@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.bdqn.mapper.chatListMapper" >
-  <resultMap id="BaseResultMap" type="cn.bdqn.domain.chatList" >
+<mapper namespace="cn.bdqn.mapper.ChatListMapper" >
+  <resultMap id="BaseResultMap" type="cn.bdqn.domain.ChatList" >
     <id column="id" property="id" jdbcType="INTEGER" />
 
     <result column="message" property="message" jdbcType="VARCHAR" />
@@ -48,7 +48,7 @@
   </delete>
 
 
-  <insert id="insert" parameterType="cn.bdqn.domain.chatList" >
+  <insert id="insert" parameterType="cn.bdqn.domain.ChatList" >
     insert into t_chat_list (id, send_user_id, reception_user_id, 
       message, send_time, unread, 
       state)
@@ -56,7 +56,7 @@
       #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{unread,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.bdqn.domain.chatList" >
+  <insert id="insertSelective" parameterType="cn.bdqn.domain.ChatList" >
     insert into t_chat_list
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -105,7 +105,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.chatList" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.ChatList" >
     update t_chat_list
     <set >
       <if test="sendUser.id != null" >
@@ -129,7 +129,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.chatList" >
+  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.ChatList" >
     update t_chat_list
     set send_user_id = #{sendUser.id,jdbcType=INTEGER},
       reception_user_id = #{receptionUser.id,jdbcType=INTEGER},

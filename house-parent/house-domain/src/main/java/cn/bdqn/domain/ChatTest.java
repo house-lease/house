@@ -2,7 +2,7 @@ package cn.bdqn.domain;
 
 import java.util.Date;
 
-public class chatList {
+public class ChatTest {
     private Integer id;
 
     //发送用户
@@ -11,12 +11,13 @@ public class chatList {
     //接收用户
     private User receptionUser;
 
+    private Integer receptionUserId;
 
     private String message;
 
     private Date sendTime;
 
-    private Integer unread;
+    private Integer viewState;
 
     private Integer state;
 
@@ -28,20 +29,13 @@ public class chatList {
         this.id = id;
     }
 
-    public User getSendUser() {
-        return sendUser;
+
+    public Integer getReceptionUserId() {
+        return receptionUserId;
     }
 
-    public void setSendUser(User sendUser) {
-        this.sendUser = sendUser;
-    }
-
-    public User getReceptionUser() {
-        return receptionUser;
-    }
-
-    public void setReceptionUser(User receptionUser) {
-        this.receptionUser = receptionUser;
+    public void setReceptionUserId(Integer receptionUserId) {
+        this.receptionUserId = receptionUserId;
     }
 
     public String getMessage() {
@@ -60,12 +54,12 @@ public class chatList {
         this.sendTime = sendTime;
     }
 
-    public Integer getUnread() {
-        return unread;
+    public Integer getViewState() {
+        return viewState;
     }
 
-    public void setUnread(Integer unread) {
-        this.unread = unread;
+    public void setViewState(Integer viewState) {
+        this.viewState = viewState;
     }
 
     public Integer getState() {
@@ -74,5 +68,21 @@ public class chatList {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public User getSendUser() {
+        return sendUser;
+    }
+
+    public void setSendUser(User sendUser) {
+        this.sendUser = sendUser;
+    }
+
+    public User getReceptionUser() {
+        return receptionUser;
+    }
+
+    public void setReceptionUser(User receptionUser) {
+        this.receptionUser = receptionUser;
     }
 }
