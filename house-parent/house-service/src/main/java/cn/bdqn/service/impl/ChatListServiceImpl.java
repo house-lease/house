@@ -29,4 +29,9 @@ public class ChatListServiceImpl implements ChatListService {
 
         chatListMapper.insert(record);
     }
+
+    @Override
+    public void updateChat(ChatList record) {
+        chatListMapper.updateByPrimaryKey(record);
+    }
 }

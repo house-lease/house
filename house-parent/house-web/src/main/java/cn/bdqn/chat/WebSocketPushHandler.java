@@ -1,8 +1,12 @@
 package cn.bdqn.chat;
 
 import cn.bdqn.domain.Chat;
+import cn.bdqn.domain.ChatList;
+import cn.bdqn.domain.ChatTest;
 import cn.bdqn.domain.User;
+import cn.bdqn.service.ChatListService;
 import cn.bdqn.service.ChatService;
+import cn.bdqn.service.ChatTestService;
 import cn.bdqn.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
@@ -22,8 +26,10 @@ public class WebSocketPushHandler implements WebSocketHandler {
     private static final List<WebSocketSession> users = new ArrayList<>();
 
     @Autowired
-    private ChatService chatService;
+    private ChatTestService chatTestService;
 
+    @Autowired
+    private ChatListService chatListService;
     @Autowired
     private UserService userService;
     // 用户进入系统监听
@@ -45,15 +51,52 @@ public class WebSocketPushHandler implements WebSocketHandler {
         // 我这儿并没有做处理，消息的封装格式一般有{from:xxxx,to:xxxxx,msg:xxxxx}，来自哪里，发送给谁，什么消息等等
         System.out.println(message.getPayload());
 
-        Chat chat = new Chat();
+//        封装聊天数据
+        ChatTest chat = new ChatTest();
         JSONObject jsonObject = JSONObject.parseObject(message.getPayload().toString());
-        chat.setMessage( (String)jsonObject.get("message"));
+        chat.setMessage((String)jsonObject.get("message"));
         chat.setSendTime(new Date());
         chat.setState(0);
         String sendUserId = (String) jsonObject.get("sendUser");
         String receptionUser = (String)jsonObject.get("receptionUser");
+        String isMyYou = (String)jsonObject.get("isMyYou");
+        chat.setIsMyYou(Integer.parseInt(isMyYou));
+        boolean panDuan= false;
         chat.setSendUser(userService.queryByUserId(Integer.parseInt(sendUserId)));
         chat.setReceptionUser(userService.queryByUserId(Integer.parseInt(receptionUser)));
+        for (WebSocketSession webSocketSession : users) {
+            User user = (User)webSocketSession.getAttributes().get("user");
+            if (user.getId()==chat.getReceptionUser().getId()){
+                panDuan = true;
+                break;
+            }
+        }
+        if (!panDuan){
+            chat.setViewState(1);
+        }else {
+            chat.setViewState(0);
+        }
+//        添加聊天记录
+        chatTestService.save(chat);
+
+//        判断当前发送方用户和接收方用户是否创建会话列表
+        ChatList chatList = chatListService.queryByChatList(chat.getSendUser().getId(),chat.getReceptionUser().getId());
+        if (chatList!=null){
+            chatList.setMessage(chat.getMessage());
+            chatList.setUnread(1);
+            chatList.setSendTime(new Date());
+            chatListService.updateChat(chatList);
+        }else {
+            chatList = new ChatList();
+            chatList.setSendUser(chat.getSendUser());
+            chatList.setReceptionUser(chat.getReceptionUser());
+            chatList.setMessage(chat.getMessage());
+            chatList.setSendTime(new Date());
+            chatList.setState(0);
+            chatList.setUnread(1);
+//        添加会话列表
+            chatListService.save(chatList);
+        }
         Gson gson = new Gson();
         System.out.println(chat);
         // 给所有用户群发消息

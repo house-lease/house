@@ -129,6 +129,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--  更新-->
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.ChatList" >
     update t_chat_list
     set send_user_id = #{sendUser.id,jdbcType=INTEGER},

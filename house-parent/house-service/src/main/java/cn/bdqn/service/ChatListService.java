@@ -16,4 +16,7 @@ public interface ChatListService {
 
     //    添加会话列表
     void save(ChatList record);
+
+    //    更新会话列表
+    void updateChat(ChatList record);
 }
