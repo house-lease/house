@@ -4,7 +4,6 @@ import cn.bdqn.domain.HouseImage;
 import cn.bdqn.domain.User;
 import cn.bdqn.service.UserService;
 import cn.bdqn.utils.Result;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
