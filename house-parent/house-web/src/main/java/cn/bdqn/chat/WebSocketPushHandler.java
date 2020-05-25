@@ -50,7 +50,6 @@ public class WebSocketPushHandler implements WebSocketHandler {
         // 将消息进行转化，因为是消息是json数据，可能里面包含了发送给某个人的信息，所以需要用json相关的工具类处理之后再封装成TextMessage，
         // 我这儿并没有做处理，消息的封装格式一般有{from:xxxx,to:xxxxx,msg:xxxxx}，来自哪里，发送给谁，什么消息等等
         System.out.println(message.getPayload());
-
 //        封装聊天数据
         ChatTest chat = new ChatTest();
         JSONObject jsonObject = JSONObject.parseObject(message.getPayload().toString());
@@ -81,9 +80,10 @@ public class WebSocketPushHandler implements WebSocketHandler {
 
 //        判断当前发送方用户和接收方用户是否创建会话列表
         ChatList chatList = chatListService.queryByChatList(chat.getSendUser().getId(),chat.getReceptionUser().getId());
+        Integer count = chatTestService.queryViewState(chat.getSendUser().getId(),chat.getReceptionUser().getId());
         if (chatList!=null){
             chatList.setMessage(chat.getMessage());
-            chatList.setUnread(1);
+            chatList.setUnread(count);
             chatList.setSendTime(new Date());
             chatListService.updateChat(chatList);
         }else {
@@ -93,7 +93,7 @@ public class WebSocketPushHandler implements WebSocketHandler {
             chatList.setMessage(chat.getMessage());
             chatList.setSendTime(new Date());
             chatList.setState(0);
-            chatList.setUnread(1);
+            chatList.setUnread(count);
 //        添加会话列表
             chatListService.save(chatList);
         }

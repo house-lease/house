@@ -30,6 +30,18 @@
     ORDER BY send_time
   </select>
 
+<!--  查询用户未读消息-->
+  <select id="selectViewState" resultType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from t_chat_test
+    where ((send_user_id = #{sendUserId}
+    AND reception_user_id = #{receptionUserId})
+    OR  (send_user_id = #{receptionUserId}
+    AND reception_user_id = #{sendUserId}))
+    AND state = 0 and view_state = 1
+    ORDER BY send_time
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -130,15 +142,14 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.ChatTest" >
+
+  <update id="updateViewState" >
     update t_chat_test
-    set is_my_you = #{isMyYou,jdbcType=INTEGER},
-      send_user_id = #{sendUser.id,jdbcType=INTEGER},
-      reception_user_id = #{receptionUser.id,jdbcType=INTEGER},
-      message = #{message,jdbcType=VARCHAR},
-      send_time = #{sendTime,jdbcType=TIMESTAMP},
-      view_state = #{viewState,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    set
+      view_state = 0
+    where ((send_user_id = #{sendUserId}
+    AND reception_user_id = #{receptionUserId})
+    OR  (send_user_id = #{receptionUserId}
+    AND reception_user_id = #{sendUserId}))
   </update>
 </mapper>
