@@ -44,14 +44,13 @@ public class PayApiController {
             String out_trade_no = sNow;
                     //new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
             // 订单名称，必填
-            String subject ="手机网站支付测试商品";
+            String subject ="五月份租金";
                     //new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
-            System.out.println(subject);
             // 付款金额，必填
-            String total_amount="0.01";
+            String total_amount="1000";
                     //new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
             // 商品描述，可空
-            String body = "购买测试商品0.01元";
+            String body = "xx市xx区xx小区x号楼x号房x月份租金";
                     //new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
             // 超时时间 可空
             String timeout_express="2m";
@@ -96,7 +95,20 @@ public class PayApiController {
     }
 
     @RequestMapping(value = "/notify_url",method = RequestMethod.POST)
-    public String notify_url(HttpServletRequest request, HttpServletResponse response)throws Exception{
+    public String notify_url(HttpServletRequest request, HttpServletResponse response )throws Exception{
+
+        //charset=UTF-8
+        // &out_trade_no=20205251933121590406392
+        // &method=alipay.trade.wap.pay.return
+        // &total_amount=0.01
+        // &sign=VYCwE1wnx532SOcEi%2BM9ahbl4%2F4YtBtW423ew%2BnZvcSAGYiSbs%2BETyJS0n1wyVYv3pVxInqYlCGE6hcQrrvEuymol4c7O%2BrfkRcmDN%2FYcNCAKM5xDGr9mhazcv4titXFwK2BBVdO%2B6E2lyyJsaOdcgMQ%2BfvjjSD%2F2dxOaqZjOIS9MJbi3cAMLwRH5%2FZ5m%2F%2FZlgZTqBZMpl2FNtnuF8TbLTU4qJl8NOJaZ5ZvMSxr8CtZnPGiqO4z%2Boxv46BNLpItSP1WR9Z5UJNsLW6OCh15bgJkIT5MHF50Mdp31uiMlIYEwm8lYOq602MzVToXgFkzWhj2CTwJIAWQbxjF5%2Bh%2FBQ%3D%3D
+        // &trade_no=2020052522001405290500959047
+        // &auth_app_id=2016102200741003
+        // &version=1.0
+        // &app_id=2016102200741003
+        // &sign_type=RSA2
+        // &seller_id=2088102180688961
+        // &timestamp=2020-05-25+19%3A34%3A33
 
         //获取支付宝POST过来反馈信息
         Map<String,String> params = new HashMap<String,String>();
@@ -168,32 +180,63 @@ public class PayApiController {
         return "";
     }
 
-    @RequestMapping(value = "/notify_url",method = RequestMethod.GET)
-    public String return_url(HttpServletRequest request, HttpServletResponse response)throws  Exception{
+    @RequestMapping(value = "/return_url",method = RequestMethod.GET)
+    public String return_url
+            (String charset,String out_trade_no,String method, String total_amount,String sign,String trade_no,String auth_app_id,String version,String app_id,String sign_type,String seller_id,String timestamp)
+            throws  Exception{
+
+        //charset=UTF-8
+        // &out_trade_no=20205251933121590406392
+        // &method=alipay.trade.wap.pay.return
+        // &total_amount=0.01
+        // &sign=VYCwE1wnx532SOcEi%2BM9ahbl4%2F4YtBtW423ew%2BnZvcSAGYiSbs%2BETyJS0n1wyVYv3pVxInqYlCGE6hcQrrvEuymol4c7O%2BrfkRcmDN%2FYcNCAKM5xDGr9mhazcv4titXFwK2BBVdO%2B6E2lyyJsaOdcgMQ%2BfvjjSD%2F2dxOaqZjOIS9MJbi3cAMLwRH5%2FZ5m%2F%2FZlgZTqBZMpl2FNtnuF8TbLTU4qJl8NOJaZ5ZvMSxr8CtZnPGiqO4z%2Boxv46BNLpItSP1WR9Z5UJNsLW6OCh15bgJkIT5MHF50Mdp31uiMlIYEwm8lYOq602MzVToXgFkzWhj2CTwJIAWQbxjF5%2Bh%2FBQ%3D%3D
+        // &trade_no=2020052522001405290500959047
+        // &auth_app_id=2016102200741003
+        // &version=1.0
+        // &app_id=2016102200741003
+        // &sign_type=RSA2
+        // &seller_id=2088102180688961
+        // &timestamp=2020-05-25+19%3A34%3A33
+
         //获取支付宝GET过来反馈信息
         Map<String,String> params = new HashMap<String,String>();
-        Map requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-            String name = (String) iter.next();
-            String[] values = (String[]) requestParams.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i]
-                        : valueStr + values[i] + ",";
-            }
-            //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-            valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
-            params.put(name, valueStr);
-        }
+        params.put("charset",new String(charset.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("out_trade_no",new String(out_trade_no.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("method",new String(method.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("total_amount",new String(total_amount.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("sign",new String(sign.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("trade_no",new String(trade_no.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("auth_app_id",new String(auth_app_id.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("version",new String(version.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("app_id",new String(app_id.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("sign_type",new String(sign_type.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("seller_id",new String(seller_id.getBytes("ISO-8859-1"), "utf-8"));
+        params.put("timestamp",new String(timestamp.getBytes("ISO-8859-1"), "utf-8"));
+
+
+
+//        Map requestParams = request.getParameterMap();
+//        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+//            String name = (String) iter.next();
+//            String[] values = (String[]) requestParams.get(name);
+//            String valueStr = "";
+//            for (int i = 0; i < values.length; i++) {
+//                valueStr = (i == values.length - 1) ? valueStr + values[i]
+//                        : valueStr + values[i] + ",";
+//            }
+//            //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+//            valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+//            params.put(name, valueStr);
+//        }
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
         //商户订单号
 
-        String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        //String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 
         //支付宝交易号
 
-        String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        //String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
         //计算得出通知验证结果
