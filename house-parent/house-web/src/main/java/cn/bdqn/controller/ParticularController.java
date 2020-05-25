@@ -4,7 +4,6 @@ import cn.bdqn.domain.Particular;
 import cn.bdqn.exception.MyException;
 import cn.bdqn.service.ParticularService;
 import cn.bdqn.utils.Result;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
