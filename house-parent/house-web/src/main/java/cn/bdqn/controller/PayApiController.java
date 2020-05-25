@@ -1,12 +1,18 @@
 package cn.bdqn.controller;
 
 import alipay.config.AlipayConfig;
+import cn.bdqn.domain.House;
+import cn.bdqn.domain.Record;
+import cn.bdqn.domain.User;
+import cn.bdqn.service.RecordService;
+import cn.bdqn.service.impl.RecordServiceImpl;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +29,9 @@ import java.util.Map;
 @RequestMapping("/payApiController")
 @Controller
 public class PayApiController {
+
+    @Autowired
+    RecordService service;
 
     @RequestMapping("/Pay")
     public String pay(HttpServletRequest request, HttpServletResponse response)throws Exception{
@@ -141,6 +151,27 @@ public class PayApiController {
         //boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
         boolean verify_result = AlipaySignature.rsaCheckV1(params, AlipayConfig.ALIPAY_PUBLIC_KEY, AlipayConfig.CHARSET, "RSA2");
 
+        Record record = new Record();
+        record.setRecord(out_trade_no);
+        User user = new User();
+        user.setUserName("张三");
+        record.setPayeeUser(user);
+        record.setPayerName(user.getUserName());
+        User user1 = new User();
+        user1.setUserName("李四");
+        record.setPayeeUser(user1);
+        record.setPayeeName(user1.getUserName());
+        House house = new House();
+        house.setHouseName("温馨的家");
+        record.setHouse(house);
+        record.setHouseName(house.getHouseName());
+        record.setDealTime(new Date());
+        record.setDealMoney(BigDecimal.valueOf(1000));
+        record.setDealState(1);
+        record.setState(0);
+
+        service.save(record);
+
         if(verify_result){//验证成功
             //////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代码
@@ -214,6 +245,25 @@ public class PayApiController {
         params.put("timestamp",new String(timestamp.getBytes("ISO-8859-1"), "utf-8"));
 
 
+        Record record = new Record();
+        record.setRecord(out_trade_no);
+        User user = new User();
+        user.setUserName("张三");
+        record.setPayeeUser(user);
+        record.setPayerName(user.getUserName());
+        User user1 = new User();
+        user1.setUserName("李四");
+        record.setPayeeUser(user1);
+        record.setPayeeName(user1.getUserName());
+        House house = new House();
+        house.setHouseName("温馨的家");
+        record.setHouse(house);
+        record.setHouseName(house.getHouseName());
+        record.setDealTime(new Date());
+        record.setDealMoney(BigDecimal.valueOf(1000));
+        record.setDealState(1);
+        record.setState(0);
+
 
 //        Map requestParams = request.getParameterMap();
 //        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
@@ -250,6 +300,8 @@ public class PayApiController {
 //            out.clear();
 //            out.println("验证成功<br />");
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+
+            service.save(record);
             System.out.println("验证成功");
 
             //////////////////////////////////////////////////////////////////////////////////////////
@@ -257,6 +309,8 @@ public class PayApiController {
             //该页面可做页面美工编辑
 //            out.clear();
 //            out.println("验证失败");
+            record.setDealState(0);
+            service.save(record);
             System.out.println("验证失败");
         }
         return "";
