@@ -19,4 +19,7 @@ public interface ChatListService {
 
     //    更新会话列表
     void updateChat(ChatList record);
+
+//    清空未读消息
+    public void updateChatList(Integer sendUserId, Integer receptionUserId,Integer chatListId);
 }

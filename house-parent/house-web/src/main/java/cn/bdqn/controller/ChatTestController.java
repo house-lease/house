@@ -64,4 +64,24 @@ public class ChatTestController {
 
     }
 
+//    修改状态
+    @RequestMapping("/updateChatListViewState")
+    @ResponseBody
+    public Result updateChatListViewState(Integer sendUserId, Integer receptionUserId,Integer chatListId){
+
+        Result result = new Result();
+
+        try {
+//            更新
+            chatListService.updateChatList(sendUserId,receptionUserId,chatListId);
+            result.setData(true);
+            result.setMessage("更新成功");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setData(false);
+            result.setMessage("更新失败");
+            return result;
+        }
+    }
 }

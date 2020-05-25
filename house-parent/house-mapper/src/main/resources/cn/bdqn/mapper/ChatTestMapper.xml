@@ -8,13 +8,14 @@
     <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
     <result column="view_state" property="viewState" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="send_time_String" property="sendTimeString"/>
     <!--用户表关系映射-->
     <association property="sendUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="send_user_id"/>
     <!--用户表关系映射-->
     <association property="receptionUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="reception_user_id"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, is_my_you, send_user_id, reception_user_id, message, send_time, view_state, state
+    id, is_my_you, send_user_id, reception_user_id, message, send_time, view_state, state,send_time_String
   </sql>
 
 <!--  查询聊天记录-->
@@ -33,14 +34,13 @@
 <!--  查询用户未读消息-->
   <select id="selectViewState" resultType="java.lang.Integer">
     select
-    <include refid="Base_Column_List"/>
+    count(id)
     from t_chat_test
     where ((send_user_id = #{sendUserId}
     AND reception_user_id = #{receptionUserId})
     OR  (send_user_id = #{receptionUserId}
     AND reception_user_id = #{sendUserId}))
     AND state = 0 and view_state = 1
-    ORDER BY send_time
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -48,100 +48,17 @@
     from t_chat_test
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_chat_test
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+<!--添加-->
   <insert id="insert" parameterType="cn.bdqn.domain.ChatTest" >
     insert into t_chat_test (id, is_my_you, send_user_id, 
       reception_user_id, message, send_time, 
-      view_state, state)
+      view_state, state,send_time_String)
     values (#{id,jdbcType=INTEGER}, #{isMyYou,jdbcType=INTEGER}, #{sendUser.id,jdbcType=INTEGER},
       #{receptionUser.id,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
-      #{viewState,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
+      #{viewState,jdbcType=INTEGER}, #{state,jdbcType=INTEGER},#{sendTimeString})
   </insert>
-  <insert id="insertSelective" parameterType="cn.bdqn.domain.ChatTest" >
-    insert into t_chat_test
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="isMyYou != null" >
-        is_my_you,
-      </if>
-      <if test="sendUser.id != null" >
-        send_user_id,
-      </if>
-      <if test="receptionUser.id != null" >
-        reception_user_id,
-      </if>
-      <if test="message != null" >
-        message,
-      </if>
-      <if test="sendTime != null" >
-        send_time,
-      </if>
-      <if test="viewState != null" >
-        view_state,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="isMyYou != null" >
-        #{isMyYou,jdbcType=INTEGER},
-      </if>
-      <if test="sendUser.id != null" >
-        #{sendUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="receptionUser.id != null" >
-        #{receptionUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="message != null" >
-        #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="sendTime != null" >
-        #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="viewState != null" >
-        #{viewState,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.ChatTest" >
-    update t_chat_test
-    <set >
-      <if test="isMyYou != null" >
-        is_my_you = #{isMyYou,jdbcType=INTEGER},
-      </if>
-      <if test="sendUser.id != null" >
-        send_user_id = #{sendUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="receptionUser.id != null" >
-        reception_user_id = #{receptionUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="message != null" >
-        message = #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="sendTime != null" >
-        send_time = #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="viewState != null" >
-        view_state = #{viewState,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+
 
   <update id="updateViewState" >
     update t_chat_test

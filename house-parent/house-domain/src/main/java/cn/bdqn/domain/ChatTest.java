@@ -12,14 +12,23 @@ public class ChatTest {
     //接收用户
     private User receptionUser;
 
-
     private String message;
 
     private Date sendTime;
 
+    private String sendTimeString;
+
     private Integer viewState;
 
     private Integer state;
+
+    public String getSendTimeString() {
+        return sendTimeString;
+    }
+
+    public void setSendTimeString(String sendTimeString) {
+        this.sendTimeString = sendTimeString;
+    }
 
     public Integer getId() {
         return id;
@@ -85,5 +94,21 @@ public class ChatTest {
 
     public void setReceptionUser(User receptionUser) {
         this.receptionUser = receptionUser;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ChatTest{" +
+                "id=" + id +
+                ", isMyYou=" + isMyYou +
+                ", sendUser=" + sendUser +
+                ", receptionUser=" + receptionUser +
+                ", message='" + message + '\'' +
+                ", sendTime=" + sendTime +
+                ", sendTimeString='" + sendTimeString + '\'' +
+                ", viewState=" + viewState +
+                ", state=" + state +
+                '}';
     }
 }

@@ -99,7 +99,7 @@
         <if test="address != null">
           and address like concat('%',#{address},'%')
         </if>
-        and state=0
+        and state=0 and residue_room > 0
     </where>
 
   </select>

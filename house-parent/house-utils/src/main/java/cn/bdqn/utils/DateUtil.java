@@ -34,7 +34,17 @@ public class DateUtil {
      * @return
      */
     public static String date2String(Date date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // 日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); // 日期格式
+        return dateFormat.format(date);
+    }
+
+    /**
+     * 时间转字符串
+     * @param date
+     * @return
+     */
+    public static String date2StringTime(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm"); // 日期格式
         return dateFormat.format(date);
     }
 

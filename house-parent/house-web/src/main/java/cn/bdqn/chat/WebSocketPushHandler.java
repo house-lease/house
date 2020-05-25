@@ -8,11 +8,13 @@ import cn.bdqn.service.ChatListService;
 import cn.bdqn.service.ChatService;
 import cn.bdqn.service.ChatTestService;
 import cn.bdqn.service.UserService;
+import cn.bdqn.utils.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
+import sun.plugin.com.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class WebSocketPushHandler implements WebSocketHandler {
         JSONObject jsonObject = JSONObject.parseObject(message.getPayload().toString());
         chat.setMessage((String)jsonObject.get("message"));
         chat.setSendTime(new Date());
+        chat.setSendTimeString(DateUtil.date2String(new Date()));
         chat.setState(0);
         String sendUserId = (String) jsonObject.get("sendUser");
         String receptionUser = (String)jsonObject.get("receptionUser");
@@ -85,6 +88,8 @@ public class WebSocketPushHandler implements WebSocketHandler {
             chatList.setMessage(chat.getMessage());
             chatList.setUnread(count);
             chatList.setSendTime(new Date());
+            chatList.setSendTimeString(DateUtil.date2StringTime(new Date()));
+            chatList.setTheSendUserId(chat.getSendUser().getId());
             chatListService.updateChat(chatList);
         }else {
             chatList = new ChatList();
@@ -92,7 +97,9 @@ public class WebSocketPushHandler implements WebSocketHandler {
             chatList.setReceptionUser(chat.getReceptionUser());
             chatList.setMessage(chat.getMessage());
             chatList.setSendTime(new Date());
+            chatList.setSendTimeString(DateUtil.date2StringTime(new Date()));
             chatList.setState(0);
+            chatList.setTheSendUserId(chat.getSendUser().getId());
             chatList.setUnread(count);
 //        添加会话列表
             chatListService.save(chatList);

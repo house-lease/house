@@ -8,13 +8,15 @@
     <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
     <result column="unread" property="unread" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="send_time_String" property="sendTimeString"/>
+    <result column="the_send_user_Id" property="theSendUserId"/>
     <!--用户表关系映射-->
     <association property="sendUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="send_user_id"/>
     <!--用户表关系映射-->
     <association property="receptionUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="reception_user_id"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, send_user_id, reception_user_id, message, send_time, unread, state
+    id, send_user_id, reception_user_id, message, send_time, unread, state,send_time_String,the_send_user_Id
   </sql>
 
 <!--  查询会话列表-->
@@ -26,6 +28,7 @@
     AND reception_user_id = #{receptionUserId})
     OR  (send_user_id = #{receptionUserId}
     AND reception_user_id = #{sendUserId})) and state = 0
+    ORDER BY send_time
   </select>
 
 <!-- 查询全部的会话列表-->
@@ -51,84 +54,13 @@
   <insert id="insert" parameterType="cn.bdqn.domain.ChatList" >
     insert into t_chat_list (id, send_user_id, reception_user_id, 
       message, send_time, unread, 
-      state)
+      state,send_time_String,the_send_user_Id)
     values (#{id,jdbcType=INTEGER}, #{sendUser.id,jdbcType=INTEGER}, #{receptionUser.id,jdbcType=INTEGER},
       #{message,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{unread,jdbcType=INTEGER}, 
-      #{state,jdbcType=INTEGER})
+      #{state,jdbcType=INTEGER},#{sendTimeString},#{theSendUserId})
   </insert>
-  <insert id="insertSelective" parameterType="cn.bdqn.domain.ChatList" >
-    insert into t_chat_list
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="sendUser.id != null" >
-        send_user_id,
-      </if>
-      <if test="receptionUser.id != null" >
-        reception_user_id,
-      </if>
-      <if test="message != null" >
-        message,
-      </if>
-      <if test="sendTime != null" >
-        send_time,
-      </if>
-      <if test="unread != null" >
-        unread,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="sendUserId != null" >
-        #{sendUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="receptionUserId != null" >
-        #{receptionUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="message != null" >
-        #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="sendTime != null" >
-        #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="unread != null" >
-        #{unread,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.ChatList" >
-    update t_chat_list
-    <set >
-      <if test="sendUser.id != null" >
-        send_user_id = #{sendUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="receptionUser.id != null" >
-        reception_user_id = #{receptionUser.id,jdbcType=INTEGER},
-      </if>
-      <if test="message != null" >
-        message = #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="sendTime != null" >
-        send_time = #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="unread != null" >
-        unread = #{unread,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+
 <!--  更新-->
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.ChatList" >
     update t_chat_list
@@ -137,7 +69,9 @@
       message = #{message,jdbcType=VARCHAR},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       unread = #{unread,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER}
+      state = #{state,jdbcType=INTEGER},
+      send_time_String = #{sendTimeString},
+      the_send_user_Id = #{theSendUserId}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

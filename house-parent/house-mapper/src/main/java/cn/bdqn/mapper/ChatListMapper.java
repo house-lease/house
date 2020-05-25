@@ -15,17 +15,14 @@ public interface ChatListMapper {
     public List<ChatList> selectAll(Integer userId);
 
 
-    int deleteByPrimaryKey(Integer id);
 
 //    添加会话列表
     void insert(ChatList record);
 
 
-    int insertSelective(ChatList record);
-
+//查询
     ChatList selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(ChatList record);
 
 //    更新会话列表
     void updateByPrimaryKey(ChatList record);

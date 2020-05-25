@@ -16,9 +16,30 @@ public class ChatList {
 
     private Date sendTime;
 
+    private String sendTimeString;
+
     private Integer unread;
 
     private Integer state;
+
+//    最后发送用户的id
+    private Integer theSendUserId;
+
+    public Integer getTheSendUserId() {
+        return theSendUserId;
+    }
+
+    public void setTheSendUserId(Integer theSendUserId) {
+        this.theSendUserId = theSendUserId;
+    }
+
+    public String getSendTimeString() {
+        return sendTimeString;
+    }
+
+    public void setSendTimeString(String sendTimeString) {
+        this.sendTimeString = sendTimeString;
+    }
 
     public Integer getId() {
         return id;
