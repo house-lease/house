@@ -45,7 +45,7 @@ public class uploadFileController {
             // 文件上传
             image.transferTo(new File(destPath,originalFilename));
             //封装数据
-            houseImage.setImageUrl("http://182.92.168.223:8080/house/image/"+originalFilename);
+            houseImage.setImageUrl("http://182.92.168.223/house/image/"+originalFilename);
             houseImage.setState(0);
             //添加对象
             houseImageService.save(houseImage,houseId,imagePlaceId);

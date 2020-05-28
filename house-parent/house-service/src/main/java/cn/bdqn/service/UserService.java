@@ -45,4 +45,6 @@ public interface UserService {
      */
     public User authentication(Integer userId, String imageName);
 
+//    短信验证
+    public String verification(String phone);
 }

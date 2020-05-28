@@ -79,20 +79,27 @@ public class UserServiceImpl implements UserService {
         //获得openid
         String openId = (String)jsonObject.get("openid");
         //根据openid查询用户
-        User user = this.queryByOpenId(openId);
-        if (user==null){
-            User user1 = new User();
-            user1.setNickname(nickName);
-            user1.setSex(sex);
-            user1.setOpenId(openId);
-            user1.setImageUrl(image_url);
-            user1.setRegisterTime(new Date());
-            user1.setState(0);
-            //添加新用户
-            this.save(user1);
-            return user1;
+
+        if(openId!=null){
+            User user = this.queryByOpenId(openId);
+            if (user==null){
+                User user1 = new User();
+                user1.setNickname(nickName);
+                user1.setSex(sex);
+                user1.setOpenId(openId);
+                user1.setImageUrl(image_url);
+                user1.setRegisterTime(new Date());
+                user1.setState(0);
+                //添加新用户
+                this.save(user1);
+                return user1;
+            }
+            return user;
+        }else {
+            return null;
         }
-        return user;
+
+
     }
 
 
@@ -146,4 +153,52 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+//    短信验证
+    public String verification(String phone){
+
+        String host = "https://feginesms.market.alicloudapi.com";
+        String path = "/codeNotice";
+        String method = "GET";
+        String appcode = "e5cd97bb1e904429a0daf5b9b616431b";//阿里云appCode
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<String, String>();
+        //这里是验证码哈
+        querys.put("param", "66666");
+        //然后这里是手机号
+        querys.put("phone", phone);
+        //签名编号【联系旺旺客服申请，测试请用1】
+        querys.put("sign", "1");
+        //模板编号【联系旺旺客服申请，测试请用1~21】
+        querys.put("skin", "1");
+        //JDK 1.8示例代码请在这里下载：  http://code.fegine.com/Tools.zip
+
+        try {
+            /**
+             * 重要提示如下:
+             * HttpUtils请从
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+             * 或者直接下载：
+             * http://code.fegine.com/HttpUtils.zip
+             * 下载
+             *
+             * 相应的依赖请参照
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+             * 相关jar包（非pom）直接下载：
+             * http://code.fegine.com/aliyun-jar.zip
+             */
+            HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+            //System.out.println(response.toString());如不输出json, 请打开这行代码，打印调试头部状态码。
+            //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+            //获取response的body
+            System.out.println(EntityUtils.toString(response.getEntity()));
+            return "";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
 }
