@@ -117,4 +117,14 @@
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 添加房东认证信息-->
+  <insert id="insertInfo" parameterType="cn.bdqn.domain.Apply" >
+    insert into t_apply (user_id, user_name,
+      user_phone, house_image_url, cash,
+      state)
+    values (#{user.id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
+      #{userPhone,jdbcType=VARCHAR}, #{houseImageUrl,jdbcType=VARCHAR},#{cash,jdbcType=INTEGER},
+      #{state,jdbcType=INTEGER}
+      )
+  </insert>
 </mapper>
