@@ -18,7 +18,8 @@ public class TestUser {
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
         //这里是验证码哈
-        querys.put("param", "66666");
+        Long param =  Math.round((Math.random()+1) * 1000);
+        querys.put("param", param.toString());
         //然后这里是手机号
         querys.put("phone", "18736823860");
         //签名编号【联系旺旺客服申请，测试请用1】
@@ -49,6 +50,7 @@ public class TestUser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 }

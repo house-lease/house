@@ -14,6 +14,14 @@
   <sql id="Base_Column_List" >
     id, user_id, house_id, browse_time, state
   </sql>
+
+<!--  根据用户id和房屋id查询该用户是否收藏该房屋-->
+  <select id="selectByUserIdAndHouseId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_browse
+    where user_id=#{userId} and house_id=#{houseId} and state=0
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

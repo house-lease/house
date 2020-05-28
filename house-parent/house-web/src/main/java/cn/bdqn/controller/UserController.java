@@ -1,9 +1,12 @@
 package cn.bdqn.controller;
 
 import cn.bdqn.domain.HouseImage;
+import cn.bdqn.domain.Money;
 import cn.bdqn.domain.User;
 import cn.bdqn.service.UserService;
 import cn.bdqn.utils.Result;
+import com.sun.org.apache.regexp.internal.RE;
+import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -58,5 +61,63 @@ public class UserController {
 
     }
 
+//    短信验证
+    @RequestMapping("/phoneVerification")
+    @ResponseBody
+    public Result phoneVerification(String phone){
+
+        Result result = new Result();
+        try {
+//            发送验证码
+            String  verification = userService.verification(phone);
+            result.setData(verification);
+            result.setMessage("成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setData(null);
+            result.setMessage("失败~");
+            return result;
+        }
+    }
+
+//    绑定手机号的方法
+    @RequestMapping("/bindingPhone")
+    @ResponseBody
+    public Result bindingPhone(Integer userId,String phone){
+
+        Result result = new Result();
+        try {
+            User user = userService.bindingPhone(userId,phone);
+            result.setData(user);
+            result.setMessage("绑定成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("绑定失败");
+            return result;
+        }
+    }
+
+    /**
+     * 查询用户可用资金
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/queryMoney")
+    @ResponseBody
+    public Result queryMoney(Integer userId){
+        Result result = new Result();
+        try {
+            Money money = userService.queryUserMoney(userId);
+            result.setData(money);
+            result.setMessage("查询成功！");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("查询失败");
+            return result;
+        }
+    }
 
 }

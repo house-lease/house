@@ -1,5 +1,6 @@
 package cn.bdqn.service;
 
+import cn.bdqn.domain.Money;
 import cn.bdqn.domain.User;
 
 /**
@@ -47,4 +48,10 @@ public interface UserService {
 
 //    短信验证
     public String verification(String phone);
+
+//    绑定手机号
+    public User bindingPhone(Integer userId,String phone);
+
+//    根据用户id查询用户可用余额
+    public Money queryUserMoney(Integer userId);
 }

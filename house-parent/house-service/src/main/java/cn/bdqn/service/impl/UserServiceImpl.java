@@ -154,6 +154,7 @@ public class UserServiceImpl implements UserService {
     }
 
 //    短信验证
+    @Override
     public String verification(String phone){
 
         String host = "https://feginesms.market.alicloudapi.com";
@@ -164,8 +165,10 @@ public class UserServiceImpl implements UserService {
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
+//        生成验证码
+        Long param = Math.round((Math.random()+1) * 1000);
         //这里是验证码哈
-        querys.put("param", "66666");
+        querys.put("param", param.toString());
         //然后这里是手机号
         querys.put("phone", phone);
         //签名编号【联系旺旺客服申请，测试请用1】
@@ -192,13 +195,40 @@ public class UserServiceImpl implements UserService {
             //System.out.println(response.toString());如不输出json, 请打开这行代码，打印调试头部状态码。
             //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
             //获取response的body
-            System.out.println(EntityUtils.toString(response.getEntity()));
-            return "";
+            String message = EntityUtils.toString(response.getEntity());
+            System.out.println(message);
+            //转换为json
+            JSONObject jsonObject = JSONObject.parseObject(message);
+            String ok =  (String) jsonObject.get("Message");
+            if ("OK".equals(ok)){
+                return param.toString();
+            }else {
+                return null;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
 
+//    绑定手机号
+    @Override
+    public User bindingPhone(Integer userId, String phone) {
 
+        User user = this.queryByUserId(userId);
+        user.setPhone(phone);
+//        更新用户信息
+        userMapper.updateByPrimaryKey(user);
+//        返回最新用户信息
+        return user;
+    }
+
+//    查询该用户可用余额
+    @Override
+    public Money queryUserMoney(Integer userId) {
+//        查询该用户可用账户余额
+        Money money = moneyMapper.selectByUerId(userId);
+        return money;
     }
 }
