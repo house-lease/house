@@ -8,6 +8,6 @@ public interface ApplyService {
     /**
      * 添加房东认证信息
      */
-    public void addInfo(Apply apply);
+    public boolean addInfo(Apply apply);
 
 }

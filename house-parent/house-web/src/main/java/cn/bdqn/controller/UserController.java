@@ -120,4 +120,21 @@ public class UserController {
         }
     }
 
+
+    @RequestMapping("/queryByUserId")
+    @ResponseBody
+    public Result queryByUserId(Integer userId){
+
+        Result result = new Result();
+        try {
+            User user = userService.queryByUserId(userId);
+            result.setData(user);
+            result.setMessage("查询成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("失败~");
+            return result;
+        }
+    }
 }

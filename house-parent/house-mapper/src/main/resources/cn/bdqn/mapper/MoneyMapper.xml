@@ -33,7 +33,7 @@
     update t_money
     set
       money = #{money,jdbcType=DECIMAL}
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{user.id,jdbcType=INTEGER}
   </update>
 
 <!--  添加对象-->

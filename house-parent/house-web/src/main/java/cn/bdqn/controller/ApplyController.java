@@ -37,7 +37,7 @@ public class ApplyController {
         try{
             String url = "";
             // 1、得到文件上传的路径
-            String path = request.getServletContext().getRealPath("/image/");
+            String path = request.getServletContext().getRealPath("/property/");
             File destPath = new File(path);
             if(!destPath.exists()){
                 destPath.mkdirs();
@@ -47,7 +47,7 @@ public class ApplyController {
             // 文件上传
             houseImageUrl.transferTo(new File(destPath,originalFilename));
             //获取路径字符串
-            url = "http://182.92.168.223/house/image/"+originalFilename;
+            url = "http://localhouse:8080/house/property/"+originalFilename;
             //添加对象属性
             apply.setUser(user);
             apply.setUserName(user.getUserName());
@@ -57,14 +57,18 @@ public class ApplyController {
             apply.setCash(1);
 
             //向数据库添加认证信息
-            applyService.addInfo(apply);
-            result.setData(true);
-            result.setMessage("上传成功~");
+            boolean flag = applyService.addInfo(apply);
+            result.setData(flag);
+            if (flag){
+                result.setMessage("正在处理申请");
+            }else {
+                result.setMessage("账户余额不足");
+            }
             return result;
         }catch (Exception e){
             e.printStackTrace();
             result.setData(false);
-            result.setMessage("上传失败~");
+            result.setMessage("网络错误~");
             return result;
         }
 
