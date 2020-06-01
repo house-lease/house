@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service("applyServiceImpl")
 public class ApplyServiceImpl implements ApplyService {
@@ -32,5 +33,11 @@ public class ApplyServiceImpl implements ApplyService {
         }
         return false;
 
+    }
+
+//    根据用户id查询用户申请房东的状态
+    @Override
+    public List<Apply> queryByUserId(Integer userId) {
+        return mapper.selectByUserId(userId);
     }
 }

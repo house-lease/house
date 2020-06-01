@@ -4,32 +4,46 @@
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.Record" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="record" property="record" jdbcType="VARCHAR" />
-    <result column="payer_id" property="payerId" jdbcType="INTEGER" />
     <result column="payer_name" property="payerName" jdbcType="VARCHAR" />
-    <result column="payee_id" property="payeeId" jdbcType="INTEGER" />
     <result column="payee_name" property="payeeName" jdbcType="VARCHAR" />
-    <result column="house_id" property="houseId" jdbcType="INTEGER" />
     <result column="house_name" property="houseName" jdbcType="VARCHAR" />
     <result column="deal_time" property="dealTime" jdbcType="TIMESTAMP" />
     <result column="deal_money" property="dealMoney" jdbcType="DECIMAL" />
     <result column="deal_state" property="dealState" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <association property="payerUser" column="payer_id" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey"/>
+    <association property="payeeUser" column="payee_id" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey"/>
+    <association property="house" column="house_id" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, record, payer_id, payer_name, payee_id, payee_name, house_id, house_name, deal_time, 
     deal_money, deal_state, state
   </sql>
+
+<!--  根据付款人id查询-->
+  <select id="selectByPayerUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_record
+    where payer_id = #{payerUserId} and state =0
+    order by deal_time desc
+  </select>
+
+<!--  根据订单id查询-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_record
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
+<!--  添加订单-->
   <insert id="insert" parameterType="cn.bdqn.domain.Record" >
     insert into t_record (id, record, payer_id, 
       payer_name, payee_id, payee_name, 
@@ -43,105 +57,27 @@
       )
   </insert>
 
-  <insert id="insertSelective" parameterType="cn.bdqn.domain.Record" >
-    insert into t_record
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="record != null" >
-        record,
-      </if>
-      <if test="payerId != null" >
-        payer_id,
-      </if>
-      <if test="payerName != null" >
-        payer_name,
-      </if>
-      <if test="payeeId != null" >
-        payee_id,
-      </if>
-      <if test="payeeName != null" >
-        payee_name,
-      </if>
-      <if test="houseId != null" >
-        house_id,
-      </if>
-      <if test="houseName != null" >
-        house_name,
-      </if>
-      <if test="dealTime != null" >
-        deal_time,
-      </if>
-      <if test="dealMoney != null" >
-        deal_money,
-      </if>
-      <if test="dealState != null" >
-        deal_state,
-      </if>
-      <if test="state != null" >
-        state,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="record != null" >
-        #{record,jdbcType=VARCHAR},
-      </if>
-      <if test="payerId != null" >
-        #{payerId,jdbcType=INTEGER},
-      </if>
-      <if test="payerName != null" >
-        #{payerName,jdbcType=VARCHAR},
-      </if>
-      <if test="payeeId != null" >
-        #{payeeId,jdbcType=INTEGER},
-      </if>
-      <if test="payeeName != null" >
-        #{payeeName,jdbcType=VARCHAR},
-      </if>
-      <if test="houseId != null" >
-        #{houseId,jdbcType=INTEGER},
-      </if>
-      <if test="houseName != null" >
-        #{houseName,jdbcType=VARCHAR},
-      </if>
-      <if test="dealTime != null" >
-        #{dealTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="dealMoney != null" >
-        #{dealMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="dealState != null" >
-        #{dealState,jdbcType=INTEGER},
-      </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Record" >
     update t_record
     <set >
       <if test="record != null" >
         record = #{record,jdbcType=VARCHAR},
       </if>
-      <if test="payerId != null" >
-        payer_id = #{payerId,jdbcType=INTEGER},
+      <if test="payerUser.id != null" >
+        payer_id = #{payerUser.id,jdbcType=INTEGER},
       </if>
       <if test="payerName != null" >
         payer_name = #{payerName,jdbcType=VARCHAR},
       </if>
-      <if test="payeeId != null" >
-        payee_id = #{payeeId,jdbcType=INTEGER},
+      <if test="payeeUser.id != null" >
+        payee_id = #{payeeUser.id,jdbcType=INTEGER},
       </if>
       <if test="payeeName != null" >
         payee_name = #{payeeName,jdbcType=VARCHAR},
       </if>
-      <if test="houseId != null" >
-        house_id = #{houseId,jdbcType=INTEGER},
+      <if test="house.id != null" >
+        house_id = #{house.id,jdbcType=INTEGER},
       </if>
       <if test="houseName != null" >
         house_name = #{houseName,jdbcType=VARCHAR},
@@ -164,16 +100,24 @@
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.Record" >
     update t_record
     set record = #{record,jdbcType=VARCHAR},
-      payer_id = #{payerId,jdbcType=INTEGER},
+      payer_id = #{payerUser.id,jdbcType=INTEGER},
       payer_name = #{payerName,jdbcType=VARCHAR},
-      payee_id = #{payeeId,jdbcType=INTEGER},
+      payee_id = #{payeeUser.id,jdbcType=INTEGER},
       payee_name = #{payeeName,jdbcType=VARCHAR},
-      house_id = #{houseId,jdbcType=INTEGER},
+      house_id = #{house.id,jdbcType=INTEGER},
       house_name = #{houseName,jdbcType=VARCHAR},
       deal_time = #{dealTime,jdbcType=TIMESTAMP},
       deal_money = #{dealMoney,jdbcType=DECIMAL},
       deal_state = #{dealState,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+<!--  根据订单id修改状态-->
+  <update id="updateDealState">
+    update t_record
+    set deal_state = #{dealState}
+    where id = #{id}
   </update>
 </mapper>

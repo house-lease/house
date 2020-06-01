@@ -22,6 +22,16 @@ public class Apply {
     //认证状态 0已认证 1未认证
     private Integer state;
 
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public Integer getId() {
         return id;
     }

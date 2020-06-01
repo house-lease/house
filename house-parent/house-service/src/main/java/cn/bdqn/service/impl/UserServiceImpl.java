@@ -8,6 +8,7 @@ import cn.bdqn.mapper.UserMapper;
 import cn.bdqn.service.UserService;
 import cn.bdqn.utils.HttpClientUtil;
 import cn.bdqn.utils.HttpUtils;
+import cn.bdqn.utils.UrlUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -90,6 +91,7 @@ public class UserServiceImpl implements UserService {
                 user1.setImageUrl(image_url);
                 user1.setRegisterTime(new Date());
                 user1.setState(0);
+                user1.setLandlord(0);
                 //添加新用户
                 this.save(user1);
                 return user1;
@@ -119,7 +121,7 @@ public class UserServiceImpl implements UserService {
         Map<String, String> bodys = new HashMap<String, String>();
         //改这里
         //这里是图片路径
-        bodys.put("image", "http://182.92.168.223:8080/house/idCard/"+imageName);
+        bodys.put("image", UrlUtil.LINUX_URL+"/house/idCard/"+imageName);
         //或者base64
         //bodys.put("image", "data:image/jpeg;base64,........");   //jpg图片
         //bodys.put("image", "data:image/png;base64,........");   //png图片

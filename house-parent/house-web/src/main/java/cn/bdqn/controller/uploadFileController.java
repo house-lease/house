@@ -4,7 +4,9 @@ import cn.bdqn.domain.HouseImage;
 import cn.bdqn.domain.User;
 import cn.bdqn.service.HouseImageService;
 import cn.bdqn.service.UserService;
+import cn.bdqn.utils.DateUtil;
 import cn.bdqn.utils.Result;
+import cn.bdqn.utils.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +47,7 @@ public class uploadFileController {
             // 文件上传
             image.transferTo(new File(destPath,originalFilename));
             //封装数据
-            houseImage.setImageUrl("http://182.92.168.223/house/image/"+originalFilename);
+            houseImage.setImageUrl(UrlUtil.LINUX_URL+"/house/image/"+originalFilename);
             houseImage.setState(0);
             //添加对象
             houseImageService.save(houseImage,houseId,imagePlaceId);

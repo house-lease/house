@@ -121,6 +121,8 @@ public class UserController {
     }
 
 
+
+//    根据用户id查询用户
     @RequestMapping("/queryByUserId")
     @ResponseBody
     public Result queryByUserId(Integer userId){

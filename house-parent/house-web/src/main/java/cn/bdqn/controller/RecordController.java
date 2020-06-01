@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +41,46 @@ public class RecordController {
     }
 
 
+    /**
+     * 根据付款用户id查询
+     * @param payerUserId
+     * @return
+     */
+    @RequestMapping("/queryByPayerUserId")
+    @ResponseBody
+    public Result queryByPayerUserId(Integer payerUserId){
+
+        Result result = new Result();
+        try {
+            List<Record> records = recordService.queryByPayerUserId(payerUserId);
+            result.setData(records);
+            result.setMessage("查询成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("失败");
+            return result;
+        }
+    }
+
+
+    @RequestMapping("/updateDealState")
+    @ResponseBody
+    public Result updateDealState(Integer userId,Integer id,Integer dealState){
+
+        Result result = new Result();
+        try {
+//            修改状态
+            List<Record> records = recordService.updateDealState(userId,id,dealState);
+            result.setData(records);
+            result.setMessage("修改成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("失败");
+            return result;
+        }
+    }
 
 
 }

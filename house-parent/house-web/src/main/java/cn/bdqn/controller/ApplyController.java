@@ -6,6 +6,7 @@ import cn.bdqn.domain.User;
 import cn.bdqn.service.ApplyService;
 import cn.bdqn.service.UserService;
 import cn.bdqn.utils.Result;
+import cn.bdqn.utils.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.List;
 
 @Controller
 @RequestMapping("/apply")
@@ -47,7 +49,7 @@ public class ApplyController {
             // 文件上传
             houseImageUrl.transferTo(new File(destPath,originalFilename));
             //获取路径字符串
-            url = "http://localhouse:8080/house/property/"+originalFilename;
+            url = UrlUtil.LINUX_URL+ "/house/property/"+originalFilename;
             //添加对象属性
             apply.setUser(user);
             apply.setUserName(user.getUserName());
@@ -73,5 +75,28 @@ public class ApplyController {
         }
 
     }
+
+    /**
+     * 根据用户id查询
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/queryByUserId")
+    @ResponseBody
+    public Result queryByUserId(Integer userId){
+        Result result = new Result();
+        try {
+            List<Apply> applies = applyService.queryByUserId(userId);
+            result.setData(applies);
+            result.setMessage("查询成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("查询失败");
+            return result;
+        }
+
+    }
+
 
 }

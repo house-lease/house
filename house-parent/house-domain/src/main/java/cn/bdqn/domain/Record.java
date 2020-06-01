@@ -63,16 +63,6 @@ public class Record {
         this.record = record == null ? null : record.trim();
     }
 
-    public String getPayerName() {
-
-        return payerName == null ? this.payerUser.getUserName() : null;
-    }
-
-    public void setPayerName(String payerName) {
-
-        this.payerName = payerName == null ? null : payerName.trim();
-    }
-
     public User getPayerUser() {
         return payerUser;
     }
@@ -97,25 +87,6 @@ public class Record {
         this.house = house;
     }
 
-    public String getPayeeName()
-    {
-        return payeeName == null ? this.payeeUser.getUserName() : null;
-    }
-
-    public void setPayeeName(String payeeName) {
-        this.payeeName = payeeName == null ? null : payeeName.trim();
-    }
-
-
-
-    public String getHouseName() {
-
-        return houseName == null ? this.getHouse().getHouseName() : null;
-    }
-
-    public void setHouseName(String houseName) {
-        this.houseName = houseName == null ? null : houseName.trim();
-    }
 
     public Date getDealTime() {
         return dealTime;
@@ -147,6 +118,30 @@ public class Record {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPayerName() {
+        return payerName;
+    }
+
+    public void setPayerName(String payerName) {
+        this.payerName = payerName;
+    }
+
+    public String getPayeeName() {
+        return payeeName;
+    }
+
+    public void setPayeeName(String payeeName) {
+        this.payeeName = payeeName;
+    }
+
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
     }
 
     @Override
