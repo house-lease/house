@@ -22,4 +22,14 @@ public class StartServiceImpl implements StartService {
     public List<Start> queryAll() {
         return startMapper.selectAll();
     }
+
+    /**
+     * 根据起租时间查询
+     * @param startValue
+     * @return
+     */
+    @Override
+    public List<Start> queryByStartValue(Integer startValue) {
+        return startMapper.selectByStartValue(startValue);
+    }
 }

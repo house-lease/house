@@ -33,4 +33,21 @@ public class StartController {
             return result;
         }
     }
+
+    @RequestMapping("/queryByStartValue")
+    @ResponseBody
+    public Result queryByStartValue(Integer starValue){
+        Result result = new Result();
+        try {
+            List<Start> starts = startService.queryByStartValue(starValue);
+            result.setData(starts);
+            result.setMessage("查询成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("查询失败");
+            return result;
+        }
+    }
+
 }

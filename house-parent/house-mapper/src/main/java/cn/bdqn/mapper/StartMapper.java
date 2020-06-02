@@ -14,6 +14,14 @@ public interface StartMapper {
     public List<Start> selectAll();
 
 
+    /**
+     * 根据起租时间查询
+     * @param startValue
+     * @return
+     */
+    public List<Start> selectByStartValue(Integer startValue);
+
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Start record);

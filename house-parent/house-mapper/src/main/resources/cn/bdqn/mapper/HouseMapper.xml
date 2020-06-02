@@ -331,11 +331,11 @@
 
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.House" >
     update t_house
-    set user_id = #{userId,jdbcType=INTEGER},
+    set user_id = #{user.id,jdbcType=INTEGER},
       user_name = #{userName,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=DOUBLE},
       longitude = #{longitude,jdbcType=DOUBLE},
-      start_id = #{startId,jdbcType=INTEGER},
+      start_id = #{start.id,jdbcType=INTEGER},
       start_name = #{startName,jdbcType=VARCHAR},
       start_value = #{startValue,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
@@ -343,9 +343,9 @@
       house_name = #{houseName,jdbcType=VARCHAR},
       uptown = #{uptown,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      house_type_id = #{houseTypeId,jdbcType=INTEGER},
+      house_type_id = #{houseType.id,jdbcType=INTEGER},
       house_type_name = #{houseTypeName,jdbcType=VARCHAR},
-      house_lease_id = #{houseLeaseId,jdbcType=INTEGER},
+      house_lease_id = #{houseLease.id,jdbcType=INTEGER},
       house_lease_name = #{houseLeaseName,jdbcType=VARCHAR},
       residue_room = #{residueRoom,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER}

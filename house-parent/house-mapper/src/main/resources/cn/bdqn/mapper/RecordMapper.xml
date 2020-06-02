@@ -45,6 +45,9 @@
 
 <!--  添加订单-->
   <insert id="insert" parameterType="cn.bdqn.domain.Record" >
+    <selectKey keyProperty="id" keyColumn="id" order="AFTER" resultType="java.lang.Integer">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into t_record (id, record, payer_id, 
       payer_name, payee_id, payee_name, 
       house_id, house_name, deal_time, 

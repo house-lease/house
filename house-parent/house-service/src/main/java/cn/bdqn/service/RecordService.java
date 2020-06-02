@@ -2,6 +2,7 @@ package cn.bdqn.service;
 
 import cn.bdqn.domain.Record;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -10,9 +11,10 @@ import java.util.List;
 public interface RecordService {
     /**
      * 保存订单
-     * @param record
+     * @param
      */
-    void save(Record record);
+    public Integer save(Integer judge,Integer payerUserId, Integer payeeUserId, Integer houseId, BigDecimal sumMoney, BigDecimal residueMoney,
+              Integer startValue);
 
 
     //    根据付款用户id查询

@@ -70,6 +70,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="cn.bdqn.domain.Money" >
     update t_money
     <set >

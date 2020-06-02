@@ -13,7 +13,7 @@ public class DateUtil {
      * @return
      * @throws Exception
      */
-    public static String addDate(Date date, long day) throws Exception {
+    public static String addDate(Date date, long day) {
         long time = date.getTime(); // 得到指定日期的毫秒数
         day = day * 24 * 60 * 60 * 1000; // 要加上的天数转换成毫秒数
         time += day; // 相加得到新的毫秒数
@@ -21,7 +21,7 @@ public class DateUtil {
         return dateFormat.format(new Date(time));
     }
 
-    public static Date string2Date(Date date,long day)throws Exception{
+    public static Date string2Date(Date date,long day){
         long time = date.getTime(); // 得到指定日期的毫秒数
         day = day * 24 * 60 * 60 * 1000; // 要加上的天数转换成毫秒数
         time += day; // 相加得到新的毫秒数
@@ -38,6 +38,15 @@ public class DateUtil {
         return dateFormat.format(date);
     }
 
+    /**
+     * 时间转字符串
+     * @param date
+     * @return
+     */
+    public static String date2String1(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); // 日期格式
+        return dateFormat.format(date);
+    }
     /**
      * 时间转字符串
      * @param date

@@ -18,6 +18,14 @@
     from t_start
     where state = 0
   </select>
+
+<!--  根据起租时间查询-->
+  <select id="selectByStartValue" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_start
+    where state = 0 and start_value >= #{startValue}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

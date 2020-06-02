@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,21 +24,23 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
+
     @RequestMapping("/save")
     @ResponseBody
-    public Result save(Record record) throws MyException {
-        Result<Map<String, Object>> results = new Result<>();
-        Map<String, Object> result = new HashMap<>();
+    public Result save(Integer judge, Integer payerUserId,
+                       Integer payeeUserId, Integer houseId,
+                       BigDecimal sumMoney, BigDecimal residueMoney,
+                       Integer startValue) {
+        Result results = new Result<>();
         try {
-            recordService.save(record);
-            result.put("success", "付款成功");
-        } catch (Exception e) {
-            results.setMessage("付款失败去请稍后再试");
+            //新增订单
+            Integer fa = recordService.save(judge,payerUserId,payeeUserId,houseId,sumMoney,residueMoney,startValue);
+            results.setData(fa);
+            return results;
+        }catch (Exception e){
             e.printStackTrace();
-            throw new MyException("付款失败");
+            return results;
         }
-        results.setData(result);
-        return results;
     }
 
 

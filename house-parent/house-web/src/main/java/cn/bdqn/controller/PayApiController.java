@@ -170,7 +170,7 @@ public class PayApiController {
         record.setDealState(1);
         record.setState(0);
 
-        service.save(record);
+        //service.save(record);
 
         if(verify_result){//验证成功
             //////////////////////////////////////////////////////////////////////////////////////////
@@ -301,7 +301,7 @@ public class PayApiController {
 //            out.println("验证成功<br />");
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
-            service.save(record);
+            //service.save(record);
             System.out.println("验证成功");
 
             //////////////////////////////////////////////////////////////////////////////////////////
@@ -310,7 +310,7 @@ public class PayApiController {
 //            out.clear();
 //            out.println("验证失败");
             record.setDealState(0);
-            service.save(record);
+            //service.save(record);
             System.out.println("验证失败");
         }
         return "";

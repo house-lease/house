@@ -56,6 +56,17 @@ public class Payment {
     //付款状态  0 代表已完成  1 代表还款中
     private Integer state;
 
+//    订单id
+    private Integer recordId;
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
     public Integer getId() {
         return id;
     }
