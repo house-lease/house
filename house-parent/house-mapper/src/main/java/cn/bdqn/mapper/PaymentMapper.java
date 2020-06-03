@@ -13,6 +13,14 @@ public interface PaymentMapper {
 
     Payment selectByPrimaryKey(Integer id);
 
+
+    /**
+     * 根据订单id查询
+     * @param recordId
+     * @return
+     */
+    public Payment selectByRecordId(Integer recordId);
+
     int updateByPrimaryKeySelective(Payment record);
 
     int updateByPrimaryKey(Payment record);

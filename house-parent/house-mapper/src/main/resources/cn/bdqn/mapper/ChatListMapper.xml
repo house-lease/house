@@ -28,7 +28,6 @@
     AND reception_user_id = #{receptionUserId})
     OR  (send_user_id = #{receptionUserId}
     AND reception_user_id = #{sendUserId})) and state = 0
-    ORDER BY send_time
   </select>
 
 <!-- 查询全部的会话列表-->
@@ -37,7 +36,8 @@
     <include refid="Base_Column_List"/>
     from t_chat_list
     where ((send_user_id = #{userId})
-    OR  (reception_user_id = #{userId}))
+    OR  (reception_user_id = #{userId})) and state = 0
+    ORDER BY send_time desc
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

@@ -17,6 +17,17 @@ public interface RecordService {
               Integer startValue);
 
 
+    /**
+     * 修改订单
+     * @param paymentId
+     * @param sumMoney
+     * @param residueMoney
+     * @param startValue
+     * @return
+     */
+    public Integer updateRecord(Integer paymentId,BigDecimal sumMoney,BigDecimal residueMoney,Integer startValue );
+
+
     //    根据付款用户id查询
     public List<Record> queryByPayerUserId(Integer payerUserId);
 

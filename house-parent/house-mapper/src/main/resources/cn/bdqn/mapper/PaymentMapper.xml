@@ -3,11 +3,8 @@
 <mapper namespace="cn.bdqn.mapper.PaymentMapper" >
   <resultMap id="BaseResultMap" type="cn.bdqn.domain.Payment" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="payer_id" property="payerUser.id" jdbcType="INTEGER" />
     <result column="payer_name" property="payerName" jdbcType="VARCHAR" />
-    <result column="payee_id" property="payeeUser.id" jdbcType="INTEGER" />
     <result column="payee_name" property="payeeName" jdbcType="VARCHAR" />
-    <result column="house_id" property="house.id" jdbcType="INTEGER" />
     <result column="house_name" property="houseName" jdbcType="VARCHAR" />
     <result column="cash_state" property="cashState" jdbcType="INTEGER" />
     <result column="sum_money" property="sumMoney" jdbcType="DECIMAL" />
@@ -18,16 +15,25 @@
     <result column="next_time" property="nextTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="record_id" property="recordId"/>
+<!--    关联表查询-->
+    <association property="payerUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payer_id"/>
+    <association property="payeeUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payee_id"/>
+    <association property="house" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey" column="house_id"/>
   </resultMap>
-  <resultMap id="PaymentResultMap" type="cn.bdqn.domain.Payment" extends="BaseResultMap">
-      <association property="payerUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payer_id"/>
-      <association property="payeeUser" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey" column="payee_id"/>
-      <association property="house" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey" column="house_id"/>
-  </resultMap>
+
+
   <sql id="Base_Column_List" >
     id, payer_id, payer_name, payee_id, payee_name, house_id, house_name, cash_state, 
     sum_money, residue_money, `number`, delivery_number, start_time, next_time, state,record_id
   </sql>
+
+<!--  根据订单id查询-->
+  <select id="selectByRecordId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_payment
+    where record_id = #{recordId,jdbcType=INTEGER}
+  </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -111,7 +117,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectByState" resultMap="PaymentResultMap">
+  <select id="selectByState" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List" />
     from  t_payment
     where state = 1 and now() <![CDATA[ > ]]> next_time;

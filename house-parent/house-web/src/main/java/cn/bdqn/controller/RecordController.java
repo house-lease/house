@@ -1,7 +1,9 @@
 package cn.bdqn.controller;
 
+import cn.bdqn.domain.Payment;
 import cn.bdqn.domain.Record;
 import cn.bdqn.exception.MyException;
+import cn.bdqn.service.PaymentService;
 import cn.bdqn.service.RecordService;
 import cn.bdqn.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,8 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
-
+    @Autowired
+    private PaymentService paymentService;
     @RequestMapping("/save")
     @ResponseBody
     public Result save(Integer judge, Integer payerUserId,
@@ -43,6 +46,22 @@ public class RecordController {
         }
     }
 
+    @RequestMapping("/updateRecord")
+    @ResponseBody
+    public Result updateRecord(Integer paymentId, BigDecimal sumMoney, BigDecimal residueMoney, Integer startValue){
+        Result result = new Result();
+
+        try {
+            Integer fa = recordService.updateRecord(paymentId,sumMoney,residueMoney,startValue);
+            result.setData(fa);
+            result.setMessage("更新成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("失败");
+            return result;
+        }
+    }
 
     /**
      * 根据付款用户id查询
@@ -86,4 +105,20 @@ public class RecordController {
     }
 
 
+    @RequestMapping("/queryByRecordId")
+    @ResponseBody
+    public Result queryByRecordId(Integer recordId){
+        Result result = new Result();
+        try{
+//            查询
+            Payment payment = paymentService.queryByRecordId(recordId);
+            result.setData(payment);
+            result.setMessage("查询成功~");
+            return  result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("失败");
+            return result;
+        }
+    }
 }

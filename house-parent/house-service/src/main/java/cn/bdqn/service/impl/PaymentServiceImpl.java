@@ -55,5 +55,15 @@ public class PaymentServiceImpl implements PaymentService {
         });
     }
 
+    /**
+     * 根据订单id查询
+     * @param recordId
+     * @return
+     */
+    @Override
+    public Payment queryByRecordId(Integer recordId) {
+        return paymentMapper.selectByRecordId(recordId);
+    }
+
 
 }

@@ -139,7 +139,65 @@ public class RecordServiceImpl implements RecordService {
 
     }
 
-//    根据付款用户id查询
+    /**
+     * 修改订单
+     * @param paymentId
+     * @param sumMoney
+     * @param residueMoney
+     * @param startValue
+     * @return
+     */
+    @Override
+    public Integer updateRecord(Integer paymentId, BigDecimal sumMoney, BigDecimal residueMoney, Integer startValue) {
+
+        Payment payment = paymentMapper.selectByPrimaryKey(paymentId);
+        Record record = recordMapper.selectByPrimaryKey(payment.getRecordId());
+
+        //        获得付款人的账户余额
+        Money payerUserMoney = moneyMapper.selectByUerId(payment.getPayerUser().getId());
+//         获得收款人的账户余额
+        Money payeeUserMoney = moneyMapper.selectByUerId(payment.getPayeeUser().getId());
+
+        if (payment.getHouse().getResidueRoom()>0){
+            if (payerUserMoney.getMoney().compareTo(payment.getHouse().getPrice().add(new BigDecimal(1000)))==0||(payerUserMoney.getMoney().compareTo(payment.getHouse().getPrice().add(new BigDecimal(1000)))==1)){
+//          扣除首付金额
+                payerUserMoney.setMoney(payerUserMoney.getMoney().subtract(payment.getHouse().getPrice().add(new BigDecimal(1000))));
+                moneyMapper.updateByUserId(payerUserMoney);
+                //增加首付金额
+                payeeUserMoney.setMoney(payeeUserMoney.getMoney().add(payment.getHouse().getPrice().add(new BigDecimal(1000))));
+                moneyMapper.updateByUserId(payeeUserMoney);
+//                更新订单状态
+                record.setDealState(1);
+                record.setDealMoney(sumMoney);
+                //更新还款表
+                payment.setResidueMoney(residueMoney);
+                payment.setSumMoney(sumMoney);
+                payment.setCashState(0);
+                payment.setNumber(startValue);
+                payment.setDeliveryNumber(1);
+                payment.setStartTime(new Date());
+                payment.setNextTime(DateUtil.string2Date(new Date(),30));
+                payment.setState(1);
+
+//                更新订单和付款
+                recordMapper.updateByPrimaryKeySelective(record);
+                paymentMapper.updateByPrimaryKeySelective(payment);
+                //交易成功
+                return 0;
+            }else {
+//                    1代表余额不足
+                return 1;
+            }
+
+
+        }else {
+//            3没有可租房间
+            return 2;
+        }
+
+    }
+
+    //    根据付款用户id查询
     @Override
     public List<Record> queryByPayerUserId(Integer payerUserId) {
         return recordMapper.selectByPayerUserId(payerUserId);

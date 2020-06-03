@@ -16,4 +16,11 @@ public interface PaymentService {
      * 定时付款
      */
     void TimeOfPaymen();
+
+    /**
+     * 根据订单id查询
+     * @param recordId
+     * @return
+     */
+    public Payment queryByRecordId(Integer recordId);
 }
