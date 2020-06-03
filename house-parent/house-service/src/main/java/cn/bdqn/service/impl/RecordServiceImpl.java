@@ -182,6 +182,14 @@ public class RecordServiceImpl implements RecordService {
 //                更新订单和付款
                 recordMapper.updateByPrimaryKeySelective(record);
                 paymentMapper.updateByPrimaryKeySelective(payment);
+
+                //                   更新房屋可租房间数
+                payment.getHouse().setResidueRoom(payment.getHouse().getResidueRoom()-1);
+                if (payment.getHouse().getResidueRoom()<=0){
+                    payment.getHouse().setState(1);
+                }
+//                更新房屋状态
+                houseMapper.updateByPrimaryKey(payment.getHouse());
                 //交易成功
                 return 0;
             }else {
