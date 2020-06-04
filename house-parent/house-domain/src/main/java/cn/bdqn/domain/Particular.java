@@ -76,4 +76,5 @@ public class Particular {
     public void setState(Integer state) {
         this.state = state;
     }
+
 }

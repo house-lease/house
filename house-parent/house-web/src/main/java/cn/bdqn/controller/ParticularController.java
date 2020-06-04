@@ -26,7 +26,7 @@ public class ParticularController {
     //添加充值记录
 
     @RequestMapping("/save")
-    public Result  save(Particular record) {
+    public Result save(Particular record) {
         Result results = new Result<>();
         try {
             particularService.save(record);
