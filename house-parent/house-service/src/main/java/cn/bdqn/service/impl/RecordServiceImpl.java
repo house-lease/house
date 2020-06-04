@@ -68,6 +68,7 @@ public class RecordServiceImpl implements RecordService {
                     record.setState(0);
                     record.setDealState(1);
                     record.setRecord(DateUtil.date2String1(new Date()));
+                    recordMapper.insert(record);
 
 //            还款对象
 
@@ -92,9 +93,10 @@ public class RecordServiceImpl implements RecordService {
                         payment.setNextTime(null);
                         payment.setState(0);
                         record.setDealState(0);
+                        recordMapper.updateByPrimaryKeySelective(record);
                     }
                     paymentMapper.insert(payment);
-                    recordMapper.insert(record);
+
 //                   更新房屋可租房间数
                     house.setResidueRoom(house.getResidueRoom()-1);
                     if (house.getResidueRoom()<=0){
