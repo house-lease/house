@@ -5,8 +5,6 @@ import cn.bdqn.domain.Money;
 import cn.bdqn.domain.User;
 import cn.bdqn.service.UserService;
 import cn.bdqn.utils.Result;
-import com.sun.org.apache.regexp.internal.RE;
-import org.omg.CORBA.INTERNAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
