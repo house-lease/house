@@ -68,7 +68,7 @@ public class RecordServiceImpl implements RecordService {
                     record.setState(0);
                     record.setDealState(1);
                     record.setRecord(DateUtil.date2String1(new Date()));
-                    recordMapper.insert(record);
+
 //            还款对象
 
                     payment.setPayeeUser(payeeUser);
@@ -87,8 +87,14 @@ public class RecordServiceImpl implements RecordService {
                     payment.setRecordId(record.getId());
                     payment.setState(1);
                     payment.setResidueMoney(residueMoney);
-                    paymentMapper.insert(payment);
 
+                    if ((payment.getNumber()-payment.getDeliveryNumber())==0){
+                        payment.setNextTime(null);
+                        payment.setState(0);
+                        record.setDealState(0);
+                    }
+                    paymentMapper.insert(payment);
+                    recordMapper.insert(record);
 //                   更新房屋可租房间数
                     house.setResidueRoom(house.getResidueRoom()-1);
                     if (house.getResidueRoom()<=0){
@@ -178,6 +184,11 @@ public class RecordServiceImpl implements RecordService {
                 payment.setStartTime(new Date());
                 payment.setNextTime(DateUtil.string2Date(new Date(),30));
                 payment.setState(1);
+                if ((payment.getNumber()-payment.getDeliveryNumber())==0){
+                    payment.setNextTime(null);
+                    payment.setState(0);
+                    record.setDealState(0);
+                }
 
 //                更新订单和付款
                 recordMapper.updateByPrimaryKeySelective(record);
