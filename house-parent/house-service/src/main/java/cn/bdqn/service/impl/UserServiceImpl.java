@@ -138,9 +138,8 @@ public class UserServiceImpl implements UserService {
             String idCard =  (String) ocr.get("idCard");
             String name =  (String) ocr.get("name");
             System.out.println(idCard+"---"+name);
-            User user = new User();
+            User user = null;
             if (name!=null){
-
 //            查询实名认证用户
                 user = userMapper.selectByPrimaryKey(userId);
                 user.setIdcard(idCard);
