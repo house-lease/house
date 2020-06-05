@@ -34,12 +34,14 @@ public interface HouseMapper {
      * 根基
      * @param address 地区
      * @param houseLeaseName 房屋类型 整租 合租
-     * @param price  价格
      * @param startValue  起租时间实际数值
      * @return
      */
-    List<House> selectByAddressORLeaseTypeORPriceORStartValue(@Param("address") String address, @Param("houseLeaseName") String houseLeaseName
-            , @Param("price") BigDecimal price, @Param("startValue") Integer startValue);
+    List<House> selectByAddressORLeaseTypeORPriceORStartValue(@Param("address") String address,
+                                                              @Param("houseLeaseName") String houseLeaseName
+            , @Param("maxPrice") BigDecimal maxPrice, @Param("minPrice") BigDecimal minPrice,
+                                                              @Param("startValue") Integer startValue,
+                                                              @Param("houseTypeName") String houseTypeName);
 
 
     /**
@@ -60,5 +62,8 @@ public interface HouseMapper {
      * @param longitude
      * @return
      */
-    public List<House> selectRim(@Param("latitude") Double latitude,@Param("longitude") Double longitude);
+    public List<House> selectRim(@Param("latitude") Double latitude,@Param("longitude") Double longitude,
+                                 @Param("houseLeaseName") String houseLeaseName
+            , @Param("maxPrice") BigDecimal maxPrice, @Param("minPrice") BigDecimal minPrice,
+                                 @Param("startValue") Integer startValue);
 }

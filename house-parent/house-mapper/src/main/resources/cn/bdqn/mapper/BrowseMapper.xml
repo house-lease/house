@@ -117,5 +117,6 @@
     t_browse
     WHERE
     user_id = #{userId} AND state = 0
+    order by browse_time desc
   </select>
 </mapper>

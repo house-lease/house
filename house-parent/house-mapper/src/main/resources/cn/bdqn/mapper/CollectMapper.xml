@@ -112,6 +112,7 @@
         t_collect
     WHERE
 	    user_id = #{userId} AND state = 0
+	order by collect_time desc
   </select>
 
   <select id="selectInfoByHouseIdAndUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">

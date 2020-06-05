@@ -28,10 +28,13 @@ public class HouseController {
 
     @RequestMapping("/rim")
     @ResponseBody
-    public Result queryRim(Double latitude, Double longitude){
+    public Result queryRim(Double latitude, Double longitude,String houseLeaseName,
+                           BigDecimal maxPrice,
+                           BigDecimal minPrice,
+                           Integer startValue){
         Result result = new Result();
         try {
-            List<House> houses = houseService.queryRim(latitude,longitude);
+            List<House> houses = houseService.queryRim(latitude,longitude,"".equals(houseLeaseName.trim())?null:houseLeaseName,maxPrice,minPrice,startValue);
             result.setData(houses);
             result.setMessage("查询成功~");
             return result;
@@ -110,13 +113,14 @@ public class HouseController {
      */
     @RequestMapping("/queryHouse")
     @ResponseBody
-    public Result queryHouse(String address, String houseLeaseName, BigDecimal price, Integer startValue){
+    public Result queryHouse(String address, String houseLeaseName, BigDecimal maxPrice,BigDecimal minPrice, Integer startValue,String houseTypeName){
 
         List<House> houses = new ArrayList<>();
         Result result = new Result();
         try {
             //调用查询房屋的方法
-            houses = houseService.queryByAddressORLeaseTypeORPriceORStartValue(address,"".equals(houseLeaseName.trim())?null:houseLeaseName,price,startValue);
+            houses = houseService.queryByAddressORLeaseTypeORPriceORStartValue(address,"".equals(houseLeaseName.trim())?null:houseLeaseName,
+                    maxPrice,minPrice,startValue,"".equals(houseTypeName.trim())?null:houseTypeName);
 
             result.setData(houses);
             result.setMessage("加载完成");

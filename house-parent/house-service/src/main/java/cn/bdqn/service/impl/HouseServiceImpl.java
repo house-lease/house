@@ -34,9 +34,12 @@ public class HouseServiceImpl implements HouseService {
      * @return
      */
     @Override
-    public List<House> queryRim(Double latitude, Double longitude) {
+    public List<House> queryRim(Double latitude, Double longitude,String houseLeaseName,
+                                BigDecimal maxPrice,
+                                BigDecimal minPrice,
+                                Integer startValue) {
         //根据经纬度查询周边房屋
-        List<House> houses = houseMapper.selectRim(latitude,longitude);
+        List<House> houses = houseMapper.selectRim(latitude,longitude,houseLeaseName,maxPrice,minPrice,startValue);
         //根据房屋id循环查找房屋图片
         for (House house:houses) {
             //调用根据房屋id查询房屋图片的方法
@@ -67,9 +70,13 @@ public class HouseServiceImpl implements HouseService {
      * 查询房屋信息
      */
     @Override
-    public List<House> queryByAddressORLeaseTypeORPriceORStartValue(String address,String houseLeaseName,BigDecimal price,Integer startValue) {
+    public List<House> queryByAddressORLeaseTypeORPriceORStartValue(String address,String houseLeaseName,
+                                                                    BigDecimal maxPrice,
+                                                                    BigDecimal minPrice,
+                                                                    Integer startValue,
+                                                                    String houseTypeName) {
         //查询房屋信息列表
-        List<House> houses = houseMapper.selectByAddressORLeaseTypeORPriceORStartValue(address,houseLeaseName,price,startValue);
+        List<House> houses = houseMapper.selectByAddressORLeaseTypeORPriceORStartValue(address,houseLeaseName,maxPrice,minPrice,startValue,houseTypeName);
         //根据房屋id循环查找房屋图片
         for (House house:houses) {
             //调用根据房屋id查询房屋图片的方法

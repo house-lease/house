@@ -70,16 +70,30 @@
     select
     <include refid="Base_Column_List_1"/>
     from t_house
+    <where>
     <![CDATA[
-    WHERE latitude > #{latitude}-0.05
+    latitude > #{latitude}-0.05
     AND latitude < #{latitude}+0.05
     AND longitude > #{longitude}-0.05
-    AND longitude < #{longitude}+0.05
+    AND longitude < #{longitude}+0.05]]>
+    <if test="houseLeaseName != null">
+    and house_lease_name = #{houseLeaseName}
+    </if>
+    <if test="maxPrice != null ">
+      and <![CDATA[ price <= #{maxPrice} ]]>
+    </if>
+    <if test="minPrice != null ">
+      and <![CDATA[ price >= #{minPrice} ]]>
+    </if>
+    <if test="startValue != null">
+      and start_value >=#{startValue}
+    </if>
     And state = 0
+    </where>
     ORDER BY ACOS(SIN((#{latitude} * 3.1415) / 180 )
     *SIN((latitude * 3.1415) / 180 ) +COS((#{latitude} * 3.1415) / 180 )
     * COS((latitude * 3.1415) / 180 )*COS((#{longitude}* 3.1415) / 180 - (longitude * 3.1415) / 180 ) ) * 6380 ASC LIMIT 10
-     ]]>
+
   </select>
 
 <!--  根据各种信息查询房屋-->
@@ -92,8 +106,14 @@
         <if test="houseLeaseName != null">
           and house_lease_name = #{houseLeaseName}
         </if>
-        <if test="price != null">
-          and <![CDATA[ price <= #{price} ]]>
+        <if test="houseTypeName != null">
+          and house_type_name = #{houseTypeName}
+        </if>
+        <if test="maxPrice != null ">
+          and <![CDATA[ price <= #{maxPrice} ]]>
+        </if>
+        <if test="minPrice != null ">
+          and <![CDATA[ price >= #{minPrice} ]]>
         </if>
         <if test="startValue != null">
           and start_value >=#{startValue}
