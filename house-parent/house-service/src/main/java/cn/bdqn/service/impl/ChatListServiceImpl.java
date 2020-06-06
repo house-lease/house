@@ -41,18 +41,21 @@ public class ChatListServiceImpl implements ChatListService {
 
     @Override
     public void updateChatList(Integer sendUserId, Integer receptionUserId, Integer chatListId) {
-//        清空未读消息条数
-        chatTestService.updateViewState(sendUserId,receptionUserId);
-
-//        查询未读消息条数
-        Integer count = chatTestService.queryViewState(sendUserId,receptionUserId);
 
 //        根据id查询会话列表
         ChatList chatList = chatListMapper.selectByPrimaryKey(chatListId);
-//        设置未读条数
-        chatList.setUnread(count);
+        if (chatList.getTheSendUserId()!=sendUserId){
+            //        清空未读消息条数
+            chatTestService.updateViewState(sendUserId,receptionUserId);
+
+//        查询未读消息条数
+            Integer count = chatTestService.queryViewState(sendUserId,receptionUserId);
+            //        设置未读条数
+            chatList.setUnread(count);
 
 //        更新状态
-        chatListMapper.updateByPrimaryKey(chatList);
+            chatListMapper.updateByPrimaryKey(chatList);
+        }
+
     }
 }
