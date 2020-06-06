@@ -120,6 +120,6 @@
   <select id="selectByState" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List" />
     from  t_payment
-    where state = 1 and now() <![CDATA[ > ]]> next_time;
+    where state = 1
   </select>
 </mapper>

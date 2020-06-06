@@ -12,6 +12,7 @@
     <artifactId>house-mapper</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>cn.bdqn</groupId>
             <artifactId>house-domain</artifactId>

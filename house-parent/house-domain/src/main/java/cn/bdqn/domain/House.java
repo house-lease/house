@@ -72,8 +72,19 @@ public class House {
     //剩余房间
     private Integer residueRoom;
 
+    //租客信息
+    private List<Tenant> tenants = new ArrayList<>();
+
     //房屋状态 0可租 1满租
     private Integer state;
+
+    public List<Tenant> getTenants() {
+        return tenants;
+    }
+
+    public void setTenants(List<Tenant> tenants) {
+        this.tenants = tenants;
+    }
 
     public Integer getId() {
         return id;
@@ -246,6 +257,7 @@ public class House {
         this.state = state;
     }
 
+
     @Override
     public String toString() {
         return "House{" +
@@ -269,6 +281,7 @@ public class House {
                 ", houseImages=" + houseImages +
                 ", houseCareful=" + houseCareful +
                 ", residueRoom=" + residueRoom +
+                ", tenants=" + tenants +
                 ", state=" + state +
                 '}';
     }

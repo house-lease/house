@@ -23,9 +23,11 @@
 
 <!--    开启定时器注解-->
     <task:annotation-driven/>
-<!--    <task:scheduled-tasks>-->
-<!--        <task:scheduled ref="paymentServiceTest" method="testTimeOfPaymen" cron="0 0 12 * * ?"/>-->
-<!--    </task:scheduled-tasks>-->
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="paymentServiceImpl" method="TimeOfPaymen"
+                        initial-delay="5000" fixed-delay="#{24*60*60*60}"/>
+    </task:scheduled-tasks>
 
 
     <!--开启事务管理器-->

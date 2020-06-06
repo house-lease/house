@@ -43,6 +43,15 @@ public class DateUtil {
      * @param date
      * @return
      */
+    public static String date2String3(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd"); // 日期格式
+        return dateFormat.format(date);
+    }
+    /**
+     * 时间转字符串
+     * @param date
+     * @return
+     */
     public static String date2String1(Date date){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); // 日期格式
         return dateFormat.format(date);

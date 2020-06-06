@@ -2,6 +2,7 @@ package cn.bdqn.test;
 
 
 import cn.bdqn.domain.Ocr;
+import cn.bdqn.utils.DateUtil;
 import cn.bdqn.utils.HttpUtils;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
@@ -9,13 +10,19 @@ import org.apache.http.util.EntityUtils;
 import org.aspectj.weaver.ast.Or;
 import org.junit.Test;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestUser {
 
     public static void main(String[] args) {
-
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());//设置要操作的时间
+        System.out.println(calendar.get(Calendar.DATE));
+        calendar.add(Calendar.DATE, 1);
+        System.out.println(DateUtil.date2String(calendar.getTime()));
     }
 
     @Test

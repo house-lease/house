@@ -56,7 +56,10 @@
 
 <!--    关联房屋详细信息-->
     <association property="houseCareful" select="cn.bdqn.mapper.HouseCarefulMapper.selectByHouseId" column="id"/>
+<!--    查询图片-->
     <association property="houseImages" column="id" select="cn.bdqn.mapper.HouseImageMapper.selectByHouseId"/>
+
+    <association property="tenants" column="id" select="cn.bdqn.mapper.TenantMapper.selectByHouseId"/>
   </resultMap>
 
   <sql id="Base_Column_List_1" >

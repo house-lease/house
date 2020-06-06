@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     private HouseMapper houseMapper;
 
+    @Autowired
+    private TenantMapper tenantMapper;
+
     @Override
     public Integer save(Integer judge,Integer payerUserId, Integer payeeUserId, Integer houseId, BigDecimal sumMoney,BigDecimal residueMoney,
                      Integer startValue) {
@@ -47,6 +51,8 @@ public class RecordServiceImpl implements RecordService {
         Record record = new Record();
         //            还款对象
         Payment payment = new Payment();
+//        操作时间的对象
+        Calendar calendar = Calendar.getInstance();
         if (house.getResidueRoom()>0){
             if (judge==0){
                 if (payerUserMoney.getMoney().compareTo(house.getPrice().add(new BigDecimal(1000)))==0||(payerUserMoney.getMoney().compareTo(house.getPrice().add(new BigDecimal(1000)))==1)){
@@ -79,8 +85,9 @@ public class RecordServiceImpl implements RecordService {
                     payment.setHouse(house);
                     payment.setHouseName(house.getHouseName());
                     payment.setStartTime(new Date());
-//            测试用要修改
-                    payment.setNextTime(DateUtil.string2Date(new Date(),30));
+                    calendar.setTime(payment.getStartTime());//设置要操作的时间
+                    calendar.add(Calendar.MONTH,1);//计算下次还款的时间
+                    payment.setNextTime(calendar.getTime());
                     payment.setDeliveryNumber(1);
                     payment.setSumMoney(sumMoney);
                     payment.setCashState(0);
@@ -96,6 +103,20 @@ public class RecordServiceImpl implements RecordService {
                         recordMapper.updateByPrimaryKeySelective(record);
                     }
                     paymentMapper.insert(payment);
+
+
+
+//                    租客信息
+                    Tenant tenant = new Tenant();
+                    tenant.setHouseId(houseId);
+                    tenant.setUser(payerUser);
+                    tenant.setState(0);
+                    calendar.setTime(new Date());//设置要操作的时间
+                    calendar.add(Calendar.MONTH,startValue);//计算搬离的时间
+                    tenant.setTerminationTime(calendar.getTime());
+//                    添加租客信息
+                    tenantMapper.insert(tenant);
+
 
 //                   更新房屋可租房间数
                     house.setResidueRoom(house.getResidueRoom()-1);
@@ -166,6 +187,8 @@ public class RecordServiceImpl implements RecordService {
 //         获得收款人的账户余额
         Money payeeUserMoney = moneyMapper.selectByUerId(payment.getPayeeUser().getId());
 
+        //        操作时间的对象
+        Calendar calendar = Calendar.getInstance();
         if (payment.getHouse().getResidueRoom()>0){
             if (payerUserMoney.getMoney().compareTo(payment.getHouse().getPrice().add(new BigDecimal(1000)))==0||(payerUserMoney.getMoney().compareTo(payment.getHouse().getPrice().add(new BigDecimal(1000)))==1)){
 //          扣除首付金额
@@ -184,7 +207,9 @@ public class RecordServiceImpl implements RecordService {
                 payment.setNumber(startValue);
                 payment.setDeliveryNumber(1);
                 payment.setStartTime(new Date());
-                payment.setNextTime(DateUtil.string2Date(new Date(),30));
+                calendar.setTime(payment.getStartTime());//设置要操作的时间
+                calendar.add(Calendar.MONTH,1);//计算下次还款的时间
+                payment.setNextTime(calendar.getTime());
                 payment.setState(1);
                 if ((payment.getNumber()-payment.getDeliveryNumber())==0){
                     payment.setNextTime(null);
