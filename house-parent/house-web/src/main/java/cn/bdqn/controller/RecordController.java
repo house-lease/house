@@ -28,6 +28,63 @@ public class RecordController {
 
     @Autowired
     private PaymentService paymentService;
+
+
+    /**
+     * 退还押金
+     * @param id
+     * @return
+     */
+    @RequestMapping("/returnMoney")
+    @ResponseBody
+    public Result returnMoney(Integer id) {
+        Result result = new Result();
+        try {
+            Payment payment = recordService.returnMoney(id);
+            result.setData(payment);
+            result.setMessage("成功！");
+            return  result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setData(0);
+            result.setMessage("失败");
+            return result;
+        }
+    }
+
+    /**
+     * 提交缴费
+     * @param id
+     * @return
+     */
+    @RequestMapping("/pay")
+    @ResponseBody
+    public Result pay(Integer id){
+        Result result = new Result();
+        try {
+            Payment payment = recordService.pay(id);
+            result.setData(payment);
+            result.setMessage("成功！");
+            return  result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setData(0);
+            result.setMessage("失败");
+            return result;
+        }
+    }
+
+    /**
+     * 添加订单以及还款对象
+     * @param judge
+     * @param payerUserId
+     * @param payeeUserId
+     * @param houseId
+     * @param sumMoney
+     * @param residueMoney
+     * @param startValue
+     * @return
+     */
     @RequestMapping("/save")
     @ResponseBody
     public Result save(Integer judge, Integer payerUserId,
@@ -46,6 +103,14 @@ public class RecordController {
         }
     }
 
+    /**
+     * 更新订单
+     * @param paymentId
+     * @param sumMoney
+     * @param residueMoney
+     * @param startValue
+     * @return
+     */
     @RequestMapping("/updateRecord")
     @ResponseBody
     public Result updateRecord(Integer paymentId, BigDecimal sumMoney, BigDecimal residueMoney, Integer startValue){
@@ -70,11 +135,33 @@ public class RecordController {
      */
     @RequestMapping("/queryByPayerUserId")
     @ResponseBody
-    public Result queryByPayerUserId(Integer payerUserId){
+    public Result queryByPayerUserId(Integer payerUserId,Integer dealState){
 
         Result result = new Result();
         try {
-            List<Record> records = recordService.queryByPayerUserId(payerUserId);
+            List<Record> records = recordService.queryByPayerUserId(payerUserId,dealState);
+            result.setData(records);
+            result.setMessage("查询成功~");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("失败");
+            return result;
+        }
+    }
+
+    /**
+     * 根据收款用户id查询
+     * @param payeeUserId
+     * @return
+     */
+    @RequestMapping("/queryByPayeeUserId")
+    @ResponseBody
+    public Result queryByPayeeUserId(Integer payeeUserId,Integer dealState){
+
+        Result result = new Result();
+        try {
+            List<Record> records = recordService.queryByPayeeUserId(payeeUserId,dealState);
             result.setData(records);
             result.setMessage("查询成功~");
             return result;
@@ -86,6 +173,13 @@ public class RecordController {
     }
 
 
+    /**
+     * 更新订单状态
+     * @param userId
+     * @param id
+     * @param dealState
+     * @return
+     */
     @RequestMapping("/updateDealState")
     @ResponseBody
     public Result updateDealState(Integer userId,Integer id,Integer dealState){
@@ -105,6 +199,11 @@ public class RecordController {
     }
 
 
+    /**
+     * 根据订单id查询付款对象
+     * @param recordId
+     * @return
+     */
     @RequestMapping("/queryByRecordId")
     @ResponseBody
     public Result queryByRecordId(Integer recordId){

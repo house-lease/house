@@ -243,18 +243,125 @@ public class RecordServiceImpl implements RecordService {
 
     }
 
-    //    根据付款用户id查询
+    /**
+     *缴费
+     * @param id
+     * @return
+     */
     @Override
-    public List<Record> queryByPayerUserId(Integer payerUserId) {
-        return recordMapper.selectByPayerUserId(payerUserId);
+    public Payment pay(Integer id) {
+
+        Payment payment = paymentMapper.selectByPrimaryKey(id);
+        Record record = recordMapper.selectByPrimaryKey(payment.getRecordId());
+
+        //需要支付的金额
+        BigDecimal money = payment.getHouse().getPrice();
+        //        获得付款人的账户余额
+        Money payerUserMoney = moneyMapper.selectByUerId(payment.getPayerUser().getId());
+//         获得收款人的账户余额
+        Money payeeUserMoney = moneyMapper.selectByUerId(payment.getPayeeUser().getId());
+
+        //        操作时间的对象
+        Calendar calendar = Calendar.getInstance();
+        //判断账户余额是否充足
+        if (payerUserMoney.getMoney().compareTo(money)==0||(payerUserMoney.getMoney().compareTo(money)==1)){
+            //          扣除首付金额
+            payerUserMoney.setMoney(payerUserMoney.getMoney().subtract(money));
+            moneyMapper.updateByUserId(payerUserMoney);
+            //增加首付金额
+            payeeUserMoney.setMoney(payeeUserMoney.getMoney().add(money));
+            moneyMapper.updateByUserId(payeeUserMoney);
+            //计算剩余金额
+            payment.setResidueMoney(payment.getResidueMoney().subtract(money));
+            //计算已交次数
+            payment.setDeliveryNumber(payment.getDeliveryNumber()+1);
+            //计算时间
+            payment.setStartTime(payment.getNextTime());
+            //计算下次交钱时间
+            calendar.setTime(payment.getNextTime());//设置要操作的时间
+            calendar.add(Calendar.MONTH,1);//计算下次还款的时间
+            payment.setNextTime(calendar.getTime());
+            //如果次数已经还完
+            if ((payment.getNumber() - payment.getDeliveryNumber()) == 0) {
+                //设置还款状态
+                payment.setState(0);
+                //下次时间清零
+                payment.setNextTime(null);
+                //设置订单状态
+                record.setDealState(0);
+                //更新订单对象
+                recordMapper.updateByPrimaryKeySelective(record);
+            }
+            //并更新付款对象
+            paymentMapper.updateByPrimaryKeySelective(payment);
+            //0代表还款成功
+            return payment;
+        }else {
+//            2代表用户余额不足
+            return null;
+        }
     }
 
-//    根据订单id修改订单支付状态
+    /**
+     * 房东退还押金
+     * @param id
+     * @return
+     */
+    @Override
+    public Payment returnMoney(Integer id) {
+        Payment payment = paymentMapper.selectByPrimaryKey(id);
+
+        //需要支付的金额押金
+        BigDecimal money = payment.getHouse().getPrice();
+        //        获得付款人的账户余额
+        Money payerUserMoney = moneyMapper.selectByUerId(payment.getPayerUser().getId());
+//         获得收款人的账户余额
+        Money payeeUserMoney = moneyMapper.selectByUerId(payment.getPayeeUser().getId());
+
+        //        操作时间的对象
+        Calendar calendar = Calendar.getInstance();
+        //判断账户余额是否充足
+        if (payeeUserMoney.getMoney().compareTo(money)==0||(payeeUserMoney.getMoney().compareTo(money)==1)){
+            //          扣除押金金额
+            payeeUserMoney.setMoney(payeeUserMoney.getMoney().subtract(money));
+            moneyMapper.updateByUserId(payeeUserMoney);
+            //增加押金金额
+            payerUserMoney.setMoney(payerUserMoney.getMoney().add(money));
+            moneyMapper.updateByUserId(payerUserMoney);
+            //修改押金状态
+            payment.setCashState(1);
+            //更新订单状态
+            paymentMapper.updateByPrimaryKeySelective(payment);
+            return payment;
+
+        }
+        return null;
+    }
+
+    //    根据付款用户id查询
+    @Override
+    public List<Record> queryByPayerUserId(Integer payerUserId,Integer dealState) {
+        return recordMapper.selectByPayerUserId(payerUserId,dealState);
+    }
+
+    /**
+     * 根据收款人id查询
+     * @param payeeUserId
+     * @return
+     */
+    @Override
+    public List<Record> queryByPayeeUserId(Integer payeeUserId,Integer dealState) {
+        return recordMapper.selectByPayeeUserId(payeeUserId,dealState);
+    }
+
+    //    根据订单id修改订单支付状态
     @Override
     public List<Record> updateDealState(Integer userId,Integer id, Integer dealState) {
 //        修改订单状态
         recordMapper.updateDealState(id,dealState);
 //        查询最新订单列表
-        return recordMapper.selectByPayerUserId(userId);
+        return recordMapper.selectByPayerUserId(userId,dealState);
     }
+
+
 }

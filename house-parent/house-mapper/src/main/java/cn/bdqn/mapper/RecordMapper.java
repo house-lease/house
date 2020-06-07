@@ -24,7 +24,10 @@ public interface RecordMapper {
     int updateByPrimaryKey(Record record);
 
 //    根据付款用户id查询
-    public List<Record> selectByPayerUserId(Integer payerUserId);
+    public List<Record> selectByPayerUserId(@Param("payerUserId") Integer payerUserId,@Param("dealState") Integer dealState);
+
+    //    根据收款用户id查询
+    public List<Record> selectByPayeeUserId(@Param("payeeUserId") Integer payeeUserId,@Param("dealState") Integer dealState);
 
 //    根据订单id修改状态
     public void updateDealState(@Param("id") Integer id,@Param("dealState") Integer dealState);

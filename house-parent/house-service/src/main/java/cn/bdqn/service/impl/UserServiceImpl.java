@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
         String host = "https://feginesms.market.alicloudapi.com";
         String path = "/codeNotice";
         String method = "GET";
-        String appcode = "e5cd97bb1e904429a0daf5b9b616431b";//阿里云appCode
+        String appcode = "a55b99e70e2b4860a0fe8056265719b8";//阿里云appCode
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);

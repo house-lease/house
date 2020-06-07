@@ -67,7 +67,7 @@ public class PaymentServiceImpl implements PaymentService {
                     if ((item.getNumber() - item.getDeliveryNumber()) == 0) {
                         item.setState(0);
                         item.setNextTime(null);
-                        record.setState(0);
+                        record.setDealState(0);
                         //更新订单对象
                         recordMapper.updateByPrimaryKeySelective(record);
                     }
@@ -120,13 +120,13 @@ public class PaymentServiceImpl implements PaymentService {
         String host = "https://feginesms.market.alicloudapi.com";
         String path = "/codeNotice";
         String method = "GET";
-        String appcode = "e5cd97bb1e904429a0daf5b9b616431b";//阿里云appCode
+        String appcode = "a55b99e70e2b4860a0fe8056265719b8";//阿里云appCode
+        String message = "（自动缴租失败）您本期房租应缴费:"+price+"元,请手动缴租或保证账户余额充足,谢谢";
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
-        String message = "（自动缴租失败）您本期房租应缴费:"+price+"元,请手动缴租或保证账户余额充足,谢谢";
-        //这里是验证码哈
+        //测试可用默认短信模板,测试模板为专用模板不可修改,如需自定义短信内容或改动任意字符,请联系旺旺或QQ726980650进行申请
         querys.put("param", price.toString());
         //然后这里是手机号
         querys.put("phone", phone);
@@ -151,9 +151,9 @@ public class PaymentServiceImpl implements PaymentService {
              * http://code.fegine.com/aliyun-jar.zip
              */
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
-            //System.out.println(response.toString());如不输出json, 请打开这行代码，打印调试头部状态码。
-            //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
-            //获取response的body
+            System.out.println(response.toString());//如不输出json, 请打开这行代码，打印调试头部状态码。
+//            状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+//            获取response的body
             String ss = EntityUtils.toString(response.getEntity());
             System.out.println(ss);
         } catch (Exception e) {

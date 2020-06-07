@@ -25,7 +25,16 @@
     select
     <include refid="Base_Column_List"/>
     from t_record
-    where payer_id = #{payerUserId} and state =0
+    where payer_id = #{payerUserId} and state =0 and deal_state = #{dealState}
+    order by deal_time desc
+  </select>
+
+<!--  根据收款人id查询-->
+  <select id="selectByPayeeUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_record
+    where payee_id = #{payeeUserId} and state =0 and deal_state = #{dealState}
     order by deal_time desc
   </select>
 
