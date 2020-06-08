@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         String host = "https://ocr2idcard.market.alicloudapi.com";
         String path = "/OcridCard";
         String method = "POST";
-        String appcode = "e5cd97bb1e904429a0daf5b9b616431b";//这里是阿里云的AppCode
+        String appcode = "a55b99e70e2b4860a0fe8056265719b8";//这里是阿里云的AppCode
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);

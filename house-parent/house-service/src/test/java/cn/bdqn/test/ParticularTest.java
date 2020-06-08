@@ -14,23 +14,23 @@ public class ParticularTest {
 
     @Test
     public void testSave() throws Exception{
-
-        ApplicationContext ac =  new ClassPathXmlApplicationContext("beans-service.xml");
-
-        ParticularService particularService = (ParticularService) ac.getBean("particularService");
-//        particularService.delete(1);
-        Particular particulars=new Particular();
-        User user =new User();
-        user.setId(1);
-        user.setUserName("老王");
-        particulars.setId(1);
-        particulars.setUser(user);
-        particulars.setRefillTime(new Date());
-        BigDecimal bigDecimal =new BigDecimal("12.22");
-        particulars.setMoney(bigDecimal);
-        particulars.setState(0);
-        particularService.save(particulars);
-
-        System.out.println(particulars);
+//
+//        ApplicationContext ac =  new ClassPathXmlApplicationContext("beans-service.xml");
+//
+//        ParticularService particularService = (ParticularService) ac.getBean("particularService");
+////        particularService.delete(1);
+//        Particular particulars=new Particular();
+//        User user =new User();
+//        user.setId(1);
+//        user.setUserName("老王");
+//        particulars.setId(1);
+//        particulars.setUser(user);
+//        particulars.setRefillTime(new Date());
+//        BigDecimal bigDecimal =new BigDecimal("12.22");
+//        particulars.setMoney(bigDecimal);
+//        particulars.setState(0);
+//        particularService.save(particulars);
+//
+//        System.out.println(particulars);
     }
 }

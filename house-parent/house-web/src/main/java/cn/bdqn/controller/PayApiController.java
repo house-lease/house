@@ -265,7 +265,7 @@ public class PayApiController {
             //设置状态
             particular.setState(0);
             //保存充值记录
-            particularService.save(particular);
+//            particularService.save(particular);
 
             verify = "充值成功";
             //////////////////////////////////////////////////////////////////////////////////////////

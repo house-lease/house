@@ -82,6 +82,7 @@ public class uploadFileController {
             // 文件上传
             image.transferTo(new File(destPath,originalFilename));
 
+            //实名认证
             User user = userService.authentication(userId,originalFilename);
 
             result.setData(user);

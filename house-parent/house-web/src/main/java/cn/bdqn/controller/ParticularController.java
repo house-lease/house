@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,14 @@ public class ParticularController {
     //添加充值记录
 
     @RequestMapping("/save")
-    public Result save(Particular record) {
+    @ResponseBody
+    public Result save(Integer userId, BigDecimal money) {
         Result results = new Result<>();
         try {
-            particularService.save(record);
+            //添加
+            particularService.save(userId,money);
+            //
+            results.setData(0);
             results.setMessage("添加成功~");
             return results;
         } catch (Exception e) {

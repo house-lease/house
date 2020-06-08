@@ -4,13 +4,14 @@ import cn.bdqn.domain.*;
 import cn.bdqn.mapper.*;
 import cn.bdqn.service.RecordService;
 import cn.bdqn.utils.DateUtil;
+import cn.bdqn.utils.HttpUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -117,7 +118,8 @@ public class RecordServiceImpl implements RecordService {
 //                    添加租客信息
                     tenantMapper.insert(tenant);
 
-
+                    //短信提醒房东
+                    this.verification(payeeUser.getPhone(),payerUser.getUserName(),record.getRecord());
 //                   更新房屋可租房间数
                     house.setResidueRoom(house.getResidueRoom()-1);
                     if (house.getResidueRoom()<=0){
@@ -220,7 +222,8 @@ public class RecordServiceImpl implements RecordService {
 //                更新订单和付款
                 recordMapper.updateByPrimaryKeySelective(record);
                 paymentMapper.updateByPrimaryKeySelective(payment);
-
+                //短信提醒房东
+                this.verification(payment.getPayeeUser().getPhone(),payment.getPayerUser().getUserName(),record.getRecord());
                 //                   更新房屋可租房间数
                 payment.getHouse().setResidueRoom(payment.getHouse().getResidueRoom()-1);
                 if (payment.getHouse().getResidueRoom()<=0){
@@ -364,4 +367,50 @@ public class RecordServiceImpl implements RecordService {
     }
 
 
+    //    短信验证
+    private void verification(String phone,String name,String record){
+
+        String host = "https://feginesms.market.alicloudapi.com";
+        String path = "/codeNotice";
+        String method = "GET";
+        String appcode = "a55b99e70e2b4860a0fe8056265719b8";//阿里云appCode
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<String, String>();
+        //测试可用默认短信模板,测试模板为专用模板不可修改,如需自定义短信内容或改动任意字符,请联系旺旺或QQ726980650进行申请
+        String me = name+"|"+record;
+        querys.put("param",me);
+        //然后这里是手机号
+        querys.put("phone", phone);
+        //签名编号【联系旺旺客服申请，测试请用1】
+        querys.put("sign", "500504");
+        //模板编号【联系旺旺客服申请，测试请用1~21】
+        querys.put("skin", "900727");
+        //JDK 1.8示例代码请在这里下载：  http://code.fegine.com/Tools.zip
+
+        try {
+            /**
+             * 重要提示如下:
+             * HttpUtils请从
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+             * 或者直接下载：
+             * http://code.fegine.com/HttpUtils.zip
+             * 下载
+             *
+             * 相应的依赖请参照
+             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+             * 相关jar包（非pom）直接下载：
+             * http://code.fegine.com/aliyun-jar.zip
+             */
+            HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+            System.out.println(response.toString());//如不输出json, 请打开这行代码，打印调试头部状态码。
+//            状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+//            获取response的body
+            String ss = EntityUtils.toString(response.getEntity());
+            System.out.println(ss);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

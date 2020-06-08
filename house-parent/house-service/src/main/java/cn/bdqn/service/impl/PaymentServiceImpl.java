@@ -121,7 +121,6 @@ public class PaymentServiceImpl implements PaymentService {
         String path = "/codeNotice";
         String method = "GET";
         String appcode = "a55b99e70e2b4860a0fe8056265719b8";//阿里云appCode
-        String message = "（自动缴租失败）您本期房租应缴费:"+price+"元,请手动缴租或保证账户余额充足,谢谢";
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
@@ -133,7 +132,7 @@ public class PaymentServiceImpl implements PaymentService {
         //签名编号【联系旺旺客服申请，测试请用1】
         querys.put("sign", "1");
         //模板编号【联系旺旺客服申请，测试请用1~21】
-        querys.put("skin", "1");
+        querys.put("skin", "21");
         //JDK 1.8示例代码请在这里下载：  http://code.fegine.com/Tools.zip
 
         try {

@@ -2,12 +2,13 @@ package cn.bdqn.service;
 
 import cn.bdqn.domain.Particular;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ParticularService {
 
     //新增充值记录
-    void save(Particular record);
+    void save(Integer userId, BigDecimal money);
 
 
     //根据id查询
