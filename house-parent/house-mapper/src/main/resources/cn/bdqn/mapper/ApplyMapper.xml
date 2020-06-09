@@ -62,5 +62,6 @@
     <include refid="Base_Column_List"/>
     from t_apply
     where user_id =#{userId}
+    order by id desc
   </select>
 </mapper>

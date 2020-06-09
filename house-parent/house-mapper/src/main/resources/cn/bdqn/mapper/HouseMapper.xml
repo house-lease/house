@@ -75,10 +75,10 @@
     from t_house
     <where>
     <![CDATA[
-    latitude > #{latitude}-0.05
-    AND latitude < #{latitude}+0.05
-    AND longitude > #{longitude}-0.05
-    AND longitude < #{longitude}+0.05]]>
+    latitude > #{latitude}-0.04
+    AND latitude < #{latitude}+0.04
+    AND longitude > #{longitude}-0.04
+    AND longitude < #{longitude}+0.04]]>
     <if test="houseLeaseName != null">
     and house_lease_name = #{houseLeaseName}
     </if>
