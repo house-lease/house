@@ -119,7 +119,7 @@ public class RecordServiceImpl implements RecordService {
                     tenantMapper.insert(tenant);
 
                     //短信提醒房东
-                    this.verification(payeeUser.getPhone(),payerUser.getUserName(),record.getRecord());
+                    this.verification(payeeUser.getPhone(),payerUser.getNickname(),record.getRecord());
 //                   更新房屋可租房间数
                     house.setResidueRoom(house.getResidueRoom()-1);
                     if (house.getResidueRoom()<=0){
@@ -223,7 +223,7 @@ public class RecordServiceImpl implements RecordService {
                 recordMapper.updateByPrimaryKeySelective(record);
                 paymentMapper.updateByPrimaryKeySelective(payment);
                 //短信提醒房东
-                this.verification(payment.getPayeeUser().getPhone(),payment.getPayerUser().getUserName(),record.getRecord());
+                this.verification(payment.getPayeeUser().getPhone(),payment.getPayerUser().getNickname(),record.getRecord());
                 //                   更新房屋可租房间数
                 payment.getHouse().setResidueRoom(payment.getHouse().getResidueRoom()-1);
                 if (payment.getHouse().getResidueRoom()<=0){

@@ -47,4 +47,18 @@ public interface HouseService {
     public House selectByPrimaryKey(Integer id);
 
 
+    /**
+     * 根据房东id查询
+     * @param userId
+     * @return
+     */
+    public List<House> queryByUserId(Integer userId);
+
+
+    /**
+     * 上下架
+     * @param houseId
+     * @param state
+     */
+    public boolean updateByPrimaryKey(Integer houseId,Integer state);
 }

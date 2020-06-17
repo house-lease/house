@@ -27,6 +27,7 @@
     <task:scheduled-tasks>
         <task:scheduled ref="paymentServiceImpl" method="TimeOfPaymen" cron="0 0 12 * * ?"/>
     </task:scheduled-tasks>
+<!--    initialDelay = 9000,fixedDelay = 24*60*60*60-->
 
 
     <!--开启事务管理器-->

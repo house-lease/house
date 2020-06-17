@@ -152,4 +152,44 @@ public class HouseController {
             return result;
         }
     }
+
+    /**
+     * 查询用户房屋
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/queryByUserId")
+    @ResponseBody
+    public Result queryByUserId(Integer userId){
+        Result result = new Result();
+        try {
+            List<House> houses = houseService.queryByUserId(userId);
+            result.setData(houses);
+            result.setMessage("查询成功");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return result;
+        }
+    }
+
+    /**
+     * 房屋的上下架
+     * @param houseId
+     * @param state
+     * @return
+     */
+        @RequestMapping("/updateHouseState")
+    @ResponseBody
+    public Result updateHouseState(Integer houseId,Integer state){
+
+        Result result  = new Result();
+        try {
+            boolean fa =  houseService.updateByPrimaryKey(houseId,state);
+            result.setData(fa);
+            return result;
+        }catch (Exception e){
+            return result;
+        }
+    }
 }

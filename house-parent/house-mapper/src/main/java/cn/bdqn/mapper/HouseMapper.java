@@ -43,13 +43,6 @@ public interface HouseMapper {
                                                               @Param("startValue") Integer startValue,
                                                               @Param("houseTypeName") String houseTypeName);
 
-
-    /**
-     * 选择性更新
-     * @param record
-     */
-    void updateByPrimaryKeySelective(House record);
-
     /**
      * 更新全部
      * @param record
@@ -66,4 +59,11 @@ public interface HouseMapper {
                                  @Param("houseLeaseName") String houseLeaseName
             , @Param("maxPrice") BigDecimal maxPrice, @Param("minPrice") BigDecimal minPrice,
                                  @Param("startValue") Integer startValue);
+
+    /**
+     * 根据房东id查询
+     * @param userId
+     * @return
+     */
+    public List<House> selectByUserId(Integer userId);
 }

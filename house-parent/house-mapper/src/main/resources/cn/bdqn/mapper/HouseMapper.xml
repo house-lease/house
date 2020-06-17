@@ -99,6 +99,14 @@
 
   </select>
 
+<!--  根据房东id查询-->
+  <select id="selectByUserId" resultMap="BaseResultMap_1">
+    select
+    <include refid="Base_Column_List_1"/>
+    from t_house
+    where user_id = #{userId}
+  </select>
+
 <!--  根据各种信息查询房屋-->
   <select id="selectByAddressORLeaseTypeORPriceORStartValue" resultMap="BaseResultMap">
     select
@@ -166,10 +174,6 @@
       #{houseLease.id,jdbcType=INTEGER}, #{houseLeaseName,jdbcType=VARCHAR}, #{residueRoom,jdbcType=INTEGER},
       #{state,jdbcType=INTEGER})
   </insert>
-
-
-
-
 
 
   <update id="updateByPrimaryKey" parameterType="cn.bdqn.domain.House" >

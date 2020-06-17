@@ -101,4 +101,38 @@ public class HouseServiceImpl implements HouseService {
         //返回对象
         return house;
     }
+
+    @Override
+    public List<House> queryByUserId(Integer userId) {
+        return houseMapper.selectByUserId(userId);
+    }
+
+    /**
+     * 房屋上下架
+     * @param houseId
+     * @param state
+     * @return
+     */
+    @Override
+    public boolean updateByPrimaryKey(Integer houseId, Integer state) {
+        //查询房屋
+        House house = houseMapper.selectByPrimaryKey(houseId);
+        if (state==1){
+            //执行下架操作
+            house.setState(state);
+            houseMapper.updateByPrimaryKey(house);
+            return true;
+        }else {
+//            判断剩余房间数是否大于0
+            if (house.getResidueRoom()>0){
+                //执行上架操作
+                house.setState(state);
+                houseMapper.updateByPrimaryKey(house);
+                return true;
+            }else {
+                //房间不足
+                return false;
+            }
+        }
+    }
 }
