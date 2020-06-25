@@ -27,5 +27,5 @@ public class WebSocket implements WebSocketConfigurer {
 
         registry.addHandler(webSocketPushHandler,"/wx").addInterceptors(myWebSocketInterceptor).setAllowedOrigins("*");
 
-    }
+}
 }
