@@ -11,6 +11,7 @@
     <result column="deal_money" property="dealMoney" jdbcType="DECIMAL" />
     <result column="deal_state" property="dealState" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
+
     <association property="payerUser" column="payer_id" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey"/>
     <association property="payeeUser" column="payee_id" select="cn.bdqn.mapper.UserMapper.selectByPrimaryKey"/>
     <association property="house" column="house_id" select="cn.bdqn.mapper.HouseMapper.selectByPrimaryKey"/>
